@@ -4,7 +4,7 @@
 
 Hoje eu faço 58 anos. E resolveram transformar minha vida num jogo! Quero ver quem conhece essa história tão bem quanto eu. Vem comigo: dessa vez, sou eu quem vai contar.
 
-## 2. Comecei lá em Alagoas
+## 2. Tudo começou em Alagoas.
 
 Nasci em Alagoas, filha de Olívia e Agnaldo. Cresci entre Porto da Rua, Tatuamunha e Porto de Pedras.
 
