@@ -10,6 +10,10 @@ Abra `docs/index.html` diretamente no navegador. Sem build, dependências JavaSc
 
 GitHub Pages: ramo `main`, pasta `/docs`. O repositório e o site são públicos. Não altera o site principal da conta.
 
+## Navegação
+
+As setas fixas na parte inferior permitem voltar e avançar. A seta para voltar fica desativada na primeira casa, e a de avançar na última; ambas ficam desativadas durante o movimento. Toque, rato e teclado são suportados. Os atalhos e a personagem clicável continuam disponíveis.
+
 ## Progresso da história
 
 A barra fixa no topo mostra o progresso apenas pelo preenchimento, sem texto nem percentagem visível. A descrição acessível é preservada para leitores de ecrã. Começa em 0%, chega a 100% na última casa e volta a zero ao recomeçar. Recalcula automaticamente quando a planilha adiciona, remove ou reordena milestones.

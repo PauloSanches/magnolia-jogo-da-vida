@@ -25,7 +25,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   ws.addEventListener('message', e=>{const d=JSON.parse(e.data);if(d.id){const p=pending.get(d.id);if(p){clearTimeout(p.timer);pending.delete(d.id);d.error?p.reject(d.error):p.resolve(d.result);}}if(d.method==='Runtime.exceptionThrown')errors.push(d.params);});
   const call=(method,params={})=>new Promise((resolve,reject)=>{const n=++id,timer=setTimeout(()=>{pending.delete(n);reject(Error('CDP timeout '+method));},12000);pending.set(n,{resolve,reject,timer});ws.send(JSON.stringify({id:n,method,params}));});
   const ev=async expression=>{const r=await call('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw Error(JSON.stringify(r.exceptionDetails));return r.result.value;};
-  const key=async k=>{await call('Input.dispatchKeyEvent',{type:'keyDown',key:k,code:k,windowsVirtualKeyCode:{ArrowUp:38,ArrowDown:40,ArrowLeft:37,ArrowRight:39,End:35,Enter:13}[k]});await call('Input.dispatchKeyEvent',{type:'keyUp',key:k,code:k});};
+  const key=async k=>{await call('Input.dispatchKeyEvent',{type:'keyDown',key:k,code:k,text:k==='Enter'?'\r':undefined,windowsVirtualKeyCode:{ArrowUp:38,ArrowDown:40,ArrowLeft:37,ArrowRight:39,End:35,Enter:13}[k]});await call('Input.dispatchKeyEvent',{type:'keyUp',key:k,code:k});};
   const shot=async name=>{const d=await call('Page.captureScreenshot',{format:'png'});fs.writeFileSync(path.join(scratch,name),Buffer.from(d.data,'base64'));};
   await call('Runtime.enable');await call('Page.enable');
   await call('Page.reload',{ignoreCache:true});
@@ -96,6 +96,10 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
      assert(progress.label.includes(`${i+1} de ${expected.length}`));
      assert(Math.abs(progress.ratio-fraction)<0.01&&progress.left>=0&&progress.right<=width&&progress.top>=0&&progress.bottom<progress.avatarTop,JSON.stringify({width,i,progress}));
      assert.equal(progress.visibleText,'','Progress must be a bar only, without visible labels or percentage');
+     const nav=await ev(`(()=>{const prev=document.getElementById('timeline-prev'),next=document.getElementById('timeline-next');if(!prev||!next)return null;const r=prev.parentElement.getBoundingClientRect(),p=prev.getBoundingClientRect(),n=next.getBoundingClientRect();return {prevDisabled:prev.disabled,nextDisabled:next.disabled,left:r.left,right:r.right,top:r.top,bottom:r.bottom,prevWidth:p.width,prevHeight:p.height,nextWidth:n.width,nextHeight:n.height}})()`);
+     assert(nav,'Visible previous/next arrows must exist');
+     assert.equal(nav.prevDisabled,i===0);assert.equal(nav.nextDisabled,i===expected.length-1);
+     assert(nav.left>=0&&nav.right<=width&&nav.top>state.bubbleBottom&&nav.bottom<stamp.top&&nav.prevWidth>=44&&nav.prevHeight>=44&&nav.nextWidth>=44&&nav.nextHeight>=44,JSON.stringify({width,i,nav,state,stamp}));
      states.push({width,chapter:i,ok:true});
      if(width===390&&i===1){
       const photo=await ev(`(()=>{const p=document.querySelector('image[href$="assets/alagoas.webp"]');if(!p)return null;const r=p.getBoundingClientRect();return {src:p.getAttribute('href'),top:r.top,bottom:r.bottom,left:r.left,right:r.right,bubbleTop:document.querySelector('.bubble').getBoundingClientRect().top}})()`);
@@ -115,6 +119,9 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     }
    }
    await call('Emulation.setDeviceMetricsOverride',{width:320,height:667,deviceScaleFactor:1,mobile:true});
+   await ev('__draft.go(0);document.getElementById("timeline-next").focus()');await key('Enter');assert.equal(await ev('__boardState.active'),1,'Next arrow must work with keyboard');
+   const prev=await ev('(()=>{const r=document.getElementById("timeline-prev").getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()');
+   await call('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...prev});await call('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...prev});assert.equal(await ev('__boardState.active'),0,'Previous arrow must work by click');
    await ev('__draft.go(2);memoryContent.focus();memoryContent.scrollTop=0');await key('ArrowDown');await key('End');await sleep(250);
    const reading=await ev('({active:__boardState.active,end:memoryContent.scrollTop+memoryContent.clientHeight>=memoryContent.scrollHeight-1})');assert(reading.active===2&&reading.end);
    await ev('memoryContent.blur();__draft.go(0)');await key('ArrowDown');assert.equal(await ev('__boardState.active'),0);
