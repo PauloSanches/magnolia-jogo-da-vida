@@ -80,9 +80,10 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    console.log(JSON.stringify({rotatingCharacterTransition:true,decodedBeforeSwap:true,ghostCleaned:true,sameCharacterNoSpin:true,reducedMotion:true,liveReducedMotion:true,reverseTurn:true,rapidInputLocked:true}));
   }
   if(full){
-   const fixture=liveFixture||JSON.parse(fs.readFileSync(expectedPath,'utf8'));const expected=Array.isArray(fixture)?fixture.map(row=>({title:row.titulo,text:row.texto,detail:''})):fixture.chapters;
+   const fixture=liveFixture||JSON.parse(fs.readFileSync(expectedPath,'utf8'));const expected=Array.isArray(fixture)?fixture.map(row=>({id:row.id,title:row.titulo,text:row.texto,detail:''})):fixture.chapters;
    const counts=await ev('({chapters:__draft.chapters,stops:document.querySelectorAll(".house-stop").length})');
    assert.equal(counts.chapters,expected.length,'All approved chapters must exist');assert.equal(counts.stops,expected.length,'One visible stop per chapter');
+   const artwork=new Map(JSON.parse(fs.readFileSync(path.join(root,'editorial/character-artwork.json'),'utf8')).map(row=>[row.id,row]));
    const states=[];
    for(const [width,height] of [[320,667],[390,844],[1440,1000]]){
     await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<701});
@@ -107,6 +108,13 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
      assert(nav,'Visible previous/next arrows must exist');
      assert.equal(nav.prevDisabled,i===0);assert.equal(nav.nextDisabled,i===expected.length-1);
      assert(nav.left>=0&&nav.right<=width&&nav.top>state.bubbleBottom&&nav.bottom<stamp.top&&nav.prevWidth>=44&&nav.prevHeight>=44&&nav.nextWidth>=44&&nav.nextHeight>=44,JSON.stringify({width,i,nav,state,stamp}));
+     const art=artwork.get(expected[i].id);
+     if(art){
+      const image=await ev(`(()=>{const a=document.getElementById('avatar'),r=a.getBoundingClientRect(),canvas=document.createElement('canvas');canvas.width=a.naturalWidth;canvas.height=a.naturalHeight;const ctx=canvas.getContext('2d');ctx.drawImage(a,0,0);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data;let transparent=0,opaque=0;for(let n=3;n<pixels.length;n+=4){if(pixels[n]===0)transparent++;if(pixels[n]===255)opaque++;}return {src:a.getAttribute('src'),decoded:a.complete&&a.naturalWidth>0,width:a.naturalWidth,height:a.naturalHeight,fit:getComputedStyle(a).objectFit,left:r.left,right:r.right,top:r.top,bottom:r.bottom,transparent,opaque}})()`);
+      assert.equal(image.src,art.asset);assert.equal(image.width,art.width);assert.equal(image.height,art.height);assert.equal(image.fit,'contain');
+      assert(image.decoded&&image.transparent>0&&image.opaque>0&&image.left>=0&&image.right<=width&&image.top>=0&&image.bottom<state.bubbleTop,JSON.stringify(image));
+      if(width===390)await shot('magnolia-character-'+art.id+'.png');
+     }
      states.push({width,chapter:i,ok:true});
      if(width===390&&i===1){
       const photo=await ev(`(()=>{const p=document.querySelector('image[href$="assets/alagoas.webp"]');if(!p)return null;const r=p.getBoundingClientRect();return {src:p.getAttribute('href'),top:r.top,bottom:r.bottom,left:r.left,right:r.right,bubbleTop:document.querySelector('.bubble').getBoundingClientRect().top}})()`);

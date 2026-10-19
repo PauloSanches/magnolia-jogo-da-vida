@@ -1,0 +1,46 @@
+[
+  {
+    "id": "casa-05",
+    "requested_filename": "escola.png",
+    "received_format": "JPEG",
+    "source_sha256": "e15e29b7430605603fb2200da4c21172a9689763266bd3b53afb9df0c2d14b7f",
+    "asset": "assets/character-casa-05-0bae1a184ab4.png",
+    "asset_sha256": "0bae1a184ab40426d3e298ce398267e9232e343db91c5056a6bf0b38d66db7a4",
+    "width": 352,
+    "height": 640,
+    "background_removal": "Apple Vision foreground instance mask; all subjects retained; transparent PNG"
+  },
+  {
+    "id": "casa-06",
+    "requested_filename": "Isometric bride in a white gown.png",
+    "received_format": "JPEG",
+    "source_sha256": "7d9cdb4fb60b27ec8be1e1603dd3d8ff1be89b561a59cf2f0c0dcdb7f98d2be4",
+    "asset": "assets/character-casa-06-0587f4c90056.png",
+    "asset_sha256": "0587f4c900560a304a06677b98d75b184268cc8af47709f393c10407b27757f1",
+    "width": 385,
+    "height": 640,
+    "background_removal": "Apple Vision foreground instance mask; all subjects retained; transparent PNG"
+  },
+  {
+    "id": "casa-07",
+    "requested_filename": "Cheeky blonde baby girl on a hip.png",
+    "received_format": "JPEG",
+    "source_sha256": "4d31f27fb15190d4455c54da5100f75b01955961187134848e3be369e1ca61d4",
+    "asset": "assets/character-casa-07-8bbba10b678a.png",
+    "asset_sha256": "8bbba10b678abcaca6347abae90951454f07362debaeedee13f0daf79aa11c24",
+    "width": 328,
+    "height": 640,
+    "background_removal": "Apple Vision foreground instance mask; all subjects retained; transparent PNG"
+  },
+  {
+    "id": "casa-08",
+    "requested_filename": "Emo blonde girl with a sly smirk.png",
+    "received_format": "JPEG",
+    "source_sha256": "45207cd8509130c0198dd057d2960667d628e63ae9f7f5a6d2e651d71773d949",
+    "asset": "assets/character-casa-08-72daeb755f9f.png",
+    "asset_sha256": "72daeb755f9ff073411105b8477fc642b534ccdc26a7eb6655344a8f03244a7d",
+    "width": 419,
+    "height": 640,
+    "background_removal": "Apple Vision foreground instance mask; all subjects retained; transparent PNG"
+  }
+]
