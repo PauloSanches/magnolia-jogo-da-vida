@@ -67,7 +67,7 @@ Snapshot; a fonte de edição continua sendo a aba autorizada do Google Sheets. 
 **Título:** <span></span>
 
 **História:**
-<p>Primeiro veio Daniele. Foi com você, minha filha, que eu virei mãe.Em seguida veio sua irmão Dedey.</p>
+<p>Primeiro veio Daniele. Foi com você, minha filha, que eu virei mãe.Em seguida veio sua irmã Dedey.</p>
 
 **Card seguinte:**
 <p>Quais datas de nascimentos das meninas?</p>
