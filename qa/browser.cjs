@@ -91,6 +91,13 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
       await ev(`new Promise((resolve,reject)=>{const i=new Image();i.onload=resolve;i.onerror=reject;i.src='assets/alagoas.webp'})`);
       await shot('magnolia-13-alagoas.png');
      }
+     if(i===2){
+      const photo=await ev(`(()=>{const p=document.querySelector('image[href="assets/irmaos-placeholder.jpg"]');if(!p)return null;const r=p.getBoundingClientRect(),a=document.getElementById('avatar').getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,avatarRight:a.right,bubbleTop:document.querySelector('.bubble').getBoundingClientRect().top,fit:p.getAttribute('preserveAspectRatio')}})()`);
+      assert(photo,'The siblings chapter must show the supplied placeholder image');
+      assert(photo.top>=0&&photo.left>=0&&photo.right<=width&&photo.bottom<photo.bubbleTop&&photo.left>photo.avatarRight&&photo.fit==='xMidYMid meet',JSON.stringify({width,photo}));
+      await ev(`new Promise((resolve,reject)=>{const i=new Image();i.onload=resolve;i.onerror=reject;i.src='assets/irmaos-placeholder.jpg'})`);
+      if(width===390)await shot('magnolia-siblings-placeholder.png');
+     }
      if(width===320&&i===0){await ev('memoryContent.scrollTop=0');await shot('magnolia-13-opening-320.png');}
      if(width===1440&&i===12){await ev('memoryContent.scrollTop=0');await shot('magnolia-13-final-desktop.png');}
     }
