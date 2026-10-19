@@ -1,5 +1,9 @@
 # Instruções do projeto
 
+## Validação editorial obrigatória
+
+Siga `EDITORIAL-WORKFLOW.md` antes de alterar textos, títulos, comentários ou metadados do site. Mostre a proposta completa no chat e aguarde aprovação explícita da versão. Pedidos de correção não autorizam publicação automática. Enquanto a proposta estiver em revisão, não altere `docs/`, `TEXTOS.md` nem publique o rascunho. Registe o feedback no projeto, nunca em memória global com dados biográficos.
+
 ## Skills disponíveis
 
 Este projeto utiliza skills de `PauloSanches/skills-bp`, instaladas localmente em `.agents/skills/`.
