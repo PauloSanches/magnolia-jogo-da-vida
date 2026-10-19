@@ -37,6 +37,39 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    if(await ev('__contentState.status==="synced"'))liveFixture=require('../docs/sheet-data.js').parse(await ev('fetch(__contentState.source+"&_qa="+Date.now(),{cache:"no-store",credentials:"omit"}).then(r=>{if(!r.ok)throw Error(r.status);return r.text()})'),null,'https://paulosanches.github.io/magnolia-jogo-da-vida/');
   }
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+  if(process.argv.includes('--restart-motion')){
+   const settle=async()=>{for(let i=0;i<80&&await ev('__boardState.moving');i++)await sleep(50);assert.equal(await ev('__boardState.moving'),false);};
+   const prepare=async()=>{await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await ev('__draft.go(__draft.chapters-1)');await ev('avatar.decode()');};
+   const start=async()=>{await ev('document.getElementById("timeline-restart").click()');for(let i=0;i<40&&!await ev('document.querySelector(".map").getAnimations().length');i++)await sleep(25);assert(await ev('document.querySelector(".map").getAnimations().length'),'Restart must animate the board');await ev('document.getAnimations().forEach(a=>a.pause())');};
+   const results=[];
+   for(const [width,height] of [[320,667],[390,844],[1440,1000]]){
+    await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<701});await prepare();
+    await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});await start();
+    const timing=await ev(`(()=>{const map=document.querySelector('.map').getAnimations()[0],bar=document.querySelector('.timeline-progress-fill').getAnimations()[0],pawn=document.querySelector('.avatar-motion').getAnimations()[0];return {map:map.effect.getTiming(),bar:bar.effect.getTiming(),pawn:pawn.effect.getTiming(),locked:__boardState.moving&&document.getElementById('timeline-restart').disabled&&document.getElementById('timeline-next').disabled&&document.getElementById('timeline-prev').disabled}})()`);
+    assert(timing.map.duration>=1200&&timing.map.duration<=2800,'Restart must allow time for a smooth return, not use the short adjacent-house duration: '+JSON.stringify(timing));
+    assert.equal(timing.bar.duration,timing.map.duration);assert.equal(timing.pawn.duration,timing.map.duration);assert(timing.locked);
+    const samples=[];
+    for(const fraction of [0,.1,.5,.9,1]){
+     await ev(`document.getAnimations().forEach(a=>a.currentTime=a.effect.getTiming().duration*${fraction});new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))`);
+     samples.push(await ev(`(()=>{const m=document.querySelector('.map'),f=document.querySelector('.timeline-progress-fill');return {y:new DOMMatrixReadOnly(getComputedStyle(m).transform).m42,progress:f.getBoundingClientRect().width/f.parentElement.getBoundingClientRect().width}})()`));
+     if(width===390&&fraction===.5)await shot('magnolia-restart-midpoint.png');
+    }
+    const distance=samples.at(-1).y-samples[0].y;assert(Math.abs(distance)>100);
+    const fractions=samples.map(s=>(s.y-samples[0].y)/distance);
+    assert(fractions[1]>0&&fractions[1]<.06&&fractions[2]>.4&&fractions[2]<.6&&fractions[3]>.94&&fractions[3]<1,'Return should ease in and out, with continuous intermediate positions: '+JSON.stringify(fractions));
+    for(let i=1;i<samples.length;i++){assert(fractions[i]>fractions[i-1]);assert(samples[i].progress<samples[i-1].progress);}
+    assert(Math.abs(samples[0].progress-1)<.01&&samples.at(-1).progress<.01);
+    await ev('document.getElementById("timeline-restart").click();document.getElementById("timeline-next").click()');await key('ArrowRight');
+    await ev('document.getAnimations().forEach(a=>a.finish())');await settle();
+    assert.equal(await ev('__boardState.active'),0);assert.equal(await ev('document.getAnimations().length'),0);assert(await ev('document.getElementById("timeline-restart").hidden'));
+    assert.equal(await ev('document.querySelectorAll(".avatar-ghost").length'),0);
+    await prepare();await ev('document.getElementById("timeline-restart").click()');assert.equal(await ev('__boardState.active'),0);assert.equal(await ev('document.getAnimations().length'),0,'Respect reduced motion');
+    await prepare();await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});await start();
+    await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await settle();assert.equal(await ev('__boardState.active'),0);assert.equal(await ev('document.getAnimations().length'),0,'Live reduced motion must settle restart');
+    results.push({width,duration:timing.map.duration,fractions,progress:samples.map(s=>s.progress)});
+   }
+   assert.equal(errors.length,0);console.log(JSON.stringify({smoothRestart:results,rapidInputLocked:true,reducedMotion:true,liveReducedMotion:true,errors}));return;
+  }
   if(process.argv.includes('--end-controls')){
    const settle=async()=>{for(let i=0;i<60&&await ev('__boardState.moving');i++)await sleep(50);assert.equal(await ev('__boardState.moving'),false);};
    const click=async(point,input='mouse')=>{
