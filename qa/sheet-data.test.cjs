@@ -14,7 +14,9 @@ const csv = (rows, names = headers) => [names, ...rows].map(row => row.map(value
 const parse = (...args) => require(modulePath).parse(...args);
 
 test('accepts newly added milestones and removals in dynamic mode without normalizing IDs', () => {
-  const rows=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../docs/milestones.json'),'utf8'));
+  // Keep the legacy five-column contract independent of the current bundled story.
+  const rows=Array.from({length:13},(_,i)=>({id:'casa-'+String(i+1).padStart(2,'0'),ordem:i+1,titulo:'Capítulo '+(i+1),texto:'Memória',foto:''}));
+  rows.push({id:'casa14',ordem:14,titulo:'Teste',texto:'Novo marco',foto:''});
   const input=csv(rows.map(row=>headers.map(name=>row[name])));
   const result=parse(input,null,'https://paulosanches.github.io/magnolia-jogo-da-vida/');
   assert.equal(result.length,14);assert.equal(result.at(-1).id,'casa14');assert.equal(result.at(-1).titulo,'Teste');
@@ -38,6 +40,29 @@ test('parses CSV syntax losslessly and sorts rows numerically with reordered hea
   assert.deepEqual(parse('id,ordem,titulo,texto,foto\ncasa-01,1,Título,Texto,', ['casa-01'], base), [
     {id: 'casa-01', ordem: 1, titulo: 'Título', texto: 'Texto', foto: ''}
   ]);
+});
+
+test('canonical six columns preserve optional titles and literal questions with dynamic IDs and order', () => {
+  const names = ['pergunta', 'texto', 'foto', 'ordem', 'titulo', 'id'];
+  const question = '  Quem, "sabe"?\r\n<script>globalThis.pwned=true</script>  ';
+  assert.deepEqual(parse(csv([
+    ['Viva meus 58 anos!', 'Final', '', '10', '', 'casa-netos'],
+    [question, '  minha história\r\ncontinua  ', 'assets/a.jpg', '2', ' \t ', 'casa14'],
+    ['', 'Primeira', '', '1', '', 'casa-01']
+  ], names) + '\r\n,,,,,\r\n', null, base), [
+    {id:'casa-01',ordem:1,titulo:'',texto:'Primeira',foto:'',pergunta:''},
+    {id:'casa14',ordem:2,titulo:' \t ',texto:'  minha história\r\ncontinua  ',foto:base+'assets/a.jpg',pergunta:question},
+    {id:'casa-netos',ordem:10,titulo:'',texto:'Final',foto:'',pergunta:'Viva meus 58 anos!'}
+  ]);
+  assert.equal(globalThis.pwned, undefined);
+  const six = [...headers, 'pergunta'];
+  assert.equal(parse(csv([[...first, 'q'.repeat(2000)]], six), ids.slice(0,1), base)[0].pergunta.length, 2000);
+  for (const [column, value] of [[2,'t'.repeat(181)],[3,' \r\n '],[3,'t'.repeat(10001)],[4,'javascript:alert(1)'],[5,'q'.repeat(2001)]]) {
+    const row = [...first, '']; row[column] = value;
+    assert.throws(() => parse(csv([row], six), [first[0]], base));
+  }
+  assert.throws(() => parse(csv([first], six), null, base), /cell/i);
+  assert.throws(() => parse(csv([[...first,'']], [...headers,'Pergunta']), null, base), /header/i);
 });
 
 test('rejects malformed quoted CSV rather than repairing edits', () => {

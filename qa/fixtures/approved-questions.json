@@ -1,0 +1,98 @@
+[
+  {
+    "id": "casa-01",
+    "ordem": 1,
+    "titulo": "Jogo da Vida",
+    "texto": "Hoje é meu aniversário. E resolveram transformar minha vida num jogo! ",
+    "foto": "",
+    "pergunta": ""
+  },
+  {
+    "id": "casa-02",
+    "ordem": 2,
+    "titulo": "",
+    "texto": "Nasci em Alagoas, filha de Olivia e Agnaldo. Cresci entre Marechal e muitas férias na usina. Segundo a minha mãe eu nasci como um espirro.",
+    "foto": "https://paulosanches.github.io/magnolia-jogo-da-vida/assets/alagoas.webp",
+    "pergunta": "Quem escolheu meu nome?"
+  },
+  {
+    "id": "casa-03",
+    "ordem": 3,
+    "titulo": "",
+    "texto": "Somos cinco irmãos: Rico, Monquinha, eu (Mag), Najila e João. Fui a terceira a chegar.",
+    "foto": "https://paulosanches.github.io/magnolia-jogo-da-vida/assets/irmaos-placeholder.jpg",
+    "pergunta": "Quem sabe a história que da maleta de ferro?"
+  },
+  {
+    "id": "casa-04",
+    "ordem": 4,
+    "titulo": "",
+    "texto": "Mudamos para o Recife, em busca de uma vida melhor. Lugar que será palco da minha história.",
+    "foto": "https://paulosanches.github.io/magnolia-jogo-da-vida/assets/recife.webp",
+    "pergunta": "Quem sabe o nome da escola onde estudamos?"
+  },
+  {
+    "id": "casa-05",
+    "ordem": 5,
+    "titulo": "",
+    "texto": "Em Recife, teve escola e também teve um paquera que entrou na história. Sim, meninas, a mãe de vocês também teve seus namoricos!",
+    "foto": "",
+    "pergunta": "Quem sabe o nome do meu primeiro namorado?"
+  },
+  {
+    "id": "casa-06",
+    "ordem": 6,
+    "titulo": "Que seja eterno enquanto...",
+    "texto": "Eu me casei aos 17 anos. Essa foi uma das primeiras grandes mudanças da minha vida. E ainda vinha tanta coisa pela frente!",
+    "foto": "",
+    "pergunta": "Qual é o meu nome de casada?"
+  },
+  {
+    "id": "casa-08",
+    "ordem": 7,
+    "titulo": "",
+    "texto": "Primeiro veio Daniele. Foi com você, minha filha, que eu virei mãe.Em seguida veio sua irmão Dedey.",
+    "foto": "https://paulosanches.github.io/magnolia-jogo-da-vida/assets/dedey-baby.webp",
+    "pergunta": "Quais datas de nascimentos das meninas?"
+  },
+  {
+    "id": "casa-11",
+    "ordem": 8,
+    "titulo": "",
+    "texto": "Com o fim do casamento fomos morar com a minhã mãe e meu irmão João.",
+    "foto": "",
+    "pergunta": "Qual história apareceu no rádio?"
+  },
+  {
+    "id": "casa-12",
+    "ordem": 9,
+    "titulo": "",
+    "texto": "Depois de um tempo reencontrei o amor, meu eterno 44.",
+    "foto": "",
+    "pergunta": "Quem foi o nosso cupido?"
+  },
+  {
+    "id": "casa-netos",
+    "ordem": 10,
+    "titulo": "",
+    "texto": "Com pouco mais de 35 anos fui avó, Gabriel, meu primeiro dos 6 netos.",
+    "foto": "",
+    "pergunta": "Quem sabe a ordem dos meu netos?"
+  },
+  {
+    "id": "casa-profissao",
+    "ordem": 11,
+    "titulo": "",
+    "texto": "Depois dos 40 encontrei meu proposito, entender e ajudar o desenvolvimento das crianças.",
+    "foto": "",
+    "pergunta": "Quem sabe o nome da minha profissão?"
+  },
+  {
+    "id": "casa-13",
+    "ordem": 12,
+    "titulo": "",
+    "texto": "Mudar é o verdo presente da minha vida. E hoje é o recomeço parte da minha biografia.",
+    "foto": "",
+    "pergunta": "Viva meus 58 anos!"
+  }
+]

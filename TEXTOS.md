@@ -1,53 +1,123 @@
-# Jogo da Vida versão Magnólia
+# Rascunho aprovado — cópia literal
 
-## 1. Jogo da Vida versão Magnólia
+Snapshot; a fonte de edição continua sendo a aba autorizada do Google Sheets. Campos de título vazios permanecem vazios no site. A abertura não contém pergunta; não foi inventada uma.
 
-Hoje eu faço 58 anos. E resolveram transformar minha vida num jogo! Quero ver quem conhece essa história tão bem quanto eu. Vem comigo: dessa vez, sou eu quem vai contar.
+## Casa 1 — `casa-01`
 
-## 2. Tudo começou em Alagoas.
+**Título:** <span>Jogo da Vida</span>
 
-Nasci em Alagoas, filha de Olívia e Agnaldo. Cresci entre Porto da Rua, Tatuamunha e Porto de Pedras.
+**História:**
+<p>Hoje é meu aniversário. E resolveram transformar minha vida num jogo! </p>
 
-## 3. A terceira da turma
+**Card seguinte:**
+<p></p>
 
-Somos cinco irmãos: Rico, Monquinha, eu, Najila e Chuchu. Fui a terceira a chegar. Bem no meio da turma, com dois mais velhos e dois mais novos. Ficou fácil me achar na fila!
+## Casa 2 — `casa-02`
 
-## 4. Recife, lá fui eu!
+**Título:** <span></span>
 
-Ainda adolescente, me mudei com a família para Recife, em busca de uma vida melhor. Saí de Alagoas e fui conhecer outro lugar para chamar de casa. Recife ia ganhar bastante espaço na minha história.
+**História:**
+<p>Nasci em Alagoas, filha de Olivia e Agnaldo. Cresci entre Marechal e muitas férias na usina. Segundo a minha mãe eu nasci como um espirro.</p>
 
-## 5. Meu paquera da escola
+**Card seguinte:**
+<p>Quem escolheu meu nome?</p>
 
-Em Recife, teve escola e também teve um paquera que entrou na história. Sim, meninas, a mãe de vocês também teve seus namoricos! Não nasci sabendo dar conselho, não.
+## Casa 3 — `casa-03`
 
-## 6. Meu casamento aos 17
+**Título:** <span></span>
 
-Eu me casei aos 17 anos. Essa foi uma das primeiras grandes mudanças da minha vida. E ainda vinha tanta coisa pela frente!
+**História:**
+<p>Somos cinco irmãos: Rico, Monquinha, eu (Mag), Najila e João. Fui a terceira a chegar.</p>
 
-## 7. Daniela me fez mãe
+**Card seguinte:**
+<p>Quem sabe a história que da maleta de ferro?</p>
 
-Primeiro veio Daniela. Foi com você, minha filha, que eu virei mãe. Até aqui, eu estava contando como filha e irmã. A partir da sua chegada, minha história passou a incluir a nossa.
+## Casa 4 — `casa-04`
 
-## 8. Três anos depois, Dedey
+**Título:** <span></span>
 
-Três anos depois de Daniela, chegou Dedey. Minha segunda menina! Dedey, você tem uma casa só sua aqui, porque essa chegada merece ser contada direitinho. Agora eu era mãe de duas.
+**História:**
+<p>Mudamos para o Recife, em busca de uma vida melhor. Lugar que será palco da minha história.</p>
 
-## 9. Com a avó e o primo
+**Card seguinte:**
+<p>Quem sabe o nome da escola onde estudamos?</p>
 
-Daniela e Dedey ficavam com minha mãe, Olívia, junto do primo Leo. Minhas meninas cresceram com a avó e o primo fazendo parte do dia a dia. Essa lembrança também merece um lugar aqui.
+## Casa 5 — `casa-05`
 
-## 10. Nós três no Arruda
+**Título:** <span></span>
 
-Eu e minhas meninas fomos morar no Arruda. Daniela, Dedey e eu: nós três, em mais um endereço da nossa história. Filhas, essa parte também é de vocês.
+**História:**
+<p>Em Recife, teve escola e também teve um paquera que entrou na história. Sim, meninas, a mãe de vocês também teve seus namoricos!</p>
 
-## 11. Nossa temporada no Curado
+**Card seguinte:**
+<p>Quem sabe o nome do meu primeiro namorado?</p>
 
-Depois, fomos para o Curado, morar com minha mãe e meu irmão Chuchu. Passamos alguns anos por lá. Quando falo do Curado, lembro dessa época em família, com as meninas crescendo perto da avó e do tio.
+## Casa 6 — `casa-06`
 
-## 12. Em 1996, eu e Ruston
+**Título:** <span>Que seja eterno enquanto...</span>
 
-Eu trabalhava no hospital, e Ruston era o advogado de lá. Em 1996, começamos a sair. E eu, que já tinha duas filhas, também tinha um namoro pra contar. Mãe também namora, minha gente!
+**História:**
+<p>Eu me casei aos 17 anos. Essa foi uma das primeiras grandes mudanças da minha vida. E ainda vinha tanta coisa pela frente!</p>
 
-## 13. Agora vem comemorar comigo!
+**Card seguinte:**
+<p>Qual é o meu nome de casada?</p>
 
-Cheguei aos 58 e quero aproveitar meu aniversário com vocês. Tenho carinho por tanta gente que faz parte da minha vida, e ainda tenho planos, viu? Quero rir mais, fazer o que gosto e continuar juntando histórias com a minha família. Agora vem comemorar comigo!
+## Casa 7 — `casa-08`
+
+**Título:** <span></span>
+
+**História:**
+<p>Primeiro veio Daniele. Foi com você, minha filha, que eu virei mãe.Em seguida veio sua irmão Dedey.</p>
+
+**Card seguinte:**
+<p>Quais datas de nascimentos das meninas?</p>
+
+## Casa 8 — `casa-11`
+
+**Título:** <span></span>
+
+**História:**
+<p>Com o fim do casamento fomos morar com a minhã mãe e meu irmão João.</p>
+
+**Card seguinte:**
+<p>Qual história apareceu no rádio?</p>
+
+## Casa 9 — `casa-12`
+
+**Título:** <span></span>
+
+**História:**
+<p>Depois de um tempo reencontrei o amor, meu eterno 44.</p>
+
+**Card seguinte:**
+<p>Quem foi o nosso cupido?</p>
+
+## Casa 10 — `casa-netos`
+
+**Título:** <span></span>
+
+**História:**
+<p>Com pouco mais de 35 anos fui avó, Gabriel, meu primeiro dos 6 netos.</p>
+
+**Card seguinte:**
+<p>Quem sabe a ordem dos meu netos?</p>
+
+## Casa 11 — `casa-profissao`
+
+**Título:** <span></span>
+
+**História:**
+<p>Depois dos 40 encontrei meu proposito, entender e ajudar o desenvolvimento das crianças.</p>
+
+**Card seguinte:**
+<p>Quem sabe o nome da minha profissão?</p>
+
+## Casa 12 — `casa-13`
+
+**Título:** <span></span>
+
+**História:**
+<p>Mudar é o verdo presente da minha vida. E hoje é o recomeço parte da minha biografia.</p>
+
+**Card seguinte:**
+<p>Viva meus 58 anos!</p>

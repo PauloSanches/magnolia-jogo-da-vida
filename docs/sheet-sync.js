@@ -1,8 +1,8 @@
 /* Public worksheet polling. No credentials or executable sheet content. */
 (function(root){
  'use strict';
- function start({source,allowedIds,baseUrl,initial,onRows,isMoving}){
-  const storageKey='magnolia-sheet-v1:'+source;
+ function start({source,allowedIds,baseUrl,initial,onRows,isMoving,parseRows,cachePrefix='magnolia-sheet-v1:'}){
+  const storageKey=cachePrefix+source;
   let current=JSON.stringify(initial),applied=initial,inflight=null,pending=null,booting=true;
   const status={status:'fallback',count:initial.length,lastChecked:null,lastUpdated:null,error:null,source,pollMs:60000};
   root.__contentState=status;
@@ -22,7 +22,7 @@
    });
   }
   async function accept(csv){
-   const rows=root.MagnoliaSheetData.parse(csv,allowedIds,baseUrl);
+   const rows=parseRows?parseRows(csv,allowedIds,baseUrl):root.MagnoliaSheetData.parse(csv,allowedIds,baseUrl);
    if(JSON.stringify(rows)===current){pending=null;status.status='synced';status.error=null;return;}
    const previous=new Map(applied.map(row=>[row.id,row.foto]));
    await Promise.all(rows.filter(row=>row.foto&&row.foto!==previous.get(row.id)).map(row=>loadImage(row.foto)));

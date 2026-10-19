@@ -28,22 +28,25 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   const key=async k=>{await call('Input.dispatchKeyEvent',{type:'keyDown',key:k,code:k,text:k==='Enter'?'\r':undefined,windowsVirtualKeyCode:{ArrowUp:38,ArrowDown:40,ArrowLeft:37,ArrowRight:39,End:35,Enter:13}[k]});await call('Input.dispatchKeyEvent',{type:'keyUp',key:k,code:k});};
   const shot=async name=>{const d=await call('Page.captureScreenshot',{format:'png'});fs.writeFileSync(path.join(scratch,name),Buffer.from(d.data,'base64'));};
   await call('Runtime.enable');await call('Page.enable');
+  await ev('window.__qaOldDocument=true');
   await call('Page.reload',{ignoreCache:true});
-  for(let i=0;i<50;i++){if(await ev('!!window.__draft'))break;await sleep(100);}
+  let loaded=false;for(let i=0;i<200;i++){try{loaded=await ev('!window.__qaOldDocument&&!!window.__draft');if(loaded)break;}catch{}await sleep(100);}
+  assert(loaded,'The fresh document did not finish initializing');
   await ev('document.fonts.ready');
   let liveFixture=null;
   if(!process.env.MAGNOLIA_EXPECTED&&await ev('!!window.__contentSync')){
    await ev('__contentSync.refresh()');
-   if(await ev('__contentState.status==="synced"'))liveFixture=require('../docs/sheet-data.js').parse(await ev('fetch(__contentState.source+"&_qa="+Date.now(),{cache:"no-store",credentials:"omit"}).then(r=>{if(!r.ok)throw Error(r.status);return r.text()})'),null,'https://paulosanches.github.io/magnolia-jogo-da-vida/');
+   if(await ev('__contentState.status==="synced"'))liveFixture=await ev('fetch(__contentState.source+"&_qa="+Date.now(),{cache:"no-store",credentials:"omit"}).then(r=>{if(!r.ok)throw Error(r.status);return r.text()}).then(csv=>MagnoliaContent.parse(csv))');
   }
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+  const completeCard=async()=>{if(await ev('document.getElementById("timeline-next").getAttribute("aria-label")==="Ver pergunta"')){await ev('document.getElementById("timeline-next").click()');for(let n=0;n<100&&await ev('__boardState.moving');n++)await sleep(30);assert.equal(await ev('__boardState.moving'),false);}};
   if(process.argv.includes('--restart-ground')){
    const frames='new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))';
    const travel="document.getAnimations().filter(a=>a.effect.target!==avatar)";
    const wait=async expression=>{for(let i=0;i<100;i++){if(await ev(expression))return;await sleep(30);}assert.fail('Timed out: '+expression);};
    const seek=async(expression,fraction)=>{await ev(`${expression}.forEach(a=>{a.pause();a.currentTime=a.effect.getTiming().duration*${fraction}});${frames}`);};
    const measure=()=>ev(`(()=>{const a=avatar.getBoundingClientRect(),fill=document.querySelector('.timeline-progress-fill');return {width:a.width,height:a.height,bottom:a.bottom,mapY:new DOMMatrixReadOnly(getComputedStyle(document.querySelector('.map')).transform).m42,progress:fill.getBoundingClientRect().width/fill.parentElement.getBoundingClientRect().width,moving:__boardState.moving,origin:getComputedStyle(avatar).transformOrigin,ghosts:document.querySelectorAll('.avatar-ghost').length}})()`);
-   const prepare=async()=>{await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await ev('__draft.go(0)');const src=await ev('avatar.getAttribute("src")');await ev('__draft.go(__draft.chapters-1)');await ev('avatar.decode()');await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});return src;};
+   const prepare=async()=>{await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await ev('__draft.go(0)');const src=await ev('avatar.getAttribute("src")');await ev('__draft.go(__draft.chapters-1)');await completeCard();await ev('avatar.decode()');await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});return src;};
    const start=async()=>{await ev('document.getElementById("timeline-restart").click()');await wait('avatar.getAnimations().length>0');await ev('avatar.getAnimations().forEach(a=>a.pause())');};
    const finishShrink=async()=>{await ev('avatar.getAnimations().forEach(a=>a.finish())');await wait('document.querySelector(".map").getAnimations().length>0');await ev(`${travel}.forEach(a=>a.pause())`);};
    const finishTravel=async()=>{await ev(`${travel}.forEach(a=>a.finish())`);await wait('avatar.getAnimations().some(a=>a.effect.getKeyframes()[0].transform==="scale(0)")');await ev('avatar.getAnimations().filter(a=>a.playState!=="finished").forEach(a=>a.pause())');};
@@ -74,7 +77,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   }
   if(process.argv.includes('--restart-motion')){
    const settle=async()=>{for(let i=0;i<80&&await ev('__boardState.moving');i++)await sleep(50);assert.equal(await ev('__boardState.moving'),false);};
-   const prepare=async()=>{await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await ev('__draft.go(__draft.chapters-1)');await ev('avatar.decode()');};
+   const prepare=async()=>{await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await ev('__draft.go(__draft.chapters-1)');await completeCard();await ev('avatar.decode()');};
    const start=async()=>{await ev('document.getElementById("timeline-restart").click()');for(let i=0;i<40&&!await ev('document.querySelector(".map").getAnimations().length');i++)await sleep(25);assert(await ev('document.querySelector(".map").getAnimations().length'),'Restart must animate the board');await ev('document.getAnimations().filter(a=>a.effect.target!==avatar).forEach(a=>a.pause())');};
    const results=[];
    for(const [width,height] of [[320,667],[390,844],[1440,1000]]){
@@ -118,10 +121,10 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<701});
     await call('Emulation.setTouchEmulationEnabled',{enabled:input==='touch',maxTouchPoints:1});
     await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
-    await ev('__draft.go(__draft.chapters-2)');
+    await ev('__draft.go(__draft.chapters-2)');await completeCard();
     await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:motion}]});
     const before=await rect('timeline-next'),previousBefore=await rect('timeline-prev');await click(before,input);
-    const last=await ev('__draft.chapters-1');assert.equal(await ev('__boardState.active'),last);
+    const last=await ev('__draft.chapters-1');assert.equal(await ev('__boardState.active'),last);await click(before,input);assert.equal(await ev('__boardState.phase'),'question');
     const after=await rect('timeline-next'),previousAfter=await rect('timeline-prev'),hit=await ev(`document.elementFromPoint(${before.x},${before.y})?.closest('button')?.id`);
     await click(before,input);
     const actual=await ev('__boardState.active');console.log(JSON.stringify({width,motion,input,before,after,secondClickTarget:hit,expected:last,actual}));
@@ -134,7 +137,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    console.log(JSON.stringify({finalControls:results,errors}));assert.equal(errors.length,0);return;
   }
   for(const [k,want] of [['ArrowUp',3],['ArrowDown',1],['ArrowRight',3],['ArrowLeft',1]]){
-   await ev('__draft.go(2);document.activeElement.blur()');await key(k);checks.push({key:k,expected:want,actual:await ev('__boardState.active')});
+   await ev('__draft.go(0)');await ev('__draft.go(2);document.activeElement.blur()');if(want===3)await completeCard();await key(k);checks.push({key:k,expected:want,actual:await ev('__boardState.active')});
   }
   console.log(JSON.stringify({keyboard:checks}));assert(checks.every(c=>c.actual===c.expected),'Keyboard direction does not follow the upward board');
   if(process.argv.includes('--motion')){
@@ -176,7 +179,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    console.log(JSON.stringify({rotatingCharacterTransition:true,decodedBeforeSwap:true,ghostCleaned:true,sameCharacterNoSpin:true,reducedMotion:true,liveReducedMotion:true,reverseTurn:true,rapidInputLocked:true}));
   }
   if(full){
-   const fixture=liveFixture||JSON.parse(fs.readFileSync(expectedPath,'utf8'));const expected=Array.isArray(fixture)?fixture.map(row=>({id:row.id,title:row.titulo,text:row.texto,detail:''})):fixture.chapters;
+   const fixture=liveFixture||JSON.parse(fs.readFileSync(expectedPath,'utf8'));const expected=Array.isArray(fixture)?fixture.map(row=>({id:row.id,title:row.titulo,text:row.texto,question:row.pergunta,detail:''})):fixture.chapters;
    const counts=await ev('({chapters:__draft.chapters,stops:document.querySelectorAll(".house-stop").length})');
    assert.equal(counts.chapters,expected.length,'All approved chapters must exist');assert.equal(counts.stops,expected.length,'One visible stop per chapter');
    const artwork=new Map(JSON.parse(fs.readFileSync(path.join(root,'editorial/character-artwork.json'),'utf8')).map(row=>[row.id,row]));
@@ -185,7 +188,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<701});
     for(let i=0;i<expected.length;i++){
      await ev('__draft.go('+i+')');await ev('document.fonts.ready');await ev('avatar.decode()');
-     const state=await ev(`(()=>{const c=document.getElementById('memoryContent'),b=document.querySelector('.bubble'),a=document.getElementById('avatar');c.scrollTop=c.scrollHeight;return {active:__boardState.active,waiting:__boardState.waiting,title:c.querySelector('h1').textContent,text:c.querySelector('p').textContent,detail:c.querySelector('.family-detail')?.textContent||'',overflow:c.scrollWidth>c.clientWidth||document.documentElement.scrollWidth>innerWidth,bottom:c.scrollTop+c.clientHeight>=c.scrollHeight-1,bubbleBottom:b.getBoundingClientRect().bottom,avatarBottom:a.getBoundingClientRect().bottom,bubbleTop:b.getBoundingClientRect().top,stopActive:document.querySelectorAll('.house-stop.active').length,animations:document.getAnimations().length}})()`);
+     const state=await ev(`(()=>{const c=document.getElementById('memoryContent'),b=document.querySelector('.bubble'),a=document.getElementById('avatar');c.scrollTop=c.scrollHeight;return {active:__boardState.active,waiting:__boardState.waiting,title:c.querySelector('h1')?.textContent||'',text:c.querySelector('p').textContent,detail:c.querySelector('.family-detail')?.textContent||'',overflow:c.scrollWidth>c.clientWidth||document.documentElement.scrollWidth>innerWidth,bottom:c.scrollTop+c.clientHeight>=c.scrollHeight-1,bubbleBottom:b.getBoundingClientRect().bottom,avatarBottom:a.getBoundingClientRect().bottom,bubbleTop:b.getBoundingClientRect().top,stopActive:document.querySelectorAll('.house-stop.active').length,animations:document.getAnimations().length}})()`);
      assert.equal(state.title,expected[i].title);assert.equal(state.text,expected[i].text);assert.equal(state.detail,expected[i].detail);
      assert(state.active===i&&state.waiting&&!state.overflow&&state.bottom&&state.bubbleBottom<=height+1&&state.avatarBottom<state.bubbleTop&&state.stopActive===1&&state.animations===0,JSON.stringify({width,i,state}));
      const stamp=await ev(`(()=>{const el=document.getElementById('app-version');if(!el)return null;const r=el.getBoundingClientRect();return {text:el.textContent,datetime:el.getAttribute('datetime'),left:r.left,right:r.right,top:r.top,bottom:r.bottom,position:getComputedStyle(el).position}})()`);
@@ -195,14 +198,14 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
      assert(stamp.position==='fixed'&&stamp.left>=0&&stamp.right<=width&&width-stamp.right<=20&&stamp.bottom<=height&&height-stamp.bottom<=20&&stamp.top>state.bubbleBottom,JSON.stringify({width,i,stamp,bubbleBottom:state.bubbleBottom}));
      const progress=await ev(`(()=>{const el=document.getElementById('timeline-progress');if(!el)return null;const rect=el.getBoundingClientRect(),fill=el.querySelector('.timeline-progress-fill'),track=fill.parentElement;return {value:Number(el.getAttribute('aria-valuenow')),max:Number(el.getAttribute('aria-valuemax')),label:el.getAttribute('aria-valuetext'),visibleText:el.textContent.trim(),ratio:fill.getBoundingClientRect().width/track.getBoundingClientRect().width,left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom,avatarTop:avatar.getBoundingClientRect().top}})()`);
      assert(progress,'Timeline progress must exist');
-     const fraction=expected.length===1?1:i/(expected.length-1);
+     const total=expected.reduce((n,d)=>n+1+(d.question?.trim()?1:0),0);const before=expected.slice(0,i).reduce((n,d)=>n+1+(d.question?.trim()?1:0),0);const fraction=total===1?1:before/(total-1);
      assert.equal(progress.value,Math.round(fraction*100));assert.equal(progress.max,100);
      assert(progress.label.includes(`${i+1} de ${expected.length}`));
      assert(Math.abs(progress.ratio-fraction)<0.01&&progress.left>=0&&progress.right<=width&&progress.top>=0&&progress.bottom<progress.avatarTop,JSON.stringify({width,i,progress}));
      assert.equal(progress.visibleText,'','Progress must be a bar only, without visible labels or percentage');
      const nav=await ev(`(()=>{const prev=document.getElementById('timeline-prev'),next=document.getElementById('timeline-next');if(!prev||!next)return null;const r=prev.parentElement.getBoundingClientRect(),p=prev.getBoundingClientRect(),n=next.getBoundingClientRect();return {prevDisabled:prev.disabled,nextDisabled:next.disabled,left:r.left,right:r.right,top:r.top,bottom:r.bottom,prevWidth:p.width,prevHeight:p.height,nextWidth:n.width,nextHeight:n.height}})()`);
      assert(nav,'Visible previous/next arrows must exist');
-     assert.equal(nav.prevDisabled,i===0);assert.equal(nav.nextDisabled,i===expected.length-1);
+     assert.equal(nav.prevDisabled,i===0);assert.equal(nav.nextDisabled,i===expected.length-1&&!expected[i].question?.trim());
      assert(nav.left>=0&&nav.right<=width&&nav.top>state.bubbleBottom&&nav.bottom<stamp.top&&nav.prevWidth>=44&&nav.prevHeight>=44&&nav.nextWidth>=44&&nav.nextHeight>=44,JSON.stringify({width,i,nav,state,stamp}));
      const art=artwork.get(expected[i].id);
      if(art){
@@ -236,7 +239,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    await ev('__draft.go(2);memoryContent.focus();memoryContent.scrollTop=0');await key('ArrowDown');await key('End');await sleep(250);
    const reading=await ev('({active:__boardState.active,end:memoryContent.scrollTop+memoryContent.clientHeight>=memoryContent.scrollHeight-1})');assert(reading.active===2&&reading.end);
    await ev('memoryContent.blur();__draft.go(0)');await key('ArrowDown');assert.equal(await ev('__boardState.active'),0);
-   await ev('__draft.go('+ (expected.length-1) +');avatar.click()');assert.equal(await ev('__boardState.active'),expected.length-1,'Avatar must not restart at the end');
+   await ev('__draft.go('+ (expected.length-1) +')');await completeCard();await ev('avatar.click()');assert.equal(await ev('__boardState.active'),expected.length-1,'Avatar must not restart at the end');
    await key('ArrowUp');await key('ArrowRight');await ev('document.querySelector(".stage").click();document.querySelector(".stage").dispatchEvent(new WheelEvent("wheel",{deltaY:100,bubbles:true,cancelable:true}))');
    assert.equal(await ev('__boardState.active'),expected.length-1,'Forward actions must stop at the end');
    assert.equal(await ev('document.querySelectorAll(".house-stop.next").length'),0,'No next stop after final house');
@@ -245,11 +248,11 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    await shot('magnolia-restart-mobile.png');
    await call('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,x:restart.x,y:restart.y});await call('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,x:restart.x,y:restart.y});
    assert.equal(await ev('__boardState.active'),0,'Restart only by its explicit button');assert(await ev('document.getElementById("timeline-restart").hidden'));
-   await ev('document.querySelector("[data-go=\\\"12\\\"]").dispatchEvent(new MouseEvent("click",{bubbles:true}))');assert.equal(await ev('__boardState.active'),12);
+   await ev('document.querySelectorAll(".house-stop")[__draft.chapters-1].dispatchEvent(new MouseEvent("click",{bubbles:true}))');assert.equal(await ev('__boardState.active'),1,'Direct shortcuts cannot skip unseen houses');
    await ev('__draft.go(0)');await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
    await key('ArrowUp');await key('ArrowUp');assert(await ev('__boardState.moving'));for(let n=0;n<40 && await ev('__boardState.moving');n++)await sleep(100);assert.equal(await ev('__boardState.active'),1,JSON.stringify(await ev('__boardState')));await sleep(700);assert.equal(await ev('__boardState.active'),1);
    await call('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:1});
-   await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:270,y:120}]});await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:270,y:40}]});await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});for(let n=0;n<50&&await ev('__boardState.moving');n++)await sleep(100);assert.equal(await ev('__boardState.active'),2);
+   await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:270,y:120}]});await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:270,y:40}]});await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});for(let n=0;n<50&&await ev('__boardState.moving');n++)await sleep(100);assert.equal(await ev('__boardState.active'),1);assert.equal(await ev('__boardState.phase'),'question');await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:270,y:120}]});await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:270,y:40}]});await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});for(let n=0;n<50&&await ev('__boardState.moving');n++)await sleep(100);assert.equal(await ev('__boardState.active'),2);
    assert.equal(await ev('document.getAnimations().length'),0);assert.equal(errors.length,0);
    fs.writeFileSync(path.join(scratch,'magnolia-13-qa.json'),JSON.stringify({ok:true,counts,keyboard:checks,states,reading,errors},null,2));
    console.log(JSON.stringify({ok:true,chapterViewportChecks:states.length,keyboardDirections:4,reading,fullCount:expected.length,movementLock:true,dwell:true,swipe:true,restart:true,errors}));

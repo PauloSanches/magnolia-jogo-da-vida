@@ -24,3 +24,6 @@
 .sound-toggle[aria-pressed="true"] .sound-off{display:none}
 .sound-toggle:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
 @media(hover:hover){.sound-toggle:hover{background:#ffe3ec}}
+
+.bubble.question-card{box-shadow:0 0 0 3px var(--pink)}
+.bubble .question-text{font:500 23px/1.35 DynaPuff,sans-serif;color:var(--pink);margin:0}

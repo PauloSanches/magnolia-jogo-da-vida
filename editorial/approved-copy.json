@@ -1,82 +1,92 @@
 {
-  "version": "13-casas-v5",
+  "version": "rascunho-12-casas-perguntas",
   "status": "aprovado",
-  "scope": "Proposta editorial no chat. Não aplicar textos ou ampliar tabuleiro antes da aprovação.",
-  "corrections": {
-    "Medeiros": "Chuchu",
-    "Monica": "Monquinha",
-    "Magda": "Najila",
-    "Mag": "Najila",
-    "intervalo_Daniela_Dedey_anos": 3
-  },
+  "scope": "Snapshot literal do rascunho da aba autorizada, linhas 19–30. Fonte corrente: Google Sheets. Nenhuma correção editorial aplicada.",
+  "approval": "manter o texto como está no rascunho da planilha. atualizar pagina",
   "chapters": [
     {
-      "title": "Jogo da Vida versão Magnólia",
-      "text": "Hoje eu faço 58 anos. E resolveram transformar minha vida num jogo! Quero ver quem conhece essa história tão bem quanto eu. Vem comigo: dessa vez, sou eu quem vai contar.",
+      "id": "casa-01",
+      "title": "Jogo da Vida",
+      "text": "Hoje é meu aniversário. E resolveram transformar minha vida num jogo! ",
+      "question": "",
       "detail": ""
     },
     {
-      "title": "Tudo começou em Alagoas.",
-      "text": "Nasci em Alagoas, filha de Olívia e Agnaldo. Cresci entre Porto da Rua, Tatuamunha e Porto de Pedras.",
-      "detail": "",
-      "image_requirement": "Esta casa deve mostrar a foto da cidade. Associar a fotografia de Alagoas já fornecida ao projeto, sem atribuir uma localidade específica à imagem sem confirmação."
-    },
-    {
-      "title": "A terceira da turma",
-      "text": "Somos cinco irmãos: Rico, Monquinha, eu, Najila e Chuchu. Fui a terceira a chegar. Bem no meio da turma, com dois mais velhos e dois mais novos. Ficou fácil me achar na fila!",
+      "id": "casa-02",
+      "title": "",
+      "text": "Nasci em Alagoas, filha de Olivia e Agnaldo. Cresci entre Marechal e muitas férias na usina. Segundo a minha mãe eu nasci como um espirro.",
+      "question": "Quem escolheu meu nome?",
       "detail": ""
     },
     {
-      "title": "Recife, lá fui eu!",
-      "text": "Ainda adolescente, me mudei com a família para Recife, em busca de uma vida melhor. Saí de Alagoas e fui conhecer outro lugar para chamar de casa. Recife ia ganhar bastante espaço na minha história.",
+      "id": "casa-03",
+      "title": "",
+      "text": "Somos cinco irmãos: Rico, Monquinha, eu (Mag), Najila e João. Fui a terceira a chegar.",
+      "question": "Quem sabe a história que da maleta de ferro?",
       "detail": ""
     },
     {
-      "title": "Meu paquera da escola",
-      "text": "Em Recife, teve escola e também teve um paquera que entrou na história. Sim, meninas, a mãe de vocês também teve seus namoricos! Não nasci sabendo dar conselho, não.",
+      "id": "casa-04",
+      "title": "",
+      "text": "Mudamos para o Recife, em busca de uma vida melhor. Lugar que será palco da minha história.",
+      "question": "Quem sabe o nome da escola onde estudamos?",
       "detail": ""
     },
     {
-      "title": "Meu casamento aos 17",
+      "id": "casa-05",
+      "title": "",
+      "text": "Em Recife, teve escola e também teve um paquera que entrou na história. Sim, meninas, a mãe de vocês também teve seus namoricos!",
+      "question": "Quem sabe o nome do meu primeiro namorado?",
+      "detail": ""
+    },
+    {
+      "id": "casa-06",
+      "title": "Que seja eterno enquanto...",
       "text": "Eu me casei aos 17 anos. Essa foi uma das primeiras grandes mudanças da minha vida. E ainda vinha tanta coisa pela frente!",
+      "question": "Qual é o meu nome de casada?",
       "detail": ""
     },
     {
-      "title": "Daniela me fez mãe",
-      "text": "Primeiro veio Daniela. Foi com você, minha filha, que eu virei mãe. Até aqui, eu estava contando como filha e irmã. A partir da sua chegada, minha história passou a incluir a nossa.",
+      "id": "casa-08",
+      "title": "",
+      "text": "Primeiro veio Daniele. Foi com você, minha filha, que eu virei mãe.Em seguida veio sua irmão Dedey.",
+      "question": "Quais datas de nascimentos das meninas?",
       "detail": ""
     },
     {
-      "title": "Três anos depois, Dedey",
-      "text": "Três anos depois de Daniela, chegou Dedey. Minha segunda menina! Dedey, você tem uma casa só sua aqui, porque essa chegada merece ser contada direitinho. Agora eu era mãe de duas.",
+      "id": "casa-11",
+      "title": "",
+      "text": "Com o fim do casamento fomos morar com a minhã mãe e meu irmão João.",
+      "question": "Qual história apareceu no rádio?",
       "detail": ""
     },
     {
-      "title": "Com a avó e o primo",
-      "text": "Daniela e Dedey ficavam com minha mãe, Olívia, junto do primo Leo. Minhas meninas cresceram com a avó e o primo fazendo parte do dia a dia. Essa lembrança também merece um lugar aqui.",
+      "id": "casa-12",
+      "title": "",
+      "text": "Depois de um tempo reencontrei o amor, meu eterno 44.",
+      "question": "Quem foi o nosso cupido?",
       "detail": ""
     },
     {
-      "title": "Nós três no Arruda",
-      "text": "Eu e minhas meninas fomos morar no Arruda. Daniela, Dedey e eu: nós três, em mais um endereço da nossa história. Filhas, essa parte também é de vocês.",
+      "id": "casa-netos",
+      "title": "",
+      "text": "Com pouco mais de 35 anos fui avó, Gabriel, meu primeiro dos 6 netos.",
+      "question": "Quem sabe a ordem dos meu netos?",
       "detail": ""
     },
     {
-      "title": "Nossa temporada no Curado",
-      "text": "Depois, fomos para o Curado, morar com minha mãe e meu irmão Chuchu. Passamos alguns anos por lá. Quando falo do Curado, lembro dessa época em família, com as meninas crescendo perto da avó e do tio.",
+      "id": "casa-profissao",
+      "title": "",
+      "text": "Depois dos 40 encontrei meu proposito, entender e ajudar o desenvolvimento das crianças.",
+      "question": "Quem sabe o nome da minha profissão?",
       "detail": ""
     },
     {
-      "title": "Em 1996, eu e Ruston",
-      "text": "Eu trabalhava no hospital, e Ruston era o advogado de lá. Em 1996, começamos a sair. E eu, que já tinha duas filhas, também tinha um namoro pra contar. Mãe também namora, minha gente!",
-      "detail": ""
-    },
-    {
-      "title": "Agora vem comemorar comigo!",
-      "text": "Cheguei aos 58 e quero aproveitar meu aniversário com vocês. Tenho carinho por tanta gente que faz parte da minha vida, e ainda tenho planos, viu? Quero rir mais, fazer o que gosto e continuar juntando histórias com a minha família. Agora vem comemorar comigo!",
+      "id": "casa-13",
+      "title": "",
+      "text": "Mudar é o verdo presente da minha vida. E hoje é o recomeço parte da minha biografia.",
+      "question": "Viva meus 58 anos!",
       "detail": ""
     }
-  ],
-  "approval": "Utilizador: atualize o site. Os comandos de navegação estão trocados no teclado.",
-  "base_commit": "ce1c6b8eabd902739b8fafccd3247a11b9f03f5a"
+  ]
 }

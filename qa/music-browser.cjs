@@ -28,8 +28,10 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   const key=async k=>{await call('Input.dispatchKeyEvent',{type:'keyDown',key:k,code:k,text:k==='Enter'?'\r':undefined,windowsVirtualKeyCode:{ArrowUp:38,ArrowDown:40,ArrowLeft:37,ArrowRight:39,End:35,Enter:13}[k]});await call('Input.dispatchKeyEvent',{type:'keyUp',key:k,code:k});};
   const shot=async name=>{const d=await call('Page.captureScreenshot',{format:'png'});fs.writeFileSync(path.join(scratch,name),Buffer.from(d.data,'base64'));};
   await call('Runtime.enable');await call('Page.enable');
+  await ev('window.__qaOldDocument=true');
   await call('Page.reload',{ignoreCache:true});
-  for(let i=0;i<50;i++){if(await ev('!!window.__draft'))break;await sleep(100);}
+  let loaded=false;for(let i=0;i<200;i++){try{loaded=await ev('!window.__qaOldDocument&&!!window.__draft');if(loaded)break;}catch{}await sleep(100);}
+  assert(loaded,'The fresh document did not finish initializing');
   await ev('document.fonts.ready');
   const audioExists=await ev('!!document.getElementById("background-music")&&!!document.getElementById("sound-toggle")');
   assert(audioExists,'Background music and a visible sound control must exist');
