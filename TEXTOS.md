@@ -10,9 +10,11 @@
 ## A terceira de cinco
 
 > Alagoas foi o primeiro chão.
-> Olivia e Agnialdo tiveram cinco filhos:
+> Olivia e Agnaldo tiveram cinco filhos:
 > Rico, Monica, Magnolia, Magda e Medeiros.
 > Magnolia foi a terceira a chegar.
+> Agnaldo trabalhava fora.
+> Olivia cuidava da casa.
 
 ## Recife, amor escondido
 
@@ -24,8 +26,8 @@
 
 ### Comentário da família
 
-> Olivia tinha trabalho com a filha.
-> Magnolia tinha um namoro para esconder.
+> Magnolia tinha um namoro
+> para esconder de Olivia.
 
 ## Uma perda aos 17
 
@@ -41,8 +43,9 @@
 > Dessa vez, nasceu Daniela.
 > Dois anos mais tarde, chegou Dedey.
 > Magnolia saía para trabalhar;
-> as meninas ficavam com Olivia,
-> ao lado do primo Leo.
+> Em casa, Olivia cuidava do lar
+> e dos netos:
+> Daniela, Dedey e o primo Leo.
 
 ## O caminho de volta
 
