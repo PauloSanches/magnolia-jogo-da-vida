@@ -1,76 +1,65 @@
 # Magnolia · A vida em versos
 
-## 58 anos, tantas histórias
+## Magnolia, 58 anos de vida
 
-> Hoje, o tabuleiro é seu, Magnolia.
-> Cada casa guarda um pedaço da sua vida.
-> A primeira fica em Alagoas.
-> É de lá que esta história vem.
+> Hoje, celebramos seus 58 anos.
+> Neste tabuleiro, cada casa é uma lembrança:
+> Alagoas, Recife, os encontros,
+> Daniela, Dedey e a família.
 
-## A terceira de cinco
+## Alagoas e cinco irmãos
 
-> Alagoas foi o primeiro chão.
-> Olivia e Agnaldo tiveram cinco filhos:
-> Rico, Monica, Magnolia, Magda e Medeiros.
-> Magnolia foi a terceira a chegar.
-> Agnaldo trabalhava fora.
+> Foi em Alagoas que Magnolia nasceu,
+> a terceira dos cinco filhos
+> de Olivia e Agnaldo.
+> Rico, Monica, Magnolia, Magda e Medeiros:
+> cinco nomes no começo desta história.
+> Agnaldo trabalhava fora;
 > Olivia cuidava da casa.
 
-## Recife, amor escondido
+## Recife, novos caminhos
 
-> Na adolescência, a família foi para Recife,
+> Na adolescência, Magnolia e a família
+> foram para Recife,
 > em busca de uma vida melhor.
-> Magnolia gostava pouco dos cadernos
-> e muito de namorar escondido.
-> Um paquera da escola entrou na história.
+> Entre a escola e os primeiros namoros,
+> Recife passou a fazer parte do caminho.
 
-### Comentário da família
-
-> Magnolia tinha um namoro
-> para esconder de Olivia.
-
-## Casamento aos 17
+## Uma nova etapa aos 17
 
 > Aos 17 anos, Magnolia se casou.
-> Foi uma exigência de Olivia, sua mãe.
+> Começava outra etapa da sua vida.
 
-## Daniela, depois Dedey
+## A chegada de Daniela e Dedey
 
-> Um ano depois, veio uma gravidez.
-> Nasceu Daniela.
-> Dois anos mais tarde, chegou Dedey.
-> Magnolia saía para trabalhar;
-> Em casa, Olivia cuidava do lar
-> e dos netos:
-> Daniela, Dedey e o primo Leo.
+> Daniela chegou primeiro.
+> Dois anos depois, veio Dedey.
+> Magnolia trabalhava;
+> Olivia cuidava da casa e dos netos.
+> As meninas ficavam com ela,
+> na companhia do primo Leo.
 
-## O caminho de volta
+## Arruda, Curado e família
 
-> Depois da separação,
-> veio um romance com um amigo do ex.
-> Magnolia levou as meninas para o Arruda.
-> O romance durou pouco.
-> As três voltaram ao Curado,
-> para a casa de Olivia,
-> onde viveram alguns anos
-> com ela e Medeiros.
+> Com Daniela e Dedey,
+> Magnolia morou no Arruda.
+> Depois, foram viver no Curado,
+> com Olivia e Medeiros.
+> Anos de casa compartilhada
+> e lembranças em família.
 
-### Comentário da família
+## 1996, o encontro com Ruston
 
-> Segundo a família,
-> o romance era para fazer inveja ao ex.
+> No hospital onde Magnolia trabalhava,
+> Ruston era o advogado.
+> Em 1996, os dois começaram a sair.
+> Um novo encontro entrava na sua história.
 
-## 1996, um encontro
+## A vida segue em festa
 
-> Magnolia trabalhava no hospital.
-> Ruston era o advogado de lá.
-> Em 1996, começaram a sair.
-> A história dos dois começava ali.
-
-## A próxima casa é sua
-
-> Magnolia, hoje são 58 anos.
-> Estas lembranças são para você.
-> Que os próximos capítulos
-> tragam histórias boas de contar.
-> Feliz aniversário!
+> Magnolia, hoje celebramos você.
+> Seus 58 anos,
+> suas filhas, sua família,
+> os caminhos que a trouxeram até aqui.
+> Que venham novas conquistas
+> e muitos aniversários para celebrar!

@@ -9,3 +9,5 @@ Critérios: preservar nomes, relações, idades e datas do relato original; não
 A revisão editorial adapta clareza, voz, especificidade e fidelidade da copy-editing à homenagem. Regras comerciais de conversão, prova social e redução de risco não se aplicam.
 
 Correção posterior fornecida pela família: o nome é Agnaldo; ele trabalhava fora. Olivia ficava em casa e cuidava da casa e dos netos. A expressão ambígua sobre Olivia ter trabalho com a filha foi retirada. Não há testemunhos, estatísticas ou ofertas acrescentados.
+
+Direção editorial atual: tom positivo de celebração, com destaque para etapas da vida, família e encontros. Foram retiradas referências a dificuldades, imposições, separações, ciúmes e namoros escondidos. A lembrança do casamento informa apenas a idade e a nova etapa, sem inventar sentimentos ou circunstâncias felizes. Nenhuma conquista profissional ou continuação biográfica foi criada. As oito casas usam o tratamento visual festivo normal.
