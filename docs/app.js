@@ -70,9 +70,16 @@ async function go(n,{restart=false}={}){
  if(moving)return;n=Math.max(0,Math.min(DATA.length-1,n));if(n===active)return;
  moving=true;avatar.setAttribute('aria-disabled','true');document.body.classList.add('moving');state();
  const d=DATA[n],changed=avatar.getAttribute('src')!==d.avatar,animations=[],restarting=restart&&active===DATA.length-1&&n===0;
- let ghost=null,avatarReady=true;
+ let ghost=null,avatarReady=true,shrunk=false;
  try{
   if(changed&&!reduce.matches)avatarReady=await prepareAvatar(d.avatar);
+  if(restarting&&!reduce.matches&&map.animate&&avatar.animate){
+   const sink=avatar.animate([
+    {transform:'scale(1)',transformOrigin:'50% 100%'},
+    {transform:'scale(0)',transformOrigin:'50% 100%'}
+   ],{duration:300,easing:'cubic-bezier(.4,0,.8,1)',fill:'forwards'});
+   animations.push(sink);await sink.finished.catch(()=>{});shrunk=true;
+  }
   const aw=avatar.offsetWidth,ah=avatar.offsetHeight;
   const finalMap=`translateY(${baseline-d.y*scale}px) scale(${scale})`,finalAvatar=`translate(${left+d.x*scale-aw/2}px,${baseline-ah}px)`;
   const duration=reduce.matches?0:restarting?Math.min(2800,1200+Math.abs(n-active)*80):changed&&avatarReady?760:620;
@@ -81,7 +88,7 @@ async function go(n,{restart=false}={}){
    animations.push(map.animate([{transform:currentMap},{transform:finalMap}],travel));
    animations.push(pawn.animate([{transform:currentAvatar},{transform:finalAvatar}],travel));
    animations.push(progressFill.animate([{transform:progressFill.style.transform||'scaleX(0)'},{transform:`scaleX(${DATA.length===1?1:n/(DATA.length-1)})`}],travel));
-   if(changed&&avatarReady){
+   if(changed&&avatarReady&&!restarting){
     // Keep the old decoded image visible while the new one turns into view.
     ghost=avatar.cloneNode(false);ghost.removeAttribute('id');ghost.removeAttribute('role');ghost.removeAttribute('tabindex');ghost.removeAttribute('aria-label');ghost.setAttribute('aria-hidden','true');ghost.alt='';ghost.classList.add('avatar-ghost');pawn.append(ghost);
     avatar.src=d.avatar;
@@ -101,6 +108,14 @@ async function go(n,{restart=false}={}){
     ],spin));
    }
    await Promise.all(animations.map(a=>a.finished.catch(()=>{})));
+  }
+  if(restarting&&avatarReady)avatar.src=d.avatar;
+  if(shrunk&&!reduce.matches){
+   const rise=avatar.animate([
+    {transform:'scale(0)',transformOrigin:'50% 100%'},
+    {transform:'scale(1)',transformOrigin:'50% 100%'}
+   ],{duration:360,easing:'cubic-bezier(.2,.8,.3,1)',fill:'both'});
+   animations.push(rise);await rise.finished.catch(()=>{});
   }
  }catch{
   // Unsupported or interrupted effects must never lock story navigation.

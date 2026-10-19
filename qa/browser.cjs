@@ -37,10 +37,45 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    if(await ev('__contentState.status==="synced"'))liveFixture=require('../docs/sheet-data.js').parse(await ev('fetch(__contentState.source+"&_qa="+Date.now(),{cache:"no-store",credentials:"omit"}).then(r=>{if(!r.ok)throw Error(r.status);return r.text()})'),null,'https://paulosanches.github.io/magnolia-jogo-da-vida/');
   }
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+  if(process.argv.includes('--restart-ground')){
+   const frames='new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))';
+   const travel="document.getAnimations().filter(a=>a.effect.target!==avatar)";
+   const wait=async expression=>{for(let i=0;i<100;i++){if(await ev(expression))return;await sleep(30);}assert.fail('Timed out: '+expression);};
+   const seek=async(expression,fraction)=>{await ev(`${expression}.forEach(a=>{a.pause();a.currentTime=a.effect.getTiming().duration*${fraction}});${frames}`);};
+   const measure=()=>ev(`(()=>{const a=avatar.getBoundingClientRect(),fill=document.querySelector('.timeline-progress-fill');return {width:a.width,height:a.height,bottom:a.bottom,mapY:new DOMMatrixReadOnly(getComputedStyle(document.querySelector('.map')).transform).m42,progress:fill.getBoundingClientRect().width/fill.parentElement.getBoundingClientRect().width,moving:__boardState.moving,origin:getComputedStyle(avatar).transformOrigin,ghosts:document.querySelectorAll('.avatar-ghost').length}})()`);
+   const prepare=async()=>{await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await ev('__draft.go(0)');const src=await ev('avatar.getAttribute("src")');await ev('__draft.go(__draft.chapters-1)');await ev('avatar.decode()');await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});return src;};
+   const start=async()=>{await ev('document.getElementById("timeline-restart").click()');await wait('avatar.getAnimations().length>0');await ev('avatar.getAnimations().forEach(a=>a.pause())');};
+   const finishShrink=async()=>{await ev('avatar.getAnimations().forEach(a=>a.finish())');await wait('document.querySelector(".map").getAnimations().length>0');await ev(`${travel}.forEach(a=>a.pause())`);};
+   const finishTravel=async()=>{await ev(`${travel}.forEach(a=>a.finish())`);await wait('avatar.getAnimations().some(a=>a.effect.getKeyframes()[0].transform==="scale(0)")');await ev('avatar.getAnimations().filter(a=>a.playState!=="finished").forEach(a=>a.pause())');};
+   const rise="avatar.getAnimations().filter(a=>a.effect.getKeyframes()[0].transform==='scale(0)')";
+   const checks=[];
+   for(const [width,height] of [[320,667],[390,844],[1440,1000]]){
+    await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<701});const firstSrc=await prepare(),initial=await measure();await start();
+    const keys=await ev('avatar.getAnimations().flatMap(a=>a.effect.getKeyframes()).map(f=>f.transform)');assert(keys.includes('scale(0)'),'Restart must first shrink the character to zero');
+    assert.equal(await ev('document.querySelector(".map").getAnimations().length'),0,'Map must wait until the character disappears');
+    await seek('avatar.getAnimations()',.5);const shrinking=await measure();assert(shrinking.width>0&&shrinking.width<initial.width&&Math.abs(shrinking.bottom-initial.bottom)<.1,'Shrink toward the feet, not the body center');assert.equal(shrinking.mapY,initial.mapY);assert.equal(shrinking.progress,1);
+    if(width===390)await shot('magnolia-restart-shrink.png');
+    await seek('avatar.getAnimations()',1);assert((await measure()).width<.01);await finishShrink();await seek(travel,.5);const hidden=await measure();assert(hidden.width<.01&&hidden.height<.01&&hidden.moving&&hidden.ghosts===0);assert(hidden.progress>.4&&hidden.progress<.6);
+    if(width===390)await shot('magnolia-restart-hidden.png');
+    await ev('void __draft.go(1)');await key('ArrowLeft');await finishTravel();await seek(rise,0);const arrived=await measure();assert(arrived.width<.01&&arrived.progress<.01);assert.equal(await ev('avatar.getAttribute("src")'),firstSrc);
+    await seek(rise,.5);const growing=await measure();assert(growing.width>0&&growing.width<initial.width&&Math.abs(growing.bottom-initial.bottom)<.1);assert.equal(growing.mapY,arrived.mapY,'Map must stay at the start while the character grows');
+    if(width===390)await shot('magnolia-restart-grow.png');
+    await ev(`${rise}.forEach(a=>a.finish())`);await wait('!__boardState.moving');assert.equal(await ev('__boardState.active'),0);assert.equal(await ev('document.getAnimations().length'),0);assert.equal((await measure()).width,initial.width);
+    checks.push({width,shrunkAtFeet:true,hiddenDuringTravel:true,growsAfterArrival:true});
+   }
+   for(const phase of ['shrink','travel','grow']){await prepare();await start();if(phase!=='shrink')await finishShrink();if(phase==='grow')await finishTravel();await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await wait('!__boardState.moving');assert.equal(await ev('__boardState.active'),0);assert.equal(await ev('document.getAnimations().length'),0);assert((await measure()).width>0);}
+   const targetSrc=await prepare(),otherSrc=targetSrc==='assets/littlemag.webp'?'assets/mag.webp':'assets/littlemag.webp';await ev(`avatar.src=${JSON.stringify(otherSrc)};avatar.decode()`);await start();await finishShrink();await seek(travel,.5);assert.equal(await ev('avatar.getAttribute("src")'),otherSrc);assert((await measure()).width<.01);assert.equal((await measure()).ghosts,0);await finishTravel();assert.equal(await ev('avatar.getAttribute("src")'),targetSrc);await ev(`${rise}.forEach(a=>a.finish())`);await wait('!__boardState.moving');assert.equal(await ev('__boardState.active'),0);
+   for(const phase of ['shrink','travel','grow']){
+    await prepare();
+    await ev(`(()=>{const target=${phase==='travel'?"document.querySelector('.map')":"avatar"},original=target.animate;window.__qaRestoreAnimate=()=>target.animate=original;target.animate=function(frames,options){if(${JSON.stringify(phase)}!=='grow'||frames[0].transform==='scale(0)')throw Error('Injected animation failure');return original.call(this,frames,options)}})()`);
+    await ev('document.getElementById("timeline-restart").click()');await wait('!__boardState.moving');await ev('__qaRestoreAnimate();delete window.__qaRestoreAnimate');assert.equal(await ev('__boardState.active'),0);assert.equal(await ev('document.getAnimations().length'),0);assert((await measure()).width>0);
+   }
+   assert.equal(errors.length,0);console.log(JSON.stringify({restartGroundSequence:checks,liveReducedMotionInAllPhases:true,inputLock:true,changedCharacterSwappedWhileHidden:true,animationFailureCleanup:true,errors}));return;
+  }
   if(process.argv.includes('--restart-motion')){
    const settle=async()=>{for(let i=0;i<80&&await ev('__boardState.moving');i++)await sleep(50);assert.equal(await ev('__boardState.moving'),false);};
    const prepare=async()=>{await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await ev('__draft.go(__draft.chapters-1)');await ev('avatar.decode()');};
-   const start=async()=>{await ev('document.getElementById("timeline-restart").click()');for(let i=0;i<40&&!await ev('document.querySelector(".map").getAnimations().length');i++)await sleep(25);assert(await ev('document.querySelector(".map").getAnimations().length'),'Restart must animate the board');await ev('document.getAnimations().forEach(a=>a.pause())');};
+   const start=async()=>{await ev('document.getElementById("timeline-restart").click()');for(let i=0;i<40&&!await ev('document.querySelector(".map").getAnimations().length');i++)await sleep(25);assert(await ev('document.querySelector(".map").getAnimations().length'),'Restart must animate the board');await ev('document.getAnimations().filter(a=>a.effect.target!==avatar).forEach(a=>a.pause())');};
    const results=[];
    for(const [width,height] of [[320,667],[390,844],[1440,1000]]){
     await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<701});await prepare();
@@ -50,7 +85,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     assert.equal(timing.bar.duration,timing.map.duration);assert.equal(timing.pawn.duration,timing.map.duration);assert(timing.locked);
     const samples=[];
     for(const fraction of [0,.1,.5,.9,1]){
-     await ev(`document.getAnimations().forEach(a=>a.currentTime=a.effect.getTiming().duration*${fraction});new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))`);
+     await ev(`document.getAnimations().filter(a=>a.effect.target!==avatar).forEach(a=>a.currentTime=a.effect.getTiming().duration*${fraction});new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))`);
      samples.push(await ev(`(()=>{const m=document.querySelector('.map'),f=document.querySelector('.timeline-progress-fill');return {y:new DOMMatrixReadOnly(getComputedStyle(m).transform).m42,progress:f.getBoundingClientRect().width/f.parentElement.getBoundingClientRect().width}})()`));
      if(width===390&&fraction===.5)await shot('magnolia-restart-midpoint.png');
     }
@@ -71,7 +106,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    assert.equal(errors.length,0);console.log(JSON.stringify({smoothRestart:results,rapidInputLocked:true,reducedMotion:true,liveReducedMotion:true,errors}));return;
   }
   if(process.argv.includes('--end-controls')){
-   const settle=async()=>{for(let i=0;i<60&&await ev('__boardState.moving');i++)await sleep(50);assert.equal(await ev('__boardState.moving'),false);};
+   const settle=async()=>{for(let i=0;i<120&&await ev('__boardState.moving');i++)await sleep(50);assert.equal(await ev('__boardState.moving'),false);};
    const click=async(point,input='mouse')=>{
     if(input==='touch'){await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[point]});await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});}
     else{await call('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...point});await call('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...point});}
