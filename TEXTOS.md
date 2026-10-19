@@ -10,7 +10,7 @@ Nasci em Alagoas, filha de Olívia e Agnaldo. Cresci entre Porto da Rua, Tatuamu
 
 ## 3. A terceira da turma
 
-Somos cinco irmãos: Rico, Monquinha, eu, Mag e Chuchu. Fui a terceira a chegar. Bem no meio da turma, com dois mais velhos e dois mais novos. Ficou fácil me achar na fila!
+Somos cinco irmãos: Rico, Monquinha, eu, Najila e Chuchu. Fui a terceira a chegar. Bem no meio da turma, com dois mais velhos e dois mais novos. Ficou fácil me achar na fila!
 
 ## 4. Recife, lá fui eu!
 
