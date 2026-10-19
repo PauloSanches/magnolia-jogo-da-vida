@@ -63,7 +63,7 @@ function layout(){scale=Math.min(innerWidth/480,1.65);left=(innerWidth-480*scale
  const el=document.getElementById('timeline-progress'),remaining=DATA.length-active-1,fraction=DATA.length===1?1:active/(DATA.length-1),percent=Math.round(fraction*100);
  const label=remaining===0?'Concluído':remaining===1?'Falta 1 casa':`Faltam ${remaining} casas`;
  el.hidden=false;el.setAttribute('aria-valuenow',String(percent));el.setAttribute('aria-valuetext',`Casa ${active+1} de ${DATA.length}. ${label}.`);
- document.getElementById('timeline-remaining').textContent=label;document.getElementById('timeline-percent').textContent=percent+'%';el.querySelector('.timeline-progress-fill').style.transform=`scaleX(${fraction})`;
+ el.querySelector('.timeline-progress-fill').style.transform=`scaleX(${fraction})`;
 }
 function memory(avatarReady=true){updateProgress();const d=DATA[active];if(avatarReady)avatar.src=d.avatar;avatar.alt='Personagem ilustrada de Magnolia';avatar.setAttribute('aria-label',active===DATA.length-1?'Recomeçar a história':'Mover para a próxima memória');bubble.classList.toggle('quiet',d.quiet);const title=document.createElement('h1'),text=document.createElement('p');title.textContent=d.title;text.textContent=d.text;content.replaceChildren(title,text);if(d.detail){const detail=document.createElement('p');detail.className='family-detail';detail.textContent=d.detail;content.append(detail)}content.scrollTop=0;stops.forEach((el,i)=>{el.classList.toggle('active',i===active);el.classList.toggle('next',i===(active+1)%DATA.length)});}
 async function go(n){

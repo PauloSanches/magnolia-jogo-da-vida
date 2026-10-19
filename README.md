@@ -12,7 +12,7 @@ GitHub Pages: ramo `main`, pasta `/docs`. O repositório e o site são públicos
 
 ## Progresso da história
 
-A barra fixa no topo mostra a percentagem percorrida e quantas casas faltam. Começa em 0%, chega a 100% na última casa e volta a zero ao recomeçar. Recalcula automaticamente quando a planilha adiciona, remove ou reordena milestones.
+A barra fixa no topo mostra o progresso apenas pelo preenchimento, sem texto nem percentagem visível. A descrição acessível é preservada para leitores de ecrã. Começa em 0%, chega a 100% na última casa e volta a zero ao recomeçar. Recalcula automaticamente quando a planilha adiciona, remove ou reordena milestones.
 
 ## Edição colaborativa
 

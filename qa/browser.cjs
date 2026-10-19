@@ -89,13 +89,13 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
      const release=JSON.parse(fs.readFileSync(path.join(root,'docs/version.json'),'utf8')).version;
      assert.equal(stamp.text,release);assert.equal(stamp.datetime,release);
      assert(stamp.position==='fixed'&&stamp.left>=0&&stamp.right<=width&&width-stamp.right<=20&&stamp.bottom<=height&&height-stamp.bottom<=20&&stamp.top>state.bubbleBottom,JSON.stringify({width,i,stamp,bubbleBottom:state.bubbleBottom}));
-     const progress=await ev(`(()=>{const el=document.getElementById('timeline-progress');if(!el)return null;const rect=el.getBoundingClientRect(),fill=el.querySelector('.timeline-progress-fill'),track=fill.parentElement;return {value:Number(el.getAttribute('aria-valuenow')),max:Number(el.getAttribute('aria-valuemax')),label:el.getAttribute('aria-valuetext'),remaining:document.getElementById('timeline-remaining').textContent,ratio:fill.getBoundingClientRect().width/track.getBoundingClientRect().width,left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom,avatarTop:avatar.getBoundingClientRect().top}})()`);
+     const progress=await ev(`(()=>{const el=document.getElementById('timeline-progress');if(!el)return null;const rect=el.getBoundingClientRect(),fill=el.querySelector('.timeline-progress-fill'),track=fill.parentElement;return {value:Number(el.getAttribute('aria-valuenow')),max:Number(el.getAttribute('aria-valuemax')),label:el.getAttribute('aria-valuetext'),visibleText:el.textContent.trim(),ratio:fill.getBoundingClientRect().width/track.getBoundingClientRect().width,left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom,avatarTop:avatar.getBoundingClientRect().top}})()`);
      assert(progress,'Timeline progress must exist');
      const fraction=expected.length===1?1:i/(expected.length-1);
      assert.equal(progress.value,Math.round(fraction*100));assert.equal(progress.max,100);
      assert(progress.label.includes(`${i+1} de ${expected.length}`));
      assert(Math.abs(progress.ratio-fraction)<0.01&&progress.left>=0&&progress.right<=width&&progress.top>=0&&progress.bottom<progress.avatarTop,JSON.stringify({width,i,progress}));
-     assert.equal(progress.remaining,i===expected.length-1?'Concluído':expected.length-i-1===1?'Falta 1 casa':`Faltam ${expected.length-i-1} casas`);
+     assert.equal(progress.visibleText,'','Progress must be a bar only, without visible labels or percentage');
      states.push({width,chapter:i,ok:true});
      if(width===390&&i===1){
       const photo=await ev(`(()=>{const p=document.querySelector('image[href$="assets/alagoas.webp"]');if(!p)return null;const r=p.getBoundingClientRect();return {src:p.getAttribute('href'),top:r.top,bottom:r.bottom,left:r.left,right:r.right,bubbleTop:document.querySelector('.bubble').getBoundingClientRect().top}})()`);
