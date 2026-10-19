@@ -1,65 +1,53 @@
-# Magnolia · A vida em versos
+# Jogo da Vida versão Magnólia
 
-## Magnolia, 58 anos de vida
+## 1. Jogo da Vida versão Magnólia
 
-> Hoje, celebramos seus 58 anos.
-> Neste tabuleiro, cada casa é uma lembrança:
-> Alagoas, Recife, os encontros,
-> Daniela, Dedey e a família.
+Hoje eu faço 58 anos. E resolveram transformar minha vida num jogo! Quero ver quem conhece essa história tão bem quanto eu. Vem comigo: dessa vez, sou eu quem vai contar.
 
-## Alagoas e cinco irmãos
+## 2. Comecei lá em Alagoas
 
-> Foi em Alagoas que Magnolia nasceu,
-> a terceira dos cinco filhos
-> de Olivia e Agnaldo.
-> Rico, Monica, Magnolia, Magda e Medeiros:
-> cinco nomes no começo desta história.
-> Agnaldo trabalhava fora;
-> Olivia cuidava da casa.
+Nasci em Alagoas, filha de Olívia e Agnaldo. Cresci entre Porto da Rua, Tatuamunha e Porto de Pedras.
 
-## Recife, novos caminhos
+## 3. A terceira da turma
 
-> Na adolescência, Magnolia e a família
-> foram para Recife,
-> em busca de uma vida melhor.
-> Entre a escola e os primeiros namoros,
-> Recife passou a fazer parte do caminho.
+Éramos cinco irmãos: Rico, Monquinha, eu, Mag e Chuchu. Fui a terceira a chegar. Bem no meio da turma, com dois mais velhos e dois mais novos. Ficou fácil me achar na fila!
 
-## Uma nova etapa aos 17
+## 4. Recife, lá fui eu!
 
-> Aos 17 anos, Magnolia se casou.
-> Começava outra etapa da sua vida.
+Ainda adolescente, me mudei com a família para Recife, em busca de uma vida melhor. Saí de Alagoas e fui conhecer outro lugar para chamar de casa. Recife ia ganhar bastante espaço na minha história.
 
-## A chegada de Daniela e Dedey
+## 5. Meu paquera da escola
 
-> Daniela chegou primeiro.
-> Dois anos depois, veio Dedey.
-> Magnolia trabalhava;
-> Olivia cuidava da casa e dos netos.
-> As meninas ficavam com ela,
-> na companhia do primo Leo.
+Em Recife, teve escola e também teve um paquera que entrou na história. Sim, meninas, a mãe de vocês também teve seus namoricos! Não nasci sabendo dar conselho, não.
 
-## Arruda, Curado e família
+## 6. Meu casamento aos 17
 
-> Com Daniela e Dedey,
-> Magnolia morou no Arruda.
-> Depois, foram viver no Curado,
-> com Olivia e Medeiros.
-> Anos de casa compartilhada
-> e lembranças em família.
+Eu me casei aos 17 anos. Essa foi uma das primeiras grandes mudanças da minha vida. E ainda vinha tanta coisa pela frente!
 
-## 1996, o encontro com Ruston
+## 7. Daniela me fez mãe
 
-> No hospital onde Magnolia trabalhava,
-> Ruston era o advogado.
-> Em 1996, os dois começaram a sair.
-> Um novo encontro entrava na sua história.
+Primeiro veio Daniela. Foi com você, minha filha, que eu virei mãe. Até aqui, eu estava contando como filha e irmã. A partir da sua chegada, minha história passou a incluir a nossa.
 
-## A vida segue em festa
+## 8. Três anos depois, Dedey
 
-> Magnolia, hoje celebramos você.
-> Seus 58 anos,
-> suas filhas, sua família,
-> os caminhos que a trouxeram até aqui.
-> Que venham novas conquistas
-> e muitos aniversários para celebrar!
+Três anos depois de Daniela, chegou Dedey. Minha segunda menina! Dedey, você tem uma casa só sua aqui, porque essa chegada merece ser contada direitinho. Agora eu era mãe de duas.
+
+## 9. Com a avó e o primo
+
+Daniela e Dedey ficavam com minha mãe, Olívia, junto do primo Leo. Minhas meninas cresceram com a avó e o primo fazendo parte do dia a dia. Essa lembrança também merece um lugar aqui.
+
+## 10. Nós três no Arruda
+
+Eu e minhas meninas fomos morar no Arruda. Daniela, Dedey e eu: nós três, em mais um endereço da nossa história. Filhas, essa parte também é de vocês.
+
+## 11. Nossa temporada no Curado
+
+Depois, fomos para o Curado, morar com minha mãe e meu irmão Chuchu. Passamos alguns anos por lá. Quando falo do Curado, lembro dessa época em família, com as meninas crescendo perto da avó e do tio.
+
+## 12. Em 1996, eu e Ruston
+
+Eu trabalhava no hospital, e Ruston era o advogado de lá. Em 1996, começamos a sair. E eu, que já tinha duas filhas, também tinha um namoro pra contar. Mãe também namora, minha gente!
+
+## 13. Agora vem comemorar comigo!
+
+Cheguei aos 58 e quero aproveitar meu aniversário com vocês. Tenho carinho por tanta gente que faz parte da minha vida, e ainda tenho planos, viu? Quero rir mais, fazer o que gosto e continuar juntando histórias com a minha família. Agora vem comemorar comigo!

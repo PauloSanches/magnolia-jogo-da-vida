@@ -19,7 +19,7 @@ Qualquer alteração ao texto após aprovação devolve os trechos modificados �
 
 ## 2. Mostrar no chat
 
-- Para uma revisão global, mostrar todos os títulos e textos completos das oito casas, na ordem do tabuleiro. Incluir comentários se existirem.
+- Para uma revisão global, mostrar todos os títulos e textos completos de todas as casas, na ordem do tabuleiro. Incluir comentários se existirem.
 - Para uma correção pontual, mostrar os trechos completos afetados e qualquer ligação que precise de ajuste.
 - Dizer claramente que é uma proposta e que o site ainda não foi alterado.
 - Pedir aprovação ou correções. Comentários, silêncio ou uma nova correção não são aprovação para publicar.
@@ -51,4 +51,4 @@ Qualquer alteração ao texto após aprovação devolve os trechos modificados �
 - Título inicial solicitado: “Jogo da Vida versão Magnólia”.
 - Retirar referências a Agnaldo trabalhar fora e a Olívia ficar em casa. Não confundir essa retirada editorial com uma alteração dos factos fornecidos.
 - Não reintroduzir pobreza, “ingrata”, perda do bebê, imposição materna, ciúmes ou separações no texto celebrativo.
-- A proposta `leve-divertido-v1` está em revisão; não foi aprovada e não deve ser aplicada automaticamente.
+- A proposta `13-casas-v5`, incluindo a revisão da casa 2 com Porto da Rua, Tatuamunha e Porto de Pedras e a foto de Alagoas, foi aprovada pelo pedido “atualize o site”. O texto autorizado está em `editorial/approved-copy.json`. Novas revisões continuam a exigir aprovação.
