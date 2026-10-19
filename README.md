@@ -10,6 +10,10 @@ Abra `docs/index.html` diretamente no navegador. Sem build, dependências JavaSc
 
 GitHub Pages: ramo `main`, pasta `/docs`. O repositório e o site são públicos. Não altera o site principal da conta.
 
+## Música de fundo
+
+O ficheiro MP3 enviado pelo utilizador (aproximadamente 15 segundos) toca em repetição, sem reiniciar nas mudanças de casa. A página tenta iniciar o som quando permitido pelo navegador; caso seja bloqueado, o botão «Ativar som» inicia a reprodução após um toque. O mesmo botão permite desligar o som, e essa escolha fica guardada neste navegador. Erros de reprodução permitem tentar novamente sem bloquear a história.
+
 ## Navegação
 
 As setas fixas na parte inferior permitem voltar e avançar. A seta para voltar fica desativada na primeira casa, e a de avançar na última; ambas ficam desativadas durante o movimento. Toque, rato e teclado são suportados. Os atalhos e a personagem clicável continuam disponíveis. Ao chegar à última casa, os comandos de avanço param: só o botão «Recomeçar», apresentado no final, reinicia a história.

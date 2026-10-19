@@ -80,7 +80,7 @@ async function go(n){
    const travel={duration,easing:'cubic-bezier(.22,1,.36,1)',fill:'both'};
    animations.push(map.animate([{transform:currentMap},{transform:finalMap}],travel));
    animations.push(pawn.animate([{transform:currentAvatar},{transform:finalAvatar}],travel));
-   animations.push(progressFill.animate([{transform:getComputedStyle(progressFill).transform},{transform:`scaleX(${DATA.length===1?1:n/(DATA.length-1)})`}],travel));
+   animations.push(progressFill.animate([{transform:progressFill.style.transform||'scaleX(0)'},{transform:`scaleX(${DATA.length===1?1:n/(DATA.length-1)})`}],travel));
    if(changed&&avatarReady){
     // Keep the old decoded image visible while the new one turns into view.
     ghost=avatar.cloneNode(false);ghost.removeAttribute('id');ghost.removeAttribute('role');ghost.removeAttribute('tabindex');ghost.removeAttribute('aria-label');ghost.setAttribute('aria-hidden','true');ghost.alt='';ghost.classList.add('avatar-ghost');pawn.append(ghost);
