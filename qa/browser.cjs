@@ -31,6 +31,11 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await call('Page.reload',{ignoreCache:true});
   for(let i=0;i<50;i++){if(await ev('!!window.__draft'))break;await sleep(100);}
   await ev('document.fonts.ready');
+  let liveFixture=null;
+  if(!process.env.MAGNOLIA_EXPECTED&&await ev('!!window.__contentSync')){
+   await ev('__contentSync.refresh()');
+   if(await ev('__contentState.status==="synced"'))liveFixture=require('../docs/sheet-data.js').parse(await ev('fetch(__contentState.source+"&_qa="+Date.now(),{cache:"no-store",credentials:"omit"}).then(r=>{if(!r.ok)throw Error(r.status);return r.text()})'),null,'https://paulosanches.github.io/magnolia-jogo-da-vida/');
+  }
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
   for(const [k,want] of [['ArrowUp',3],['ArrowDown',1],['ArrowRight',3],['ArrowLeft',1]]){
    await ev('__draft.go(2);document.activeElement.blur()');await key(k);checks.push({key:k,expected:want,actual:await ev('__boardState.active')});
@@ -46,6 +51,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    assert(spin.frames.some(t=>t.includes('rotateY')),'Changing character must animate a visible rotating transition');
    assert(spin.moving&&spin.ghost&&spin.ghostHidden==='true'&&spin.ghostPointer==='none'&&spin.decoded&&spin.source==='assets/littlemag.webp',JSON.stringify(spin));
    await ev('document.getAnimations().forEach(a=>{a.pause();a.currentTime=a.effect.getTiming().duration*.25})');
+   const bar=await ev(`(()=>{const fill=document.querySelector('.timeline-progress-fill'),a=fill.getAnimations()[0],r=fill.getBoundingClientRect();return {animated:!!a,ratio:r.width/fill.parentElement.getBoundingClientRect().width,target:1/(__draft.chapters-1),duration:a?.effect.getTiming().duration}})()`);
+   assert(bar.animated&&bar.duration===760&&bar.ratio>0&&bar.ratio<bar.target,'Progress must animate through intermediate values in sync with movement');
    await shot('magnolia-spin-out.png');
    await ev('document.getAnimations().forEach(a=>{a.currentTime=a.effect.getTiming().duration*.75})');
    await shot('magnolia-spin-in.png');
@@ -73,7 +80,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    console.log(JSON.stringify({rotatingCharacterTransition:true,decodedBeforeSwap:true,ghostCleaned:true,sameCharacterNoSpin:true,reducedMotion:true,liveReducedMotion:true,reverseTurn:true,rapidInputLocked:true}));
   }
   if(full){
-   const fixture=JSON.parse(fs.readFileSync(expectedPath,'utf8'));const expected=Array.isArray(fixture)?fixture.map(row=>({title:row.titulo,text:row.texto,detail:''})):fixture.chapters;
+   const fixture=liveFixture||JSON.parse(fs.readFileSync(expectedPath,'utf8'));const expected=Array.isArray(fixture)?fixture.map(row=>({title:row.titulo,text:row.texto,detail:''})):fixture.chapters;
    const counts=await ev('({chapters:__draft.chapters,stops:document.querySelectorAll(".house-stop").length})');
    assert.equal(counts.chapters,expected.length,'All approved chapters must exist');assert.equal(counts.stops,expected.length,'One visible stop per chapter');
    const states=[];
@@ -125,7 +132,15 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    await ev('__draft.go(2);memoryContent.focus();memoryContent.scrollTop=0');await key('ArrowDown');await key('End');await sleep(250);
    const reading=await ev('({active:__boardState.active,end:memoryContent.scrollTop+memoryContent.clientHeight>=memoryContent.scrollHeight-1})');assert(reading.active===2&&reading.end);
    await ev('memoryContent.blur();__draft.go(0)');await key('ArrowDown');assert.equal(await ev('__boardState.active'),0);
-   await ev('__draft.go('+ (expected.length-1) +');avatar.click()');assert.equal(await ev('__boardState.active'),0,'Restart from final chapter');
+   await ev('__draft.go('+ (expected.length-1) +');avatar.click()');assert.equal(await ev('__boardState.active'),expected.length-1,'Avatar must not restart at the end');
+   await key('ArrowUp');await key('ArrowRight');await ev('document.querySelector(".stage").click();document.querySelector(".stage").dispatchEvent(new WheelEvent("wheel",{deltaY:100,bubbles:true,cancelable:true}))');
+   assert.equal(await ev('__boardState.active'),expected.length-1,'Forward actions must stop at the end');
+   assert.equal(await ev('document.querySelectorAll(".house-stop.next").length'),0,'No next stop after final house');
+   const restart=await ev('(()=>{const el=document.getElementById("timeline-restart");if(!el||el.hidden)return null;const r=el.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2,width:r.width,height:r.height,right:r.right}})()');
+   assert(restart&&restart.height>=44&&restart.right<=320,'Final house must expose a visible restart button');
+   await shot('magnolia-restart-mobile.png');
+   await call('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,x:restart.x,y:restart.y});await call('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,x:restart.x,y:restart.y});
+   assert.equal(await ev('__boardState.active'),0,'Restart only by its explicit button');assert(await ev('document.getElementById("timeline-restart").hidden'));
    await ev('document.querySelector("[data-go=\\\"12\\\"]").dispatchEvent(new MouseEvent("click",{bubbles:true}))');assert.equal(await ev('__boardState.active'),12);
    await ev('__draft.go(0)');await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
    await key('ArrowUp');await key('ArrowUp');assert(await ev('__boardState.moving'));for(let n=0;n<40 && await ev('__boardState.moving');n++)await sleep(100);assert.equal(await ev('__boardState.active'),1,JSON.stringify(await ev('__boardState')));await sleep(700);assert.equal(await ev('__boardState.active'),1);

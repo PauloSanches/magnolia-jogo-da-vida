@@ -12,11 +12,11 @@ GitHub Pages: ramo `main`, pasta `/docs`. O repositório e o site são públicos
 
 ## Navegação
 
-As setas fixas na parte inferior permitem voltar e avançar. A seta para voltar fica desativada na primeira casa, e a de avançar na última; ambas ficam desativadas durante o movimento. Toque, rato e teclado são suportados. Os atalhos e a personagem clicável continuam disponíveis.
+As setas fixas na parte inferior permitem voltar e avançar. A seta para voltar fica desativada na primeira casa, e a de avançar na última; ambas ficam desativadas durante o movimento. Toque, rato e teclado são suportados. Os atalhos e a personagem clicável continuam disponíveis. Ao chegar à última casa, os comandos de avanço param: só o botão «Recomeçar», apresentado no final, reinicia a história.
 
 ## Progresso da história
 
-A barra fixa no topo mostra o progresso apenas pelo preenchimento, sem texto nem percentagem visível. A descrição acessível é preservada para leitores de ecrã. Começa em 0%, chega a 100% na última casa e volta a zero ao recomeçar. Recalcula automaticamente quando a planilha adiciona, remove ou reordena milestones.
+A barra fixa no topo mostra o progresso apenas pelo preenchimento, sem texto nem percentagem visível. A descrição acessível é preservada para leitores de ecrã. O preenchimento acompanha suavemente a animação de navegação, respeitando a preferência por movimento reduzido. Começa em 0%, chega a 100% na última casa e volta a zero ao recomeçar. Recalcula automaticamente quando a planilha adiciona, remove ou reordena milestones.
 
 ## Edição colaborativa
 

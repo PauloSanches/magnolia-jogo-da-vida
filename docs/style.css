@@ -11,3 +11,7 @@
 .timeline-navigation button:disabled{color:#496b5b;border-color:#b5cfa5;background:#e3e9d6;cursor:default}
 .timeline-navigation button:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
 @media(hover:hover){.timeline-navigation button:hover:not(:disabled){background:#ffe3ec}}
+
+.timeline-navigation button[hidden]{display:none}
+.timeline-navigation .timeline-restart{width:auto;padding:0 16px;border-radius:24px;font:600 15px Figtree,Arial,sans-serif}
+.avatar[aria-disabled="true"]{cursor:default}
