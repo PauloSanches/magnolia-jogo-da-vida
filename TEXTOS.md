@@ -29,18 +29,15 @@
 > Magnolia tinha um namoro
 > para esconder de Olivia.
 
-## Uma perda aos 17
+## Casamento aos 17
 
-> Aos 17, Magnolia esperava um bebê.
-> Olivia exigiu o casamento
-> antes de a criança nascer.
-> No dia em que se casou,
-> Magnolia perdeu o bebê.
+> Aos 17 anos, Magnolia se casou.
+> Foi uma exigência de Olivia, sua mãe.
 
 ## Daniela, depois Dedey
 
-> Um ano depois, outra gravidez.
-> Dessa vez, nasceu Daniela.
+> Um ano depois, veio uma gravidez.
+> Nasceu Daniela.
 > Dois anos mais tarde, chegou Dedey.
 > Magnolia saía para trabalhar;
 > Em casa, Olivia cuidava do lar
