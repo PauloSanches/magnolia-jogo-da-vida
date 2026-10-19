@@ -1,0 +1,8 @@
+{
+  "repository": "PauloSanches/skills-bp",
+  "commit": "988c64d53632deed9f12013513b5a511fb9d26b1",
+  "installation": "project-local-copy",
+  "directory": ".agents/skills",
+  "skills": ["find-skills", "agent-browser", "mcp-builder", "python-performance-optimization"],
+  "upstream_manifest": ".agents/sources.lock.json"
+}
