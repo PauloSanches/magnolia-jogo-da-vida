@@ -5,7 +5,8 @@
 .timeline-progress-track{height:7px;overflow:hidden;border-radius:7px;background:var(--paper)}
 .timeline-progress-fill{width:100%;height:100%;background:var(--pink);transform:scaleX(0);transform-origin:left center;border-radius:inherit}
 
-.timeline-navigation{position:fixed;z-index:4;bottom:calc(32px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;gap:14px}
+.timeline-navigation{position:fixed;z-index:4;bottom:calc(32px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:grid;grid-template-columns:repeat(2,48px);column-gap:14px;row-gap:0}
+.timeline-navigation button:not(.timeline-restart){grid-row:2}
 .timeline-navigation button{display:grid;place-items:center;width:48px;height:48px;padding:0;border:2px solid var(--pink);border-radius:50%;background:var(--paper);color:var(--pink);cursor:pointer;touch-action:manipulation}
 .timeline-navigation svg{fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .timeline-navigation button:disabled{color:#496b5b;border-color:#b5cfa5;background:#e3e9d6;cursor:default}
@@ -13,7 +14,7 @@
 @media(hover:hover){.timeline-navigation button:hover:not(:disabled){background:#ffe3ec}}
 
 .timeline-navigation button[hidden]{display:none}
-.timeline-navigation .timeline-restart{width:auto;padding:0 16px;border-radius:24px;font:600 15px Figtree,Arial,sans-serif}
+.timeline-navigation .timeline-restart{grid-column:1/-1;grid-row:1;justify-self:center;margin-bottom:14px;white-space:nowrap;width:auto;padding:0 16px;border-radius:24px;font:600 15px Figtree,Arial,sans-serif}
 .avatar[aria-disabled="true"]{cursor:default}
 
 .sound-toggle{position:fixed;z-index:5;top:calc(32px + env(safe-area-inset-top));right:max(18px,calc((100vw - 390px)/2));display:flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:0 12px;border:1px solid #b5cfa5;border-radius:22px;background:var(--paper);color:var(--ink);font:600 13px Figtree,Arial,sans-serif;cursor:pointer;touch-action:manipulation}

@@ -37,6 +37,34 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    if(await ev('__contentState.status==="synced"'))liveFixture=require('../docs/sheet-data.js').parse(await ev('fetch(__contentState.source+"&_qa="+Date.now(),{cache:"no-store",credentials:"omit"}).then(r=>{if(!r.ok)throw Error(r.status);return r.text()})'),null,'https://paulosanches.github.io/magnolia-jogo-da-vida/');
   }
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+  if(process.argv.includes('--end-controls')){
+   const settle=async()=>{for(let i=0;i<60&&await ev('__boardState.moving');i++)await sleep(50);assert.equal(await ev('__boardState.moving'),false);};
+   const click=async(point,input='mouse')=>{
+    if(input==='touch'){await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[point]});await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});}
+    else{await call('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...point});await call('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...point});}
+    await ev('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');await settle();
+   };
+   const rect=async id=>ev(`(()=>{const r=document.getElementById(${JSON.stringify(id)}).getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()`);
+   const results=[];
+   for(const [width,height] of [[320,667],[390,844],[1440,1000]])for(const motion of ['reduce','no-preference'])for(const input of ['mouse','touch']){
+    await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<701});
+    await call('Emulation.setTouchEmulationEnabled',{enabled:input==='touch',maxTouchPoints:1});
+    await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+    await ev('__draft.go(__draft.chapters-2)');
+    await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:motion}]});
+    const before=await rect('timeline-next'),previousBefore=await rect('timeline-prev');await click(before,input);
+    const last=await ev('__draft.chapters-1');assert.equal(await ev('__boardState.active'),last);
+    const after=await rect('timeline-next'),previousAfter=await rect('timeline-prev'),hit=await ev(`document.elementFromPoint(${before.x},${before.y})?.closest('button')?.id`);
+    await click(before,input);
+    const actual=await ev('__boardState.active');console.log(JSON.stringify({width,motion,input,before,after,secondClickTarget:hit,expected:last,actual}));
+    assert.equal(actual,last,'Repeating a click at the advance-arrow position must not restart the story');
+    assert.deepEqual(previousBefore,previousAfter,'Previous arrow must remain in place too');
+    assert(Math.abs(before.x-after.x)<.5&&Math.abs(before.y-after.y)<.5,'Navigation arrows must not move at the final house');
+    await click(await rect('timeline-restart'),input);assert.equal(await ev('__boardState.active'),0,'Only the explicit restart button restarts');
+    results.push({width,motion,input,ok:true});
+   }
+   console.log(JSON.stringify({finalControls:results,errors}));assert.equal(errors.length,0);return;
+  }
   for(const [k,want] of [['ArrowUp',3],['ArrowDown',1],['ArrowRight',3],['ArrowLeft',1]]){
    await ev('__draft.go(2);document.activeElement.blur()');await key(k);checks.push({key:k,expected:want,actual:await ev('__boardState.active')});
   }
