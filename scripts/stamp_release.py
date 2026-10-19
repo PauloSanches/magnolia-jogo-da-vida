@@ -35,7 +35,7 @@ def main():
     badge = '<time id="app-version" class="app-version" datetime="'+version+'" aria-label="Versão da aplicação em UTC">'+version+'</time>'
     html = MARKER.sub(lambda _:badge,html) if MARKER.search(html) else html.replace('</body>',badge+'</body>')
     # The entry point always refers to the code/style bytes from this release.
-    for name in ['style.css','app.js']:
+    for name in sorted(set(re.findall(r'(?:src|href)="([A-Za-z0-9_./-]+\.(?:js|css))(?:\?v=[a-f0-9]+)?"',html))):
         digest = hashlib.sha256((root/name).read_bytes()).hexdigest()[:16]
         html = re.sub(r'((?:src|href)=")'+re.escape(name)+r'(?:\?v=[a-f0-9]+)?"',lambda m:m[1]+name+'?v='+digest+'"',html)
     html_path.write_text(html,encoding='utf-8')

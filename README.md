@@ -8,7 +8,17 @@ Abra `docs/index.html` diretamente no navegador. Sem build, dependências JavaSc
 
 ## Publicação
 
-GitHub Pages: ramo `main`, pasta `/docs`. O repositório mantém-se privado; o site é público quando Pages está ativo. Não altera o site principal da conta.
+GitHub Pages: ramo `main`, pasta `/docs`. O repositório e o site são públicos. Não altera o site principal da conta.
+
+## Progresso da história
+
+A barra fixa no topo mostra a percentagem percorrida e quantas casas faltam. Começa em 0%, chega a 100% na última casa e volta a zero ao recomeçar. Recalcula automaticamente quando a planilha adiciona, remove ou reordena milestones.
+
+## Edição colaborativa
+
+Edite os milestones no Google Sheets indicado em `CONTENT-EDITING.md`. O site consulta a aba pública a cada 60 segundos, mantém a última versão válida em falhas e cria/remove/reordena casas conforme as linhas válidas. `docs/milestones.json` é o snapshot de fallback da migração. Não é necessário um novo deploy para atualizar a planilha.
+
+O timestamp no canto inferior direito identifica a versão da aplicação, não o horário da última edição da planilha.
 
 ## Skills
 

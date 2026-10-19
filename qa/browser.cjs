@@ -6,7 +6,7 @@ const assert = require('node:assert/strict');
 const root = path.resolve(__dirname, '..');
 const scratch = path.join(process.env.HOME, '.hermes/cache/scratch');
 const full = process.argv.includes('--full');
-const expectedPath = process.env.MAGNOLIA_EXPECTED || path.join(root, 'editorial/approved-copy.json');
+const expectedPath = process.env.MAGNOLIA_EXPECTED || path.join(root, 'docs/milestones.json');
 const url = process.env.MAGNOLIA_URL || pathToFileURL(path.join(root, 'docs/index.html')).href;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 (async () => {
@@ -73,7 +73,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    console.log(JSON.stringify({rotatingCharacterTransition:true,decodedBeforeSwap:true,ghostCleaned:true,sameCharacterNoSpin:true,reducedMotion:true,liveReducedMotion:true,reverseTurn:true,rapidInputLocked:true}));
   }
   if(full){
-   const expected=JSON.parse(fs.readFileSync(expectedPath,'utf8')).chapters;
+   const fixture=JSON.parse(fs.readFileSync(expectedPath,'utf8'));const expected=Array.isArray(fixture)?fixture.map(row=>({title:row.titulo,text:row.texto,detail:''})):fixture.chapters;
    const counts=await ev('({chapters:__draft.chapters,stops:document.querySelectorAll(".house-stop").length})');
    assert.equal(counts.chapters,expected.length,'All approved chapters must exist');assert.equal(counts.stops,expected.length,'One visible stop per chapter');
    const states=[];
@@ -89,22 +89,29 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
      const release=JSON.parse(fs.readFileSync(path.join(root,'docs/version.json'),'utf8')).version;
      assert.equal(stamp.text,release);assert.equal(stamp.datetime,release);
      assert(stamp.position==='fixed'&&stamp.left>=0&&stamp.right<=width&&width-stamp.right<=20&&stamp.bottom<=height&&height-stamp.bottom<=20&&stamp.top>state.bubbleBottom,JSON.stringify({width,i,stamp,bubbleBottom:state.bubbleBottom}));
+     const progress=await ev(`(()=>{const el=document.getElementById('timeline-progress');if(!el)return null;const rect=el.getBoundingClientRect(),fill=el.querySelector('.timeline-progress-fill'),track=fill.parentElement;return {value:Number(el.getAttribute('aria-valuenow')),max:Number(el.getAttribute('aria-valuemax')),label:el.getAttribute('aria-valuetext'),remaining:document.getElementById('timeline-remaining').textContent,ratio:fill.getBoundingClientRect().width/track.getBoundingClientRect().width,left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom,avatarTop:avatar.getBoundingClientRect().top}})()`);
+     assert(progress,'Timeline progress must exist');
+     const fraction=expected.length===1?1:i/(expected.length-1);
+     assert.equal(progress.value,Math.round(fraction*100));assert.equal(progress.max,100);
+     assert(progress.label.includes(`${i+1} de ${expected.length}`));
+     assert(Math.abs(progress.ratio-fraction)<0.01&&progress.left>=0&&progress.right<=width&&progress.top>=0&&progress.bottom<progress.avatarTop,JSON.stringify({width,i,progress}));
+     assert.equal(progress.remaining,i===expected.length-1?'Concluído':expected.length-i-1===1?'Falta 1 casa':`Faltam ${expected.length-i-1} casas`);
      states.push({width,chapter:i,ok:true});
      if(width===390&&i===1){
-      const photo=await ev(`(()=>{const p=document.querySelector('image[href="assets/alagoas.webp"]');if(!p)return null;const r=p.getBoundingClientRect();return {src:p.getAttribute('href'),top:r.top,bottom:r.bottom,left:r.left,right:r.right,bubbleTop:document.querySelector('.bubble').getBoundingClientRect().top}})()`);
+      const photo=await ev(`(()=>{const p=document.querySelector('image[href$="assets/alagoas.webp"]');if(!p)return null;const r=p.getBoundingClientRect();return {src:p.getAttribute('href'),top:r.top,bottom:r.bottom,left:r.left,right:r.right,bubbleTop:document.querySelector('.bubble').getBoundingClientRect().top}})()`);
       assert(photo&&photo.bottom>0&&photo.top>=0&&photo.left>=0&&photo.right<=width&&photo.bottom<photo.bubbleTop,JSON.stringify(photo));
       await ev(`new Promise((resolve,reject)=>{const i=new Image();i.onload=resolve;i.onerror=reject;i.src='assets/alagoas.webp'})`);
       await shot('magnolia-13-alagoas.png');
      }
      if(i===2){
-      const photo=await ev(`(()=>{const p=document.querySelector('image[href="assets/irmaos-placeholder.jpg"]');if(!p)return null;const r=p.getBoundingClientRect(),a=document.getElementById('avatar').getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,avatarRight:a.right,bubbleTop:document.querySelector('.bubble').getBoundingClientRect().top,fit:p.getAttribute('preserveAspectRatio')}})()`);
+      const photo=await ev(`(()=>{const p=document.querySelector('image[href$="assets/irmaos-placeholder.jpg"]');if(!p)return null;const r=p.getBoundingClientRect(),a=document.getElementById('avatar').getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,avatarRight:a.right,bubbleTop:document.querySelector('.bubble').getBoundingClientRect().top,fit:p.getAttribute('preserveAspectRatio')}})()`);
       assert(photo,'The siblings chapter must show the supplied placeholder image');
       assert(photo.top>=0&&photo.left>=0&&photo.right<=width&&photo.bottom<photo.bubbleTop&&photo.left>photo.avatarRight&&photo.fit==='xMidYMid meet',JSON.stringify({width,photo}));
       await ev(`new Promise((resolve,reject)=>{const i=new Image();i.onload=resolve;i.onerror=reject;i.src='assets/irmaos-placeholder.jpg'})`);
       if(width===390)await shot('magnolia-siblings-placeholder.png');
      }
      if(width===320&&i===0){await ev('memoryContent.scrollTop=0');await shot('magnolia-13-opening-320.png');}
-     if(width===1440&&i===12){await ev('memoryContent.scrollTop=0');await shot('magnolia-13-final-desktop.png');}
+     if(width===1440&&i===expected.length-1){await ev('memoryContent.scrollTop=0');await shot('magnolia-13-final-desktop.png');}
     }
    }
    await call('Emulation.setDeviceMetricsOverride',{width:320,height:667,deviceScaleFactor:1,mobile:true});

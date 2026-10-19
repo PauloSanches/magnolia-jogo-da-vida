@@ -1,6 +1,12 @@
 # Validação editorial da Magnolia
 
-## Regra principal
+## Fonte colaborativa e publicação automática
+
+O utilizador autorizou a aba Google Sheets em `CONTENT-EDITING.md` como fonte principal dos milestones, com publicação automática das alterações dos seus editores. Essa autorização inclui títulos, textos, fotos, ordem e novas linhas válidas. Ela substitui a aprovação por chat para essas edições; mudanças propostas no chat fora dessa fonte continuam sujeitas ao fluxo abaixo. Permissões e dados de outras abas não estão abrangidos.
+
+`docs/milestones.json`, os dados embutidos de arranque, `TEXTOS.md` e `editorial/approved-copy.json` são snapshots de fallback/histórico. Não os editar como uma segunda fonte concorrente. Ao atualizar o snapshot, ler a fonte publicada e preservar os IDs e os textos exatamente.
+
+## Regra principal para propostas no chat
 
 Os textos são aprovados no chat antes de entrarem no site. Um pedido de nova redação ou uma correção factual autoriza preparar uma proposta, não publicá-la. Este fluxo aplica-se a títulos, narrativas, comentários, metadados e textos de acessibilidade.
 
