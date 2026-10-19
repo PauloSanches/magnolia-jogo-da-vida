@@ -1,0 +1,12 @@
+#!/bin/sh
+# Stamp only after the publisher has staged all site changes.
+set -eu
+root=$(git rev-parse --show-toplevel)
+cd "$root"
+if ! git diff --quiet -- docs scripts/stamp_release.py; then
+  printf '%s\n' 'Review and stage site changes before publishing; no unstaged files will be included.' >&2
+  exit 1
+fi
+python3 scripts/stamp_release.py
+python3 scripts/stamp_release.py --check
+git add -- docs/index.html docs/version.json

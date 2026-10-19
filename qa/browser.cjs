@@ -84,6 +84,11 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
      const state=await ev(`(()=>{const c=document.getElementById('memoryContent'),b=document.querySelector('.bubble'),a=document.getElementById('avatar');c.scrollTop=c.scrollHeight;return {active:__boardState.active,waiting:__boardState.waiting,title:c.querySelector('h1').textContent,text:c.querySelector('p').textContent,detail:c.querySelector('.family-detail')?.textContent||'',overflow:c.scrollWidth>c.clientWidth||document.documentElement.scrollWidth>innerWidth,bottom:c.scrollTop+c.clientHeight>=c.scrollHeight-1,bubbleBottom:b.getBoundingClientRect().bottom,avatarBottom:a.getBoundingClientRect().bottom,bubbleTop:b.getBoundingClientRect().top,stopActive:document.querySelectorAll('.house-stop.active').length,animations:document.getAnimations().length}})()`);
      assert.equal(state.title,expected[i].title);assert.equal(state.text,expected[i].text);assert.equal(state.detail,expected[i].detail);
      assert(state.active===i&&state.waiting&&!state.overflow&&state.bottom&&state.bubbleBottom<=height+1&&state.avatarBottom<state.bubbleTop&&state.stopActive===1&&state.animations===0,JSON.stringify({width,i,state}));
+     const stamp=await ev(`(()=>{const el=document.getElementById('app-version');if(!el)return null;const r=el.getBoundingClientRect();return {text:el.textContent,datetime:el.getAttribute('datetime'),left:r.left,right:r.right,top:r.top,bottom:r.bottom,position:getComputedStyle(el).position}})()`);
+     assert(stamp,'Release timestamp must be visible');
+     const release=JSON.parse(fs.readFileSync(path.join(root,'docs/version.json'),'utf8')).version;
+     assert.equal(stamp.text,release);assert.equal(stamp.datetime,release);
+     assert(stamp.position==='fixed'&&stamp.left>=0&&stamp.right<=width&&width-stamp.right<=20&&stamp.bottom<=height&&height-stamp.bottom<=20&&stamp.top>state.bubbleBottom,JSON.stringify({width,i,stamp,bubbleBottom:state.bubbleBottom}));
      states.push({width,chapter:i,ok:true});
      if(width===390&&i===1){
       const photo=await ev(`(()=>{const p=document.querySelector('image[href="assets/alagoas.webp"]');if(!p)return null;const r=p.getBoundingClientRect();return {src:p.getAttribute('href'),top:r.top,bottom:r.bottom,left:r.left,right:r.right,bubbleTop:document.querySelector('.bubble').getBoundingClientRect().top}})()`);

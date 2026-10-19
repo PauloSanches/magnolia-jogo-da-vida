@@ -24,3 +24,7 @@ Use as ferramentas equivalentes disponíveis no ambiente. Exemplos específicos 
 A aplicação estática fica em `docs/`: HTML, CSS, JavaScript e assets locais, sem build. A publicação Pages usa apenas `docs/` no ramo `main`. Preserve o site principal do utilizador e a visibilidade atual deste repositório. Nunca inventar resultados de testes nem guardar segredos neste ficheiro.
 
 A revisão de `skills-bp` está fixada em `.agents/skills-bp.lock.json`; os hashes e licenças upstream estão em `.agents/sources.lock.json` e `.agents/THIRD_PARTY.md`. Carregue explicitamente o `SKILL.md` relevante: a localização comum não garante descoberta automática pelo harness.
+
+## Versão de publicação
+
+Cada publicação deve passar pelo hook `.githooks/pre-commit`, que gera um timestamp ISO UTC fixo em `docs/version.json` e no canto inferior direito do HTML. Ativar o hook em cada clone com `git config core.hooksPath .githooks`. Rever e preparar as alterações antes do commit; o hook recusa ficheiros do site com alterações não preparadas. Não usar a hora de visita do navegador como versão. Validar com `python3 scripts/stamp_release.py --check` e confirmar a mesma versão no site publicado. Se outro fluxo de build for introduzido, executar o gerador nesse fluxo antes da publicação.
