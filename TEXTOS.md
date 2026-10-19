@@ -10,7 +10,6 @@
 ## A terceira de cinco
 
 > Alagoas foi o primeiro chão.
-> O dinheiro era pouco.
 > Olivia e Agnialdo tiveram cinco filhos:
 > Rico, Monica, Magnolia, Magda e Medeiros.
 > Magnolia foi a terceira a chegar.
@@ -44,13 +43,6 @@
 > Magnolia saía para trabalhar;
 > as meninas ficavam com Olivia,
 > ao lado do primo Leo.
-
-### Comentário da família
-
-> Daniela, a “ingrata”.
-> Dedey, “a pessoa mais incrível dessa terra”.
-> Quem contou essa parte
-> não escondeu sua preferência.
 
 ## O caminho de volta
 
