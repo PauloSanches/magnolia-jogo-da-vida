@@ -214,6 +214,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
       assert(image.decoded&&image.transparent>0&&image.opaque>0&&image.left>=0&&image.right<=width&&image.top>=0&&image.bottom<state.bubbleTop,JSON.stringify(image));
       if(width===390)await shot('magnolia-character-'+art.id+'.png');
      }
+     if(expected[i].id==='casa-08')assert.equal(await ev('document.querySelectorAll("[data-live-photo=casa-08]").length'),0,'House 7 must retain its character without a side photograph');
      states.push({width,chapter:i,ok:true});
      if(width===390&&i===1){
       const photo=await ev(`(()=>{const p=document.querySelector('image[href$="assets/alagoas.webp"]');if(!p)return null;const r=p.getBoundingClientRect();return {src:p.getAttribute('href'),top:r.top,bottom:r.bottom,left:r.left,right:r.right,bubbleTop:document.querySelector('.bubble').getBoundingClientRect().top}})()`);
