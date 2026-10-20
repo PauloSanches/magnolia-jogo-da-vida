@@ -83,11 +83,13 @@ function positionQuestion(navTop){
  const onLeft=spaceLeft>spaceRight,width=Math.min(410,Math.max(spaceLeft,spaceRight));
  bubble.dataset.side=onLeft?'left':'right';bubble.style.width=width+'px';
  bubble.style.left=(onLeft?a.left-gap-width:a.right+gap)+'px';
- const upper=Math.max(24,(document.querySelector('.sound-toggle')?.getBoundingClientRect().bottom||76)+16);
- const top=Math.max(upper,a.top+24),padding=parseFloat(getComputedStyle(bubble).paddingTop)+parseFloat(getComputedStyle(bubble).paddingBottom);
- bubble.style.top=top+'px';content.style.maxHeight=Math.max(24,navTop-top-20-padding)+'px';
- const height=bubble.getBoundingClientRect().height;
- bubble.style.setProperty('--side-tail',Math.max(20,Math.min(height-38,a.top+a.height*.3-top))+'px');
+ const b=bubble.getBoundingClientRect(),pause=playbackButton.getBoundingClientRect(),progress=document.getElementById('timeline-progress').getBoundingClientRect();
+ const upper=Math.max(24,progress.bottom+12,b.right>pause.left&&b.left<pause.right?pause.bottom+12:0);
+ const padding=parseFloat(getComputedStyle(bubble).paddingTop)+parseFloat(getComputedStyle(bubble).paddingBottom);
+ content.style.maxHeight=Math.max(24,navTop-upper-20-padding)+'px';
+ const height=bubble.getBoundingClientRect().height,center=a.top+a.height/2;
+ const top=Math.max(upper,Math.min(navTop-20-height,center-height/2));bubble.style.top=top+'px';
+ bubble.style.setProperty('--side-tail',Math.max(20,Math.min(height-38,center-top-10))+'px');
 }
 function layout(){
  state();scale=Math.min(innerWidth/480,1.65);left=(innerWidth-480*scale)/2;baseline=innerHeight*.40;
@@ -101,6 +103,7 @@ function layout(){
  }else{
   delete bubble.dataset.side;
   bubble.style.removeProperty('left');bubble.style.removeProperty('width');bubble.style.removeProperty('--side-tail');
+  const half=bubble.getBoundingClientRect().width/2,center=Math.max(12+half,Math.min(innerWidth-12-half,left+d.x*scale));bubble.style.left=center+'px';
   currentAvatar=`translate(${left+d.x*scale-aw/2}px,${baseline-ah}px)`;
   const final=active===DATA.length-1,top=baseline+(final?20:35);bubble.style.top=top+'px';
   content.style.maxHeight=Math.max(final?24:100,navTop-top-20-padding)+'px';
@@ -148,9 +151,11 @@ function memory(avatarReady=true){
  content.querySelectorAll('h1,p').forEach(element=>{
   const text=element.textContent,parts=graphemes?Array.from(graphemes.segment(text),part=>part.segment):Array.from(text);
   const accessible=document.createElement('span');accessible.className='sr-only';accessible.textContent=text;
-  const visual=document.createElement('span');visual.setAttribute('aria-hidden','true');
-  for(const part of parts){const span=document.createElement('span');span.className='writing-char';span.dataset.character=part;visual.append(span);characters.push(span);}
-  element.replaceChildren(accessible,visual);
+  const reserved=document.createElement('span');reserved.className='writing-layout';reserved.dataset.text=text;reserved.setAttribute('aria-hidden','true');
+  const visual=document.createElement('span');visual.className='writing-visual';visual.setAttribute('aria-hidden','true');
+  const ink=document.createElement('span');ink.className='writing-ink';visual.append(ink);
+  for(const part of parts){const span=document.createElement('span');span.className='writing-char';span.dataset.character=part;ink.append(span);characters.push(span);}
+  element.replaceChildren(accessible,reserved,visual);
  });
  const story=active;
  playback.start(characters,!questionVisible&&hasQuestion()?()=>{if(active===story&&!questionVisible&&!isBusy())changeCard(true);}:null);

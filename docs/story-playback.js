@@ -12,13 +12,13 @@ function create({now=()=>performance.now(),setTimer=setTimeout,clearTimer=clearT
  }
  function reveal(){
   if(!job)return;
-  while(job.index<job.characters.length)job.characters[job.index++].style.opacity='1';
+  while(job.index<job.characters.length){const char=job.characters[job.index++];char.style.opacity='1';char.hidden=false;}
  }
  function tick(){
   timer=null;if(!job||paused||hidden())return;
   const elapsed=now()-last;
   if(state().typing){
-   job.characters[job.index++].style.opacity='1';
+   const char=job.characters[job.index++];char.style.opacity='1';char.hidden=false;
    if(!state().typing){job.remaining=READING_DELAY_MS;notify();}
   }else if(job.callback){
    job.remaining=canAuto()?job.remaining-elapsed:READING_DELAY_MS;
@@ -29,7 +29,7 @@ function create({now=()=>performance.now(),setTimer=setTimeout,clearTimer=clearT
  function cancel(){stopTimer();reveal();job=null;notify();}
  function start(characters,callback=null){
   cancel();job={characters,index:0,remaining:READING_DELAY_MS,callback};
-  if(reduced()||paused)reveal();else characters.forEach(char=>{char.style.opacity='0';});
+  if(reduced()||paused)reveal();else characters.forEach(char=>{char.style.opacity='0';char.hidden=true;});
   notify();schedule();
  }
  function finish(){stopTimer();reveal();if(job)job.remaining=READING_DELAY_MS;notify();schedule();}
