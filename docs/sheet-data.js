@@ -141,7 +141,7 @@
   function draftRows(rows, config, baseUrl) {
     const headers = rows[0];
     validateHeaders(headers, false);
-    if (!config || !Number.isSafeInteger(config.startRow) || config.startRow < 2 ||
+    if (!config || (config.allowSequentialOrder !== undefined && typeof config.allowSequentialOrder !== 'boolean') || !Number.isSafeInteger(config.startRow) || config.startRow < 2 ||
         !Array.isArray(config.ids) || config.ids.length < 1 || config.ids.length > 100 ||
         Array.from(config.ids).some(id => typeof id !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(id)) ||
         new Set(config.ids).size !== config.ids.length || !Array.isArray(config.photos) ||
@@ -154,9 +154,10 @@
       return !row.every(cell => cell === '');
     });
     if (selected.length !== config.ids.length) throw new Error('Draft row count does not match configured IDs');
+    const numbered = config.allowSequentialOrder === true && selected.every((row, index) => row[headers.indexOf('ordem')] === String(index + 1));
     const mapped = selected.map((row, index) => {
       const value = name => row[headers.indexOf(name)];
-      if (value('id') !== '' || value('ordem') !== '') throw new Error('Draft id and ordem metadata must be blank');
+      if (value('id') !== '' || (value('ordem') !== '' && !numbered) || (numbered && value('ordem') !== String(index + 1))) throw new Error('Draft metadata must be blank or explicitly allowed complete sequential order');
       return [config.ids[index], String(index + 1), value('titulo'), value('texto'), config.photos[index], value('foto')];
     });
     return parseRows(mapped, ['id', 'ordem', 'titulo', 'texto', 'foto', 'pergunta'], null, baseUrl, true);

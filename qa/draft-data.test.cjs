@@ -130,3 +130,17 @@ test('approved row-19 adapter returns only the exact 12 literal stories and ques
   assert.equal(rows.at(-1).pergunta, 'Viva meus 58 anos!');
   assert.equal(rows.at(-1).texto, 'Mudar é o verdo presente da minha vida. E hoje é o recomeço parte da minha biografia.');
 });
+
+test('explicit sequential-order compatibility preserves positional IDs without accepting reorders', () => {
+  const numbered=approved.map((row,i)=>row.map((cell,j)=>j===1?String(i+1):cell));
+  const input=csv(numbered), opted={...config,startRow:2,allowSequentialOrder:true};
+  assert.deepEqual(api.parseDraft(input,opted,base),api.parseDraft(csv(approved),{...config,startRow:2},base));
+  assert.throws(()=>api.parseDraft(input,{...config,startRow:2},base),/metadata|blank/i);
+  for(const order of ['', '0','2','01',' 1','1 ', 'abc']){
+    const changed=numbered.map(row=>row.slice());changed[0][1]=order;
+    assert.throws(()=>api.parseDraft(csv(changed),opted,base),/metadata|blank/i);
+  }
+  const withId=numbered.map(row=>row.slice());withId[0][0]='unexpected-id';
+  assert.throws(()=>api.parseDraft(csv(withId),opted,base),/metadata|blank/i);
+  assert.throws(()=>api.parseDraft(input,{...opted,allowSequentialOrder:'true'},base),/config/i);
+});
