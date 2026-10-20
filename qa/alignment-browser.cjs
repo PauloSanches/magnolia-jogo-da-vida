@@ -63,8 +63,10 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
      for(const key of ['x','y','width','height'])assert(Math.abs(m.a[key]-original[key])<.1);
      assert(m.b.right<=m.a.left-8||m.b.left>=m.a.right+8);assert.equal(m.textAlign,'center');
      const safe=await ev(`(()=>{const b=document.querySelector('.bubble').getBoundingClientRect(),progress=document.querySelector('.timeline-progress').getBoundingClientRect(),pause=document.getElementById('reading-playback-toggle').getBoundingClientRect();return Math.max(24,progress.bottom+12,b.right>pause.left&&b.left<pause.right?pause.bottom+12:0)})()`);
-     const wantTop=Math.max(safe,Math.min(m.navTop-20-m.b.height,m.a.y+m.a.height/2-m.b.height/2));
-     assert(Math.abs(m.b.top-wantTop)<1,'Side question must be vertically centered against character unless a viewport control constrains it: '+JSON.stringify({width,i,avatar:m.a,box:m.b,wantTop}));
+     const story=await ev('document.getElementById("retained-story").getBoundingClientRect().toJSON()');
+     const bottom=Math.min(m.navTop-20,m.b.right+12>story.left&&m.b.left-12<story.right?story.top-16:Infinity);
+     const wantTop=Math.max(safe,Math.min(bottom-m.b.height,m.a.y+m.a.height/2-m.b.height/2));
+     assert(Math.abs(m.b.top-wantTop)<1,'Side question must be vertically centered against character unless controls or the retained story constrain it: '+JSON.stringify({width,i,avatar:m.a,box:m.b,wantTop}));
      assert(Math.abs(m.p.x+m.p.width/2-(m.b.x+m.b.width/2))<1);
     }
     results.push({width,height,house:i+1});

@@ -1,6 +1,7 @@
 (()=>{'use strict';const DATA=[{"title": "Jogo da Vida versão Magnólia", "text": "Hoje eu faço 58 anos. E resolveram transformar minha vida num jogo! Quero ver quem conhece essa história tão bem quanto eu. Vem comigo: dessa vez, sou eu quem vai contar.", "detail": "", "quiet": false, "x": 180, "y": 4650, "avatar": "assets/mag.webp", "id": "casa-01", "photo": ""}, {"title": "Tudo começou em Alagoas.", "text": "Nasci em Alagoas, filha de Olívia e Agnaldo. Cresci entre Porto da Rua, Tatuamunha e Porto de Pedras.", "detail": "", "quiet": false, "x": 300, "y": 4300, "avatar": "assets/littlemag.webp", "id": "casa-02", "photo": "https://paulosanches.github.io/magnolia-jogo-da-vida/assets/alagoas.webp"}, {"title": "A terceira da turma", "text": "Somos cinco irmãos: Rico, Monquinha, eu, Najila e Chuchu. Fui a terceira a chegar. Bem no meio da turma, com dois mais velhos e dois mais novos. Ficou fácil me achar na fila!", "detail": "", "quiet": false, "x": 180, "y": 3950, "avatar": "assets/character-casa-03-9b56bfec5278.png", "id": "casa-03", "photo": ""}, {"title": "Recife, lá fui eu!", "text": "Ainda adolescente, me mudei com a família para Recife, em busca de uma vida melhor. Saí de Alagoas e fui conhecer outro lugar para chamar de casa. Recife ia ganhar bastante espaço na minha história.", "detail": "", "quiet": false, "x": 300, "y": 3600, "avatar": "assets/magzinha.webp", "id": "casa-04", "photo": "https://paulosanches.github.io/magnolia-jogo-da-vida/assets/recife.webp"}, {"title": "Meu paquera da escola", "text": "Em Recife, teve escola e também teve um paquera que entrou na história. Sim, meninas, a mãe de vocês também teve seus namoricos! Não nasci sabendo dar conselho, não.", "detail": "", "quiet": false, "x": 180, "y": 3250, "avatar": "assets/character-casa-05-0bae1a184ab4.png", "id": "casa-05", "photo": ""}, {"title": "Meu casamento aos 17", "text": "Eu me casei aos 17 anos. Essa foi uma das primeiras grandes mudanças da minha vida. E ainda vinha tanta coisa pela frente!", "detail": "", "quiet": false, "x": 300, "y": 2900, "avatar": "assets/character-casa-06-0587f4c90056.png", "id": "casa-06", "photo": ""}, {"title": "Daniela me fez mãe", "text": "Primeiro veio Daniela. Foi com você, minha filha, que eu virei mãe. Até aqui, eu estava contando como filha e irmã. A partir da sua chegada, minha história passou a incluir a nossa.", "detail": "", "quiet": false, "x": 180, "y": 2550, "avatar": "assets/character-casa-07-8bbba10b678a.png", "id": "casa-07", "photo": ""}, {"title": "Três anos depois, Dedey", "text": "Três anos depois de Daniela, chegou Dedey. Minha segunda menina! Dedey, você tem uma casa só sua aqui, porque essa chegada merece ser contada direitinho. Agora eu era mãe de duas.", "detail": "", "quiet": false, "x": 300, "y": 2200, "avatar": "assets/character-casa-08-fa6251291c86.png", "id": "casa-08", "photo": "https://paulosanches.github.io/magnolia-jogo-da-vida/assets/dedey-baby.webp"}, {"title": "Com a avó e o primo", "text": "Daniela e Dedey ficavam com minha mãe, Olívia, junto do primo Leo. Minhas meninas cresceram com a avó e o primo fazendo parte do dia a dia. Essa lembrança também merece um lugar aqui.", "detail": "", "quiet": false, "x": 180, "y": 1850, "avatar": "assets/mag.webp", "id": "casa-09", "photo": ""}, {"title": "Nós três no Arruda", "text": "Eu e minhas meninas fomos morar no Arruda. Daniela, Dedey e eu: nós três, em mais um endereço da nossa história. Filhas, essa parte também é de vocês.", "detail": "", "quiet": false, "x": 300, "y": 1500, "avatar": "assets/mag.webp", "id": "casa-10", "photo": ""}, {"title": "Nossa temporada no Curado", "text": "Depois, fomos para o Curado, morar com minha mãe e meu irmão Chuchu. Passamos alguns anos por lá. Quando falo do Curado, lembro dessa época em família, com as meninas crescendo perto da avó e do tio.", "detail": "", "quiet": false, "x": 180, "y": 1150, "avatar": "assets/character-casa-11-36214710664c.png", "id": "casa-11", "photo": ""}, {"title": "Em 1996, eu e Ruston", "text": "Eu trabalhava no hospital, e Ruston era o advogado de lá. Em 1996, começamos a sair. E eu, que já tinha duas filhas, também tinha um namoro pra contar. Mãe também namora, minha gente!", "detail": "", "quiet": false, "x": 300, "y": 800, "avatar": "assets/character-casa-12-b45240dfcda7.png", "id": "casa-12", "photo": ""}, {"title": "Agora vem comemorar comigo!", "text": "Cheguei aos 58 e quero aproveitar meu aniversário com vocês. Tenho carinho por tanta gente que faz parte da minha vida, e ainda tenho planos, viu? Quero rir mais, fazer o que gosto e continuar juntando histórias com a minha família. Agora vem comemorar comigo!", "detail": "", "quiet": false, "x": 180, "y": 450, "avatar": "assets/character-casa-13-a09313b62126.png", "id": "casa-13", "photo": ""}, {"quiet": false, "avatar": "assets/mag.webp", "detail": "", "x": 180, "y": 450, "id": "casa14", "title": "Teste", "text": "Nova casa de teste", "photo": ""}, {"id": "casa-netos", "avatar": "assets/character-casa-netos-b8ed9e475a6b.png", "quiet": false}],map=document.querySelector('.map'),avatar=document.getElementById('avatar'),bubble=document.querySelector('.bubble'),content=document.getElementById('memoryContent'),stage=document.querySelector('.stage'),reduce=matchMedia('(prefers-reduced-motion: reduce)');let active=0,moving=false,cardMoving=false,questionVisible=false,scale=1,left=0,baseline=0,currentMap='',currentAvatar='',moves=0,suppress=0,touch=null,wheelLocked=false,wheelTimer=0;const pawn=document.createElement('div');pawn.className='avatar-motion';avatar.before(pawn);pawn.append(avatar);
 const avatarImages=new Map(),progressFill=document.querySelector('.timeline-progress-fill'),restartButton=document.getElementById('timeline-restart');
 const playbackButton=document.getElementById('reading-playback-toggle');
+const retainedStory=document.getElementById('retained-story'),retainedContent=document.getElementById('retained-content');
 const playback=window.MagnoliaPlayback.create({
  reduced:()=>reduce.matches,hidden:()=>document.hidden,
  canAuto:()=>!isBusy()&&content.scrollTop+content.clientHeight>=content.scrollHeight-2&&!content.matches(':focus-visible')&&!window.getSelection()?.toString(),
@@ -86,9 +87,11 @@ function positionQuestion(navTop){
  const b=bubble.getBoundingClientRect(),pause=playbackButton.getBoundingClientRect(),progress=document.getElementById('timeline-progress').getBoundingClientRect();
  const upper=Math.max(24,progress.bottom+12,b.right>pause.left&&b.left<pause.right?pause.bottom+12:0);
  const padding=parseFloat(getComputedStyle(bubble).paddingTop)+parseFloat(getComputedStyle(bubble).paddingBottom);
- content.style.maxHeight=Math.max(24,navTop-upper-20-padding)+'px';
+ const story=retainedStory.getBoundingClientRect(),overlaps=b.right+12>story.left&&b.left-12<story.right;
+ const bottom=Math.min(navTop-20,overlaps?story.top-16:Infinity);
+ content.style.maxHeight=Math.max(24,bottom-upper-padding)+'px';
  const height=bubble.getBoundingClientRect().height,center=a.top+a.height/2;
- const top=Math.max(upper,Math.min(navTop-20-height,center-height/2));bubble.style.top=top+'px';
+ const top=Math.max(upper,Math.min(bottom-height,center-height/2));bubble.style.top=top+'px';
  bubble.style.setProperty('--side-tail',Math.max(20,Math.min(height-38,center-top-10))+'px');
 }
 function layout(){
@@ -96,21 +99,20 @@ function layout(){
  map.style.left=left+'px';const d=DATA[active],aw=avatar.offsetWidth,ah=avatar.offsetHeight;
  currentMap=`translateY(${baseline-d.y*scale}px) scale(${scale})`;map.style.transform=currentMap;
  const navTop=document.querySelector('.timeline-navigation').getBoundingClientRect().top;
- const padding=parseFloat(getComputedStyle(bubble).paddingTop)+parseFloat(getComputedStyle(bubble).paddingBottom);
  currentAvatar=`translate(${left+d.x*scale-aw/2}px,${baseline-ah}px)`;pawn.style.transform=currentAvatar;
  if(questionVisible){
+  positionStory(retainedStory,retainedContent,navTop);
   positionQuestion(navTop);
- }else{
-  delete bubble.dataset.side;
-  bubble.style.removeProperty('left');bubble.style.removeProperty('width');bubble.style.removeProperty('--side-tail');
-  const half=bubble.getBoundingClientRect().width/2,center=Math.max(12+half,Math.min(innerWidth-12-half,left+d.x*scale));bubble.style.left=center+'px';
-  currentAvatar=`translate(${left+d.x*scale-aw/2}px,${baseline-ah}px)`;
-  const final=active===DATA.length-1,top=baseline+(final?20:35);bubble.style.top=top+'px';
-  content.style.maxHeight=Math.max(final?24:100,navTop-top-20-padding)+'px';
-  const bounds=bubble.getBoundingClientRect(),tail=Math.max(20,Math.min(bounds.width-40,left+d.x*scale-bounds.left-12));
-  bubble.style.setProperty('--tail',tail+'px');
- }
- pawn.style.transform=currentAvatar;
+ }else positionStory(bubble,content,navTop,active===DATA.length-1);
+}
+function positionStory(panel,reader,navTop,final=false){
+ delete panel.dataset.side;
+ panel.style.removeProperty('left');panel.style.removeProperty('width');panel.style.removeProperty('--side-tail');
+ const x=left+DATA[active].x*scale,half=panel.getBoundingClientRect().width/2;
+ panel.style.left=Math.max(12+half,Math.min(innerWidth-12-half,x))+'px';
+ const top=baseline+(final?20:35),style=getComputedStyle(panel),padding=parseFloat(style.paddingTop)+parseFloat(style.paddingBottom);
+ panel.style.top=top+'px';reader.style.maxHeight=Math.max(24,navTop-top-20-padding)+'px';
+ const bounds=panel.getBoundingClientRect();panel.style.setProperty('--tail',Math.max(20,Math.min(bounds.width-40,x-bounds.left-12))+'px');
 }
 function isBusy(){return moving||cardMoving;}
 function hasQuestion(index=active){return Boolean(DATA[index]?.question?.trim());}
@@ -136,17 +138,24 @@ function updateProgress(){
  el.setAttribute('aria-valuetext',`Casa ${active+1} de ${DATA.length}. ${finished()?'Concluído':questionVisible?'Pergunta':'História'}.`);
  progressFill.style.transform=`scaleX(${fraction})`;
 }
+function renderStory(target,d){
+ if(d.title!==''){const title=document.createElement('h1');title.textContent=d.title;target.append(title);}
+ const text=document.createElement('p');text.textContent=d.text;target.append(text);
+ if(d.detail){const detail=document.createElement('p');detail.className='family-detail';detail.textContent=d.detail;target.append(detail);}
+}
 function memory(avatarReady=true){
  updateProgress();const d=DATA[active];if(avatarReady)avatar.src=d.avatar;
  avatar.alt='Personagem ilustrada de Magnolia';avatar.setAttribute('aria-label',finished()?'Última memória':hasQuestion()&&!questionVisible?'Ver pergunta':'Mover para a próxima memória');
  bubble.classList.toggle('quiet',d.quiet);bubble.classList.toggle('question-card',questionVisible);
  bubble.classList.toggle('finale',active===DATA.length-1&&!questionVisible);
  content.setAttribute('aria-label',questionVisible?'Pergunta desta memória':'Texto desta memória');content.replaceChildren();
- if(!questionVisible&&d.title!==''){const title=document.createElement('h1');title.textContent=d.title;content.append(title);}
- const text=document.createElement('p');text.textContent=questionVisible?d.question:d.text;if(questionVisible)text.className='question-text';content.append(text);
- if(!questionVisible&&d.detail){const detail=document.createElement('p');detail.className='family-detail';detail.textContent=d.detail;content.append(detail);}
+ retainedStory.hidden=!questionVisible;retainedStory.classList.toggle('quiet',d.quiet);retainedContent.replaceChildren();
+ if(questionVisible){
+  renderStory(retainedContent,d);
+  const text=document.createElement('p');text.textContent=d.question;text.className='question-text';content.append(text);
+ }else renderStory(content,d);
  content.scrollTop=0;stops.forEach((el,i)=>{el.classList.toggle('active',i===active);el.classList.toggle('next',i===active+1&&(!hasQuestion()||questionVisible));});
- // Opacity changes only: keep full text accessible and reserve its final layout.
+ // Keep full text accessible and reserve its layout separately from the visible writing.
  const characters=[];
  content.querySelectorAll('h1,p').forEach(element=>{
   const text=element.textContent,parts=graphemes?Array.from(graphemes.segment(text),part=>part.segment):Array.from(text);
@@ -164,7 +173,8 @@ async function changeCard(show){
  if(isBusy()||show===questionVisible||(show&&!hasQuestion()))return;
  playback.cancel();cardMoving=true;const from=progressFill.style.transform;const animations=[];state();
  try{
-  questionVisible=show;memory();layout();
+  const scrollTop=(show?content:retainedContent).scrollTop;
+  questionVisible=show;memory();layout();(show?retainedContent:content).scrollTop=scrollTop;
   if(!reduce.matches&&bubble.animate){
    const timing={duration:220,easing:'ease-out',fill:'both'};
    animations.push(bubble.animate([{opacity:0},{opacity:1}],timing));
@@ -250,7 +260,7 @@ stage.addEventListener('touchstart',e=>{touch=e.touches.length===1?{x:e.touches[
 stage.addEventListener('touchend',e=>{if(!touch||!e.changedTouches.length)return;const t=e.changedTouches[0],dx=t.clientX-touch.x,dy=t.clientY-touch.y;touch=null;if(Math.max(Math.abs(dx),Math.abs(dy))<48)return;suppress=performance.now()+450;if(isBusy())return;(Math.abs(dy)>=Math.abs(dx)?dy<0:dx<0)?advance():retreat();},{passive:true});
 stage.addEventListener('touchcancel',()=>{touch=null},{passive:true});
 stage.addEventListener('wheel',e=>{e.preventDefault();clearTimeout(wheelTimer);wheelTimer=setTimeout(()=>{wheelLocked=false},900);if(isBusy()||wheelLocked||Math.abs(e.deltaY)<25)return;wheelLocked=true;e.deltaY>0?advance():retreat();},{passive:false});
-addEventListener('keydown',e=>{if(e.repeat||isBusy()||e.target instanceof Element&&e.target.closest('.bubble'))return;if(['ArrowRight','ArrowUp'].includes(e.key)){e.preventDefault();advance();}if(['ArrowLeft','ArrowDown'].includes(e.key)){e.preventDefault();retreat();}});
+addEventListener('keydown',e=>{if(e.repeat||isBusy()||e.target instanceof Element&&e.target.closest('.bubble,.retained-story'))return;if(['ArrowRight','ArrowUp'].includes(e.key)){e.preventDefault();advance();}if(['ArrowLeft','ArrowDown'].includes(e.key)){e.preventDefault();retreat();}});
 addEventListener('resize',()=>{if(!isBusy())layout();});memory();layout();
 window.__draft={get chapters(){return DATA.length},get stops(){return stops.length},go,update:layout};
 
