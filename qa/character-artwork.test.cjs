@@ -42,6 +42,6 @@ test('tenth ordered house uses the supplied group as its character',()=>{
 test('eighth ordered house keeps its supplied character beside its photo',()=>{
  const rows=JSON.parse(fs.readFileSync(path.join(root,'docs/milestones.json'),'utf8'));
  assert.equal(rows[7].id,'casa-11');
- assert.equal(rows[7].foto,"https://paulosanches.github.io/magnolia-jogo-da-vida/assets/photo-casa-11-b9190cfcea59.jpg");
+ assert.equal(rows[7].foto,"https://paulosanches.github.io/magnolia-jogo-da-vida/assets/photo-casa-11-landscape-695b72657f4e.jpg");
  assert.match(data.find(d=>d.id===rows[7].id).avatar,/^assets\/character-casa-11-[a-f0-9]+\.png$/);
 });

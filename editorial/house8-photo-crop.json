@@ -1,0 +1,19 @@
+{
+  "id": "casa-11",
+  "display_house": 8,
+  "source_asset": "assets/photo-casa-11-b9190cfcea59.jpg",
+  "source_sha256": "b9190cfcea59ea565039cd90e5e21742b7d62a98d93599672ea308566eb50d2c",
+  "asset": "assets/photo-casa-11-landscape-695b72657f4e.jpg",
+  "asset_sha256": "695b72657f4e7b5d8b1785551e6afda179999df1270d9af29a2a3313b55a0b67",
+  "crop": {
+    "left": 25,
+    "top": 114,
+    "width": 623,
+    "height": 378
+  },
+  "frame": {
+    "width": 178,
+    "height": 108
+  },
+  "method": "Authorized landscape crop; no stretching or generated content; original retained."
+}
