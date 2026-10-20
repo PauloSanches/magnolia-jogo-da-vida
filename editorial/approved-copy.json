@@ -1,8 +1,8 @@
 {
-  "version": "rascunho-12-casas-perguntas",
+  "version": "final-12-casas-revisao-portugues",
   "status": "aprovado",
-  "scope": "Snapshot literal do rascunho da aba autorizada, linhas 19–30. Fonte corrente: Google Sheets. Nenhuma correção editorial aplicada.",
-  "approval": "manter o texto como está no rascunho da planilha. atualizar pagina",
+  "scope": "Edição final estática: correções de português aprovadas, sem dependência da planilha e sem áudio.",
+  "approval": "Publique. Pode remover a dependência da planilha. Está concluído",
   "chapters": [
     {
       "id": "casa-01",
@@ -14,7 +14,7 @@
     {
       "id": "casa-02",
       "title": "",
-      "text": "Nasci em Alagoas, filha de Olivia e Agnaldo. Cresci entre Marechal e muitas férias na usina. Segundo a minha mãe eu nasci como um espirro.",
+      "text": "Nasci em Alagoas, filha de Olívia e Agnaldo. Cresci entre Marechal e muitas férias na usina. Segundo a minha mãe, eu nasci como um espirro.",
       "question": "Quem escolheu meu nome?",
       "detail": ""
     },
@@ -22,7 +22,7 @@
       "id": "casa-03",
       "title": "",
       "text": "Somos cinco irmãos: Rico, Monquinha, eu (Mag), Najila e João. Fui a terceira a chegar.",
-      "question": "Quem sabe a história que da maleta de ferro?",
+      "question": "Quem sabe a história da maleta de ferro?",
       "detail": ""
     },
     {
@@ -43,49 +43,49 @@
       "id": "casa-06",
       "title": "Que seja eterno enquanto...",
       "text": "Eu me casei aos 17 anos. Essa foi uma das primeiras grandes mudanças da minha vida. E ainda vinha tanta coisa pela frente!",
-      "question": "Qual é o meu nome de casada?",
+      "question": "Qual era meu nome de casada?",
       "detail": ""
     },
     {
       "id": "casa-08",
       "title": "",
-      "text": "Primeiro veio Daniele. Foi com você, minha filha, que eu virei mãe.Em seguida veio sua irmã Dedey.",
-      "question": "Quais datas de nascimentos das meninas?",
+      "text": "Primeiro veio Daniele. Foi com você, minha filha, que eu virei mãe. Em seguida, veio sua irmã Dedey.",
+      "question": "Quais são as datas de nascimento das meninas?",
       "detail": ""
     },
     {
       "id": "casa-11",
       "title": "",
-      "text": "Com o fim do casamento fomos morar com a minhã mãe e meu irmão João.",
+      "text": "Com o fim do casamento, fomos morar com a minha mãe e meu irmão João.",
       "question": "Qual história apareceu no rádio?",
       "detail": ""
     },
     {
       "id": "casa-12",
       "title": "",
-      "text": "Depois de um tempo reencontrei o amor, meu eterno 44.",
+      "text": "Depois de um tempo, reencontrei o amor, meu eterno 44.",
       "question": "Quem foi o nosso cupido?",
       "detail": ""
     },
     {
       "id": "casa-netos",
       "title": "",
-      "text": "Com pouco mais de 35 anos fui avó, Gabriel, meu primeiro dos 6 netos.",
-      "question": "Quem sabe a ordem dos meu netos?",
+      "text": "Com pouco mais de 35 anos, fui avó de Gabriel, o primeiro dos meus seis netos.",
+      "question": "Quem sabe a ordem dos meus netos?",
       "detail": ""
     },
     {
       "id": "casa-profissao",
       "title": "",
-      "text": "Depois dos 40 encontrei meu proposito, entender e ajudar o desenvolvimento das crianças.",
+      "text": "Depois dos 40, encontrei meu propósito: entender e ajudar o desenvolvimento das crianças.",
       "question": "Quem sabe o nome da minha profissão?",
       "detail": ""
     },
     {
       "id": "casa-13",
       "title": "",
-      "text": "Mudar é o verdo presente da minha vida. E hoje é o recomeço parte da minha biografia.",
-      "question": "Viva meus 58 anos!",
+      "text": "Mudar é o verbo presente da minha vida. E hoje o recomeço faz parte da minha biografia.",
+      "question": "Vivam meus 58 anos!",
       "detail": ""
     }
   ]

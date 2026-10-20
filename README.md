@@ -10,9 +10,9 @@ Abra `docs/index.html` diretamente no navegador. Sem build, dependências JavaSc
 
 GitHub Pages: ramo `main`, pasta `/docs`. O repositório e o site são públicos. Não altera o site principal da conta.
 
-## Música de fundo
+## Áudio
 
-O ficheiro MP3 enviado pelo utilizador (aproximadamente 15 segundos) toca em repetição, sem reiniciar nas mudanças de casa. A página tenta iniciar o som quando permitido pelo navegador; caso seja bloqueado, o botão «Ativar som» inicia a reprodução após um toque. O mesmo botão permite desligar o som, e essa escolha fica guardada neste navegador. Erros de reprodução permitem tentar novamente sem bloquear a história.
+Removido a pedido do utilizador. Não há reprodutor, botão de som ou carregamento do MP3. O arquivo original permanece preservado, sem uso na página.
 
 ## Navegação
 
@@ -20,13 +20,13 @@ As setas fixas na parte inferior permitem voltar e avançar. A história aparece
 
 ## Progresso da história
 
-A barra fixa no topo mostra o progresso apenas pelo preenchimento, sem texto nem percentagem visível. A descrição acessível é preservada para leitores de ecrã. O preenchimento acompanha suavemente a animação de navegação, respeitando a preferência por movimento reduzido. Começa em 0%, chega a 100% depois do último card e volta a zero ao recomeçar. Recalcula automaticamente quando a planilha adiciona, remove ou reordena milestones no formato canônico.
+A barra fixa no topo mostra o progresso apenas pelo preenchimento, sem texto nem percentagem visível. A descrição acessível é preservada para leitores de ecrã. O preenchimento acompanha suavemente a animação de navegação, respeitando a preferência por movimento reduzido. Começa em 0%, chega a 100% depois do último card e volta a zero ao recomeçar. A versão final contém 12 histórias e 11 cards seguintes.
 
-## Edição colaborativa
+## Conteúdo final
 
-Edite os milestones no Google Sheets indicado em `CONTENT-EDITING.md`. O site consulta a aba pública a cada 60 segundos, mantém a última versão válida em falhas e lê o rascunho explicitamente autorizado. O formato canônico de seis colunas permite criar/remover/reordenar casas; as restrições do bloco provisório estão documentadas em `CONTENT-EDITING.md`. `docs/milestones.json` é o snapshot de fallback da migração. Não é necessário um novo deploy para atualizar a planilha.
+As correções de português aprovadas estão incorporadas em `docs/content.js`, com cópias idênticas dos registros em `docs/milestones.json` e `qa/fixtures/approved-questions.json`. A pergunta da casa 6 é «Qual era meu nome de casada?». O site não depende do Google Sheets: não há consultas, sincronização nem leitura do cache antigo.
 
-O timestamp no canto inferior direito identifica a versão da aplicação, não o horário da última edição da planilha.
+Alterações futuras exigem uma nova publicação. Consulte `CONTENT-EDITING.md` e `EDITORIAL-WORKFLOW.md`. O timestamp no canto inferior direito identifica a versão publicada.
 
 ## Skills
 

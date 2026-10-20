@@ -1,6 +1,10 @@
 # Validação editorial da Magnolia
 
-## Fonte colaborativa e publicação automática
+## Estado final autorizado
+
+O utilizador aprovou as correções de português, a pergunta «Qual era meu nome de casada?» e a publicação sem dependência da planilha. A edição final é estática; `docs/content.js` é o conteúdo carregado pelo site, espelhado em `docs/milestones.json`, `TEXTOS.md` e `editorial/approved-copy.json`. O áudio permanece removido. A autorização anterior de sincronização abaixo é histórica e não deve ser reativada sem novo pedido.
+
+## Histórico: fonte colaborativa e publicação automática
 
 O utilizador autorizou a aba Google Sheets em `CONTENT-EDITING.md` como fonte principal dos milestones, com publicação automática das alterações dos seus editores. Essa autorização inclui títulos, textos, fotos, ordem e novas linhas válidas. Ela substitui a aprovação por chat para essas edições; mudanças propostas no chat fora dessa fonte continuam sujeitas ao fluxo abaixo. Permissões e dados de outras abas não estão abrangidos.
 

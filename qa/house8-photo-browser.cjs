@@ -40,7 +40,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   let loaded=false;for(let i=0;i<200;i++){try{loaded=await ev('!window.__qaOldDocument&&!!window.__draft');if(loaded)break;}catch{}await sleep(100);}
   assert(loaded,'The fresh document did not finish initializing');
   await ev('document.fonts.ready');
-  await ev('__contentSync.refresh()');
+  assert.equal(await ev('MagnoliaContent.mode'),'static');
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
   const expected=JSON.parse(fs.readFileSync(path.join(root,'docs/milestones.json'),'utf8'))[7];
   assert.equal(expected.id,'casa-11');const checks=[];
@@ -55,6 +55,6 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     if(width===390&&phase==='story')await shot('magnolia-house8-side-photo.png');checks.push({width,phase,ok:true});
    }
   }
-  assert.equal(await ev('__contentState.status'),'synced',JSON.stringify(await ev('__contentState')));assert.equal(errors.length,0);console.log(JSON.stringify({photoBesideHouse8:true,landscapeCropFillsFrame:true,characterAndTextUnchanged:true,checks,localPhotoRoute:localPreview,errors}));
+  assert.equal(await ev('typeof window.__contentSync'),'undefined');assert.equal(errors.length,0);console.log(JSON.stringify({photoBesideHouse8:true,landscapeCropFillsFrame:true,characterAndTextUnchanged:true,checks,localPhotoRoute:localPreview,errors}));
  } finally { if(ws)ws.close(); child.kill('SIGTERM'); }
 })().catch(e=>{console.error(e);process.exitCode=1;});

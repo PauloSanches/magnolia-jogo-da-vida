@@ -1,4 +1,16 @@
-# Edição colaborativa dos milestones
+# Conteúdo final — edição estática
+
+A edição foi concluída e o utilizador autorizou remover a dependência da planilha. O site carrega somente `docs/content.js`, com os textos finais aprovados; não consulta Google Sheets, não faz polling e não recupera textos do cache antigo. A planilha não foi alterada.
+
+`docs/milestones.json`, `qa/fixtures/approved-questions.json`, `editorial/approved-copy.json` e `TEXTOS.md` espelham o conteúdo final. Novas alterações exigem edição destes arquivos, aprovação editorial quando aplicável, testes e publicação. Preservar IDs, fotos, personagens e a posição original do personagem nos cards.
+
+Verificação atual: `node --test qa/*.test.cjs`, `node qa/questions-browser.cjs`, `node qa/no-audio-browser.cjs` e `node qa/browser.cjs --motion --full`. O teste das perguntas bloqueia os endereços da planilha e exige zero pedidos de sincronização.
+
+Os módulos `sheet-data.js` e `sheet-sync.js` e seus testes antigos foram preservados como histórico, mas não são carregados pelo site. O teste `qa/sheets-browser.cjs` pertence à integração aposentada, não à edição final.
+
+---
+
+# Histórico da edição colaborativa — não é a configuração atual
 
 ## Fonte principal
 

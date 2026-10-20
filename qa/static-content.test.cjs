@@ -1,0 +1,31 @@
+'use strict';
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+test('final content is self-contained, immutable and matches the approved publication',()=>{
+ const window={};vm.runInNewContext(read('docs/content.js'),{window});
+ const data=window.MagnoliaContent;
+ assert.equal(data.mode,'static');assert.equal(data.parse,undefined);assert.equal(data.draft,undefined);
+ assert(Object.isFrozen(data)&&Object.isFrozen(data.initial)&&data.initial.every(Object.isFrozen));
+ const actual=JSON.parse(JSON.stringify(data.initial));
+ assert.deepEqual(actual,JSON.parse(read('docs/milestones.json')));
+ assert.deepEqual(actual,JSON.parse(read('qa/fixtures/approved-questions.json')));
+ assert.equal(actual.length,12);assert.equal(actual.filter(r=>r.pergunta.trim()).length,11);
+ assert.equal(actual[5].pergunta,'Qual era meu nome de casada?');
+ assert.equal(actual[2].pergunta,'Quem sabe a história da maleta de ferro?');
+ assert.equal(actual[6].pergunta,'Quais são as datas de nascimento das meninas?');
+ assert.equal(actual[7].texto,'Com o fim do casamento, fomos morar com a minha mãe e meu irmão João.');
+ assert.equal(actual[9].pergunta,'Quem sabe a ordem dos meus netos?');
+ assert.equal(actual[11].pergunta,'Vivam meus 58 anos!');
+});
+test('production entry and runtime have no Sheets or audio dependencies',()=>{
+ const html=read('docs/index.html'),app=read('docs/app.js'),content=read('docs/content.js');
+ assert.doesNotMatch(html,/(?:src|href)="(?:sheet-data|sheet-sync|music)\.js/);
+ assert.doesNotMatch(html,/<audio\b|id="sound-toggle"/);
+ assert.doesNotMatch(app,/MagnoliaSheet|contentSync|__contentSync|docs\.google\.com|spreadsheets/);
+ assert.doesNotMatch(content,/MagnoliaSheet|parseContent|docs\.google\.com|spreadsheets/);
+});

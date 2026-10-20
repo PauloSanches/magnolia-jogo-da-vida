@@ -11,7 +11,7 @@ function prepareAvatar(src){
  avatarImages.set(src,ready);ready.then(ok=>{if(!ok)avatarImages.delete(src)});return ready;
 }
 const visualById=new Map(DATA.map(d=>[d.id,{...d}]));
-let contentSync=null,stops=[];
+let stops=[];
 const initialRows=window.MagnoliaContent.initial;
 const svg=map.querySelector('svg'),svgNS='http://www.w3.org/2000/svg';
 // Remove photographs, not unrelated scenery that happens to share a parent.
@@ -52,13 +52,13 @@ function renderBoard(){
  });
  stops=[...svg.querySelectorAll('.house-stop')];renderPhotos();
 }
-function applySheetRows(rows){
+function applyContentRows(rows){
  const currentId=DATA[active].id,previousIndex=active,scrollTop=content.scrollTop;
  const next=rows.map(row=>({...visualById.get(row.id),id:row.id,title:row.titulo,text:row.texto,question:row.pergunta||'',detail:'',photo:row.foto,avatar:visualById.get(row.id)?.avatar||'assets/mag.webp',quiet:false}));
  DATA.splice(0,DATA.length,...next);const kept=DATA.findIndex(d=>d.id===currentId);active=kept>=0?kept:Math.min(previousIndex,DATA.length-1);questionVisible=kept>=0&&questionVisible&&hasQuestion(active);
  renderBoard();memory();layout();content.scrollTop=scrollTop;document.title=DATA[0].title;
 }
-applySheetRows(initialRows);
+applyContentRows(initialRows);
 function positionQuestion(navTop){
  // The pawn and camera stay on their story coordinates. Only place the balloon.
  const a=avatar.getBoundingClientRect(),margin=12,gap=16;
@@ -137,7 +137,7 @@ async function changeCard(show){
    animations.push(progressFill.animate([{transform:from},{transform:progressFill.style.transform}],timing));
    await Promise.all(animations.map(a=>a.finished.catch(()=>{})));
   }else await new Promise(resolve=>requestAnimationFrame(resolve));
- }finally{animations.forEach(a=>a.cancel());cardMoving=false;state();if(contentSync)contentSync.flush();}
+ }finally{animations.forEach(a=>a.cancel());cardMoving=false;state();}
 }
 function advance(){if(isBusy())return;if(hasQuestion()&&!questionVisible)return changeCard(true);return go(active+1);}
 function retreat(){if(isBusy())return;if(questionVisible)return changeCard(false);return go(active-1,{showQuestion:true});}
@@ -196,7 +196,7 @@ async function go(n,{restart=false,showQuestion=false}={}){
   // Unsupported or interrupted effects must never lock story navigation.
  }finally{
   animations.forEach(a=>a.cancel());if(ghost)ghost.remove();
-  active=n;questionVisible=showQuestion&&hasQuestion(n);moves++;moving=false;avatar.setAttribute('aria-disabled','false');document.body.classList.remove('moving');memory(avatarReady);layout();if(contentSync)contentSync.flush();
+  active=n;questionVisible=showQuestion&&hasQuestion(n);moves++;moving=false;avatar.setAttribute('aria-disabled','false');document.body.classList.remove('moving');memory(avatarReady);layout();
  }
 }
 
@@ -214,11 +214,5 @@ stage.addEventListener('wheel',e=>{e.preventDefault();clearTimeout(wheelTimer);w
 addEventListener('keydown',e=>{if(e.repeat||isBusy()||e.target instanceof Element&&e.target.closest('.bubble'))return;if(['ArrowRight','ArrowUp'].includes(e.key)){e.preventDefault();advance();}if(['ArrowLeft','ArrowDown'].includes(e.key)){e.preventDefault();retreat();}});
 addEventListener('resize',()=>{if(!isBusy())layout();});memory();layout();
 window.__draft={get chapters(){return DATA.length},get stops(){return stops.length},go,update:layout};
-if(window.MagnoliaSheetData&&window.MagnoliaSheetSync){
- contentSync=window.MagnoliaSheetSync.start({
-  source:'https://docs.google.com/spreadsheets/d/e/2PACX-1vRACf3na_mfW8ZZ5-b5z8v2OAG8R1Wshaxl-Rjyc1T3FtEx804RHCcxAb9Fk6ebj3wjh9Sv-SvBEWcc/pub?gid=703861516&single=true&output=csv',
-  allowedIds:null,baseUrl:'https://paulosanches.github.io/magnolia-jogo-da-vida/',initial:initialRows,onRows:applySheetRows,isMoving:isBusy,parseRows:window.MagnoliaContent.parse,cachePrefix:'magnolia-sheet-questions-v1:'
- });
- window.__contentSync=contentSync;
-}
+
 })();

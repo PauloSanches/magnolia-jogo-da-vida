@@ -28,13 +28,17 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   const key=async k=>{await call('Input.dispatchKeyEvent',{type:'keyDown',key:k,code:k,text:k==='Enter'?'\r':undefined,windowsVirtualKeyCode:{ArrowUp:38,ArrowDown:40,ArrowLeft:37,ArrowRight:39,End:35,Enter:13}[k]});await call('Input.dispatchKeyEvent',{type:'keyUp',key:k,code:k});};
   const shot=async name=>{const d=await call('Page.captureScreenshot',{format:'png'});fs.writeFileSync(path.join(scratch,name),Buffer.from(d.data,'base64'));};
   await call('Runtime.enable');await call('Page.enable');
+  const sheetRequests=[];
+  ws.addEventListener('message',e=>{const m=JSON.parse(e.data);if(m.method==='Network.requestWillBeSent'&&/docs\.google\.com|spreadsheets|sheet-sync\.js|sheet-data\.js/.test(m.params.request.url))sheetRequests.push(m.params.request.url)});
+  await call('Network.enable');await call('Network.setBlockedURLs',{urls:['*docs.google.com/*','*sheets.googleapis.com/*','*spreadsheets*']});
+
   await ev('window.__qaOldDocument=true');
   await call('Page.reload',{ignoreCache:true});
   let loaded=false;for(let i=0;i<200;i++){try{loaded=await ev('!window.__qaOldDocument&&!!window.__draft');if(loaded)break;}catch{}await sleep(100);}
   assert(loaded,'The fresh document did not finish initializing');
   await ev('document.fonts.ready');
-  if(await ev('!!window.__contentSync'))await ev('__contentSync.refresh()');
-  assert.equal(await ev('__contentState.status'),'synced','The current approved draft must synchronize from the real public worksheet');
+  assert.equal(await ev('MagnoliaContent.mode'),'static');
+  assert.equal(await ev('typeof window.__contentSync'),'undefined','Final edition must not start any spreadsheet synchronizer');
   const expected=JSON.parse(fs.readFileSync(path.join(root,'qa/fixtures/approved-questions.json'),'utf8'));
   assert.equal(await ev('__draft.chapters'),expected.length,'Only the approved twelve draft houses must render');
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
@@ -54,6 +58,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
      for(const prop of ['x','y','width','height'])assert(Math.abs(geometry.a[prop]-beforeQuestion[prop])<.1,'Showing a question must not move or resize the character: '+prop);
      assert(geometry.beside&&geometry.aligned&&geometry.contained,'Question must sit beside its character: '+JSON.stringify({width,i,geometry}));
      if(i===1)await shot('magnolia-question-side-'+width+'.png');
+     if(width===390&&i===5)await shot('magnolia-final-house6.png');
      if(width===390&&i===1)await shot('magnolia-question-card-mobile.png');
     }
     if(i<expected.length-1){await activate('document.getElementById("timeline-next").click()');step++;}
@@ -94,6 +99,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   const landed=await ev('avatar.getBoundingClientRect().toJSON()');
   assert.equal((await state()).phase,'question');
   assert(Math.abs(arrival.x-landed.x)<1&&Math.abs(arrival.y-landed.y)<1,'Reverse travel must end at question position without snapping: '+JSON.stringify({arrival,landed}));
-  assert.equal(errors.length,0);console.log(JSON.stringify({ok:true,houses:expected.length,questions:expected.filter(r=>r.pergunta.trim()).length,cardViewportChecks:results.length,exactDraftText:true,mandatoryQuestions:true,noInputOrSkip:true,keyboard:true,boardShortcutGated:true,rapidInputLocked:true,errors}));
+  await ev('window.dispatchEvent(new Event("focus"));document.dispatchEvent(new Event("visibilitychange"))');
+  assert.deepEqual(sheetRequests,[],'No Google Sheets or synchronization-script requests, including on refocus');
+  assert.equal(errors.length,0);console.log(JSON.stringify({staticContent:true,noSheetRequests:true,ok:true,houses:expected.length,questions:expected.filter(r=>r.pergunta.trim()).length,cardViewportChecks:results.length,exactDraftText:true,mandatoryQuestions:true,noInputOrSkip:true,keyboard:true,boardShortcutGated:true,rapidInputLocked:true,errors}));
  } finally { if(ws)ws.close(); child.kill('SIGTERM'); }
 })().catch(e=>{console.error(e);process.exitCode=1;});
