@@ -1,0 +1,22 @@
+{
+  "id": "casa-13",
+  "kind": "scenery",
+  "source_attachment": "/Users/familiasanches/.hermes/cache/images/img_3322817bbb88.jpg",
+  "source_sha256": "3475e754952bd0c1b587ea4b88ef46e014ef9632fda467c5a3e12650f5a2c2c2",
+  "source_dimensions": {
+    "width": 1139,
+    "height": 1381
+  },
+  "asset": "assets/scenery-casa-13-350633189b3b.png",
+  "sha256": "350633189b3b9dd9324a3310abe6f1c87e38d9cff2cc2722bd3894fea4f7479f",
+  "width": 957,
+  "height": 1303,
+  "crop": {
+    "left": 111,
+    "top": 30,
+    "width": 957,
+    "height": 1303
+  },
+  "background_removal_authorized": true,
+  "method": "Border-connected near-white removal (min RGB 240, chroma <= 12); preserves enclosed whites and all interior colors. Vision mask rejected for holes in trees. Transparent margins cropped only."
+}

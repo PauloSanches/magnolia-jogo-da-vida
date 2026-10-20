@@ -38,6 +38,7 @@ const sceneById=new Map([...svg.querySelectorAll('[data-scene]')].map(scene=>{
 }));
 const defaultScene=[...sceneById.values()].at(-1);
 const makeSVG=(tag,attrs)=>{const el=document.createElementNS(svgNS,tag);Object.entries(attrs).forEach(([key,value])=>el.setAttribute(key,value));return el};
+const finalScenery={id:'casa-13',src:'assets/scenery-casa-13-350633189b3b.png',ratio:957/1303};
 function renderPhotos(){
  svg.querySelectorAll('[data-live-photo]').forEach(el=>el.remove());
  DATA.forEach(d=>{
@@ -59,6 +60,9 @@ function renderBoard(){
  DATA.forEach((d,i)=>{
   const template=sceneById.get(d.id)||defaultScene;
   if(template){const group=makeSVG('g',{transform:`translate(0 ${d.y-template.y})`});group.append(template.node.cloneNode(true));svg.append(group);}
+  if(d.id===finalScenery.id){
+   svg.append(makeSVG('image',{'data-finale-scenery':d.id,href:finalScenery.src,x:12,y:d.y-260,width:190,height:260,preserveAspectRatio:'xMidYMid meet','pointer-events':'none','aria-hidden':'true'}));
+  }
   const final=i===DATA.length-1,stop=makeSVG('g',{class:final?'house-stop final-stop':'house-stop','data-go':i});
   stop.append(makeSVG('circle',{cx:d.x,cy:d.y,r:final?44:34,fill:final?'#ffd34f':'#fff9de'}),makeSVG('circle',{cx:d.x,cy:d.y,r:final?32:22,fill:'#f4b5a8',class:'stop-core'}));svg.append(stop);
   if(final){
@@ -94,12 +98,28 @@ function positionQuestion(navTop){
  const top=Math.max(upper,Math.min(bottom-height,center-height/2));bubble.style.top=top+'px';
  bubble.style.setProperty('--side-tail',Math.max(20,Math.min(height-38,center-top-10))+'px');
 }
+function positionFinalScenery(){
+ const image=svg.querySelector('[data-finale-scenery]'),d=DATA.find(d=>d.id===finalScenery.id);if(!image||!d)return;
+ // Fit scenery beside the unchanged character, above the reflection and controls.
+ const safeTop=document.getElementById('timeline-progress').getBoundingClientRect().bottom+16;
+ const x=Math.max(12,left+12*scale),characterLeft=left+d.x*scale-avatar.offsetWidth/2;
+ const availableHeight=Math.max(24,baseline-safeTop);
+ const width=Math.max(24,Math.min(190*scale,characterLeft-x-14,availableHeight*finalScenery.ratio)),height=width/finalScenery.ratio;
+ for(const [key,value] of Object.entries({x:(x-left)/scale,y:d.y-height/scale,width:width/scale,height:height/scale}))image.setAttribute(key,value);
+ // The finish flag uses the free right side so it cannot cover the new landmark.
+ if(d===DATA.at(-1)){
+  const flag=svg.querySelector('.finish-marker'),flagLeft=characterLeft+avatar.offsetWidth+12;
+  const size=Math.max(.1,Math.min(1,(innerWidth-12-flagLeft)/(64*scale),availableHeight/(110*scale)));
+  flag?.setAttribute('transform',`translate(${(flagLeft-left)/scale} ${d.y-110*size}) scale(${size})`);
+ }
+}
 function layout(){
  state();scale=Math.min(innerWidth/480,1.65);left=(innerWidth-480*scale)/2;baseline=innerHeight*.40;
  map.style.left=left+'px';const d=DATA[active],aw=avatar.offsetWidth,ah=avatar.offsetHeight;
  currentMap=`translateY(${baseline-d.y*scale}px) scale(${scale})`;map.style.transform=currentMap;
  const navTop=document.querySelector('.timeline-navigation').getBoundingClientRect().top;
  currentAvatar=`translate(${left+d.x*scale-aw/2}px,${baseline-ah}px)`;pawn.style.transform=currentAvatar;
+ positionFinalScenery();
  if(questionVisible){
   positionStory(retainedStory,retainedContent,navTop);
   positionQuestion(navTop);
