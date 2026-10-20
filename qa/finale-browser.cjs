@@ -55,6 +55,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    const beforeArrow=await ev('document.getElementById("timeline-next").getBoundingClientRect().toJSON()');
    await activate('document.getElementById("timeline-next").click()');const final=await state();
    assert.equal(final.active,expected.length-1);assert.equal(final.phase,'story');assert.equal(final.text,expected.at(-1).texto);
+   await ev('avatar.decode()');assert.match(await ev('avatar.getAttribute("src")'),/^assets\/character-casa-13-[a-f0-9]+\.png$/);
    assert(final.progress===100&&final.nextDisabled&&!final.restartHidden&&!final.questionCard&&final.separate&&!final.overflow&&final.bottom,JSON.stringify({width,height,final}));
    const design=await ev(`(()=>{const b=document.querySelector('.bubble'),p=memoryContent.querySelector('p'),a=avatar.getBoundingClientRect(),br=b.getBoundingClientRect(),c=memoryContent;return {final:b.classList.contains('finale'),font:parseFloat(getComputedStyle(p).fontSize),tail:getComputedStyle(b,'::before').display,finishMarkers:document.querySelectorAll('.finish-marker').length,contained:br.left>=8&&br.right<=innerWidth-8,avatarBottom:a.bottom,top:br.top,fullText:c.scrollHeight<=c.clientHeight+1}})()`);
    assert(design.final&&design.font>=24&&design.font>=ordinaryFont*1.5&&design.tail==='none'&&design.finishMarkers===1&&design.contained&&design.top>design.avatarBottom,JSON.stringify({width,height,design}));
