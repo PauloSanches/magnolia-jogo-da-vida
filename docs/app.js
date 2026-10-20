@@ -42,13 +42,19 @@ function renderBoard(){
  DATA.forEach((d,i)=>svg.append(makeSVG('ellipse',{cx:i%2===0?165:315,cy:d.y-25,rx:230,ry:150,fill:colors[i%colors.length]})));
  let route=`M ${DATA[0].x} ${DATA[0].y+300} L ${DATA[0].x} ${DATA[0].y}`;
  for(let i=1;i<DATA.length;i++){const prev=DATA[i-1],d=DATA[i],mid=(prev.y+d.y)/2;route+=` C ${prev.x} ${mid} ${d.x} ${mid} ${d.x} ${d.y}`;}
- route+=` L ${DATA.at(-1).x} 120`;
+ // The path ends at the final house instead of continuing past the finish.
  routes.forEach(template=>{const path=template.cloneNode(true);path.setAttribute('d',route);svg.append(path)});
  DATA.forEach((d,i)=>{
   const template=sceneById.get(d.id)||defaultScene;
   if(template){const group=makeSVG('g',{transform:`translate(0 ${d.y-template.y})`});group.append(template.node.cloneNode(true));svg.append(group);}
-  const stop=makeSVG('g',{class:'house-stop','data-go':i});
-  stop.append(makeSVG('circle',{cx:d.x,cy:d.y,r:34,fill:'#fff9de'}),makeSVG('circle',{cx:d.x,cy:d.y,r:22,fill:'#f4b5a8',class:'stop-core'}));svg.append(stop);
+  const final=i===DATA.length-1,stop=makeSVG('g',{class:final?'house-stop final-stop':'house-stop','data-go':i});
+  stop.append(makeSVG('circle',{cx:d.x,cy:d.y,r:final?44:34,fill:final?'#ffd34f':'#fff9de'}),makeSVG('circle',{cx:d.x,cy:d.y,r:final?32:22,fill:'#f4b5a8',class:'stop-core'}));svg.append(stop);
+  if(final){
+   const flag=makeSVG('g',{class:'finish-marker',transform:`translate(${d.x-160} ${d.y-110})`});
+   flag.append(makeSVG('path',{d:'M0 0V110',stroke:'#284f45','stroke-width':5,'stroke-linecap':'round'}),makeSVG('rect',{x:0,y:0,width:64,height:32,rx:2,fill:'#fffdf5'}));
+   for(const [x,y] of [[0,0],[32,0],[16,16],[48,16]])flag.append(makeSVG('rect',{x,y,width:16,height:16,fill:'#284f45'}));
+   svg.append(flag);
+  }
  });
  stops=[...svg.querySelectorAll('.house-stop')];renderPhotos();
 }
@@ -85,8 +91,8 @@ function layout(){
   delete bubble.dataset.side;
   bubble.style.removeProperty('left');bubble.style.removeProperty('width');bubble.style.removeProperty('--side-tail');
   currentAvatar=`translate(${left+d.x*scale-aw/2}px,${baseline-ah}px)`;
-  const top=baseline+35;bubble.style.top=top+'px';
-  content.style.maxHeight=Math.max(100,navTop-top-20-padding)+'px';
+  const final=active===DATA.length-1,top=baseline+(final?20:35);bubble.style.top=top+'px';
+  content.style.maxHeight=Math.max(final?24:100,navTop-top-20-padding)+'px';
   const bounds=bubble.getBoundingClientRect(),tail=Math.max(20,Math.min(bounds.width-40,left+d.x*scale-bounds.left-12));
   bubble.style.setProperty('--tail',tail+'px');
  }
@@ -120,6 +126,7 @@ function memory(avatarReady=true){
  updateProgress();const d=DATA[active];if(avatarReady)avatar.src=d.avatar;
  avatar.alt='Personagem ilustrada de Magnolia';avatar.setAttribute('aria-label',finished()?'Última memória':hasQuestion()&&!questionVisible?'Ver pergunta':'Mover para a próxima memória');
  bubble.classList.toggle('quiet',d.quiet);bubble.classList.toggle('question-card',questionVisible);
+ bubble.classList.toggle('finale',active===DATA.length-1&&!questionVisible);
  content.setAttribute('aria-label',questionVisible?'Pergunta desta memória':'Texto desta memória');content.replaceChildren();
  if(!questionVisible&&d.title!==''){const title=document.createElement('h1');title.textContent=d.title;content.append(title);}
  const text=document.createElement('p');text.textContent=questionVisible?d.question:d.text;if(questionVisible)text.className='question-text';content.append(text);

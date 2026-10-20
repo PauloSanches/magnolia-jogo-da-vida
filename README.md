@@ -20,7 +20,7 @@ As setas fixas na parte inferior permitem voltar e avançar. A história aparece
 
 ## Progresso da história
 
-A barra fixa no topo mostra o progresso apenas pelo preenchimento, sem texto nem percentagem visível. A descrição acessível é preservada para leitores de ecrã. O preenchimento acompanha suavemente a animação de navegação, respeitando a preferência por movimento reduzido. Começa em 0%, chega a 100% depois do último card e volta a zero ao recomeçar. A versão final contém 12 histórias e 11 cards seguintes.
+A barra fixa no topo mostra o progresso apenas pelo preenchimento, sem texto nem percentagem visível. A descrição acessível é preservada para leitores de ecrã. O preenchimento acompanha suavemente a animação de navegação, respeitando a preferência por movimento reduzido. Começa em 0%, chega a 100% depois do último card e volta a zero ao recomeçar. A versão final contém 12 histórias e 10 cards de perguntas. A última casa encerra o jogo com a reflexão em destaque, sem pergunta, e apresenta o botão Recomeçar.
 
 ## Conteúdo final
 

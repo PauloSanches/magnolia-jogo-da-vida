@@ -120,7 +120,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     await ev('__draft.go(__draft.chapters-2)');await completeCard();
     await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:motion}]});
     const before=await rect('timeline-next'),previousBefore=await rect('timeline-prev');await click(before,input);
-    const last=await ev('__draft.chapters-1');assert.equal(await ev('__boardState.active'),last);await click(before,input);assert.equal(await ev('__boardState.phase'),'question');
+    const last=await ev('__draft.chapters-1');assert.equal(await ev('__boardState.active'),last);await click(before,input);assert.equal(await ev('__boardState.phase'),'story');
     const after=await rect('timeline-next'),previousAfter=await rect('timeline-prev'),hit=await ev(`document.elementFromPoint(${before.x},${before.y})?.closest('button')?.id`);
     await click(before,input);
     const actual=await ev('__boardState.active');console.log(JSON.stringify({width,motion,input,before,after,secondClickTarget:hit,expected:last,actual}));

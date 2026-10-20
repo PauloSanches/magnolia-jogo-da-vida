@@ -25,3 +25,12 @@
 @media(max-width:700px){.bubble.question-card{padding:16px 14px}.bubble.question-card .question-text{font-size:18px;line-height:1.4}}
 .bubble.question-card .bubble-content{overflow-wrap:anywhere}
 .bubble .question-text{font:500 23px/1.35 DynaPuff,sans-serif;color:var(--pink);margin:0}
+
+/* Final reflection: distinct from both story balloons and question cards. */
+.bubble.finale{width:calc(100% - 24px);max-width:600px;padding:14px;border:2px solid #ffd34f;border-radius:28px;text-align:center}
+.bubble.finale:before{display:none}
+.bubble.finale .bubble-content{scrollbar-gutter:auto;padding-right:0}
+.bubble.finale p{font:500 clamp(24px,6.7vw,34px)/1.3 DynaPuff,sans-serif;color:var(--ink);text-wrap:balance}
+.house-stop.final-stop .stop-core{fill:#fffdf5}
+.house-stop.final-stop.active .stop-core{fill:#f37c9b}
+.finish-marker{pointer-events:none}

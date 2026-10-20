@@ -119,5 +119,4 @@ Conteúdo estático publicado com as correções aprovadas. Sem sincronização 
 **História:**
 <p>Mudar é o verbo presente da minha vida. E hoje o recomeço faz parte da minha biografia.</p>
 
-**Card seguinte:**
-<p>Vivam meus 58 anos!</p>
+**Encerramento:** reflexão final, sem card de pergunta.
