@@ -10,7 +10,7 @@ const source=fs.readFileSync(path.join(root,'docs/app.js'),'utf8');
 const data=JSON.parse(source.match(/const DATA=(\[.*?\]),map=/s)[1]);
 
 test('each supplied character is assigned only to its approved stable house ID',()=>{
- assert.deepEqual(artwork.map(row=>row.id),['casa-05','casa-06','casa-07','casa-08','casa-12']);
+ assert.deepEqual(artwork.map(row=>row.id),['casa-05','casa-06','casa-07','casa-08','casa-12','casa-netos']);
  for(const row of artwork)assert.equal(data.find(d=>d.id===row.id).avatar,row.asset,row.id);
  assert.equal(data.find(d=>d.id==='casa-04').avatar,'assets/magzinha.webp');
  assert.equal(data.find(d=>d.id==='casa-09').avatar,'assets/mag.webp');
@@ -30,4 +30,11 @@ test('ninth ordered house uses the supplied couple, not a scenic photograph',()=
  assert.equal(rows[8].id,'casa-12');
  assert.equal(rows[8].foto,'');
  assert.match(data.find(d=>d.id===rows[8].id).avatar,/^assets\/character-casa-12-[a-f0-9]+\.png$/);
+});
+
+test('tenth ordered house uses the supplied group as its character',()=>{
+ const rows=JSON.parse(fs.readFileSync(path.join(root,'docs/milestones.json'),'utf8'));
+ assert.equal(rows[9].id,'casa-netos');
+ assert.equal(rows[9].foto,'');
+ assert.match(data.find(d=>d.id===rows[9].id)?.avatar||'',/^assets\/character-casa-netos-[a-f0-9]+\.png$/);
 });

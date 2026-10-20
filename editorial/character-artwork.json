@@ -53,5 +53,16 @@
     "width": 352,
     "height": 640,
     "background_removal": "Apple Vision foreground instance mask; both people retained; transparent PNG"
+  },
+  {
+    "id": "casa-netos",
+    "requested_filename": "img_436eb088c2e6.jpg",
+    "received_format": "JPEG",
+    "source_sha256": "3e3c79f8c0e74c9208f26247b31d9f13052286ff9a2a23474d93e811dae57c54",
+    "asset": "assets/character-casa-netos-b8ed9e475a6b.png",
+    "asset_sha256": "b8ed9e475a6b65390ff1e91034053dee4f2418854ef632a6caad7c3481ba756a",
+    "width": 494,
+    "height": 640,
+    "background_removal": "Apple Vision foreground instance mask; all six children retained; transparent PNG"
   }
 ]
