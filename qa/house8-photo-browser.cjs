@@ -40,6 +40,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   let loaded=false;for(let i=0;i<200;i++){try{loaded=await ev('!window.__qaOldDocument&&!!window.__draft');if(loaded)break;}catch{}await sleep(100);}
   assert(loaded,'The fresh document did not finish initializing');
   await ev('document.fonts.ready');
+  await ev('document.getElementById("reading-playback-toggle").getAttribute("aria-pressed")==="false"&&document.getElementById("reading-playback-toggle").click()');
   assert.equal(await ev('MagnoliaContent.mode'),'static');
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
   const expected=JSON.parse(fs.readFileSync(path.join(root,'docs/milestones.json'),'utf8'))[7];
@@ -51,7 +52,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     const image=await ev(`(()=>{const p=document.querySelector('[data-live-photo="casa-11"] image');if(!p)return null;const rect=p.getBoundingClientRect(),a=avatar.getBoundingClientRect(),b=document.querySelector('.bubble').getBoundingClientRect();return {href:p.getAttribute('href'),fit:p.getAttribute('preserveAspectRatio'),left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom,avatarLeft:a.left,avatarRight:a.right,avatarTop:a.top,bubbleTop:b.top,avatar:avatar.getAttribute('src'),text:memoryContent.querySelector('p').textContent,phase:__boardState.phase}})()`);
     assert(image,'The supplied photograph must appear beside the house-8 character');assert.equal(image.href,photoURL);assert.equal(image.fit,'xMidYMid meet');assert.equal(image.avatar,'assets/character-casa-11-36214710664c.png');assert.equal(image.text,phase==='story'?expected.texto:expected.pergunta);assert.equal(image.phase,phase);
     assert(image.left>=0&&image.right<=width&&image.top>=0&&(phase==='question'||image.bottom<image.bubbleTop)&&(image.right<image.avatarLeft||image.left>image.avatarRight),JSON.stringify({width,phase,image}));
-    const dimensions=await ev(`new Promise((resolve,reject)=>{const i=new Image(),timer=setTimeout(()=>reject(Error('Photo decode timeout')),8000);i.onload=()=>{clearTimeout(timer);resolve({width:i.naturalWidth,height:i.naturalHeight})};i.onerror=()=>{clearTimeout(timer);reject(Error('Photo decode failed'))};i.src=${JSON.stringify(photoURL)}})`);assert.equal(dimensions.width*108,dimensions.height*178,'Landscape photo must exactly fill the standard 178×108 frame without padding or distortion');
+    const dimensions=await ev(`new Promise((resolve,reject)=>{const i=new Image(),timer=setTimeout(()=>reject(Error('Photo decode timeout')),8000);i.onload=()=>{clearTimeout(timer);resolve({width:i.naturalWidth,height:i.naturalHeight})};i.onerror=()=>{clearTimeout(timer);reject(Error('Photo decode failed'))};i.src=${JSON.stringify(photoURL)}})`);assert(Math.abs(dimensions.width*108/dimensions.height-178)<.25,'Landscape photo must fit the 178×108 frame within subpixel rounding, without distortion');
     if(width===390&&phase==='story')await shot('magnolia-house8-side-photo.png');checks.push({width,phase,ok:true});
    }
   }

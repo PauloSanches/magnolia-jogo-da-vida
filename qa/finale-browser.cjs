@@ -37,6 +37,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   let loaded=false;for(let i=0;i<200;i++){try{loaded=await ev('!window.__qaOldDocument&&!!window.__draft');if(loaded)break;}catch{}await sleep(100);}
   assert(loaded,'The fresh document did not finish initializing');
   await ev('document.fonts.ready');
+  await ev('document.getElementById("reading-playback-toggle").getAttribute("aria-pressed")==="false"&&document.getElementById("reading-playback-toggle").click()');
   assert.equal(await ev('MagnoliaContent.mode'),'static');
   assert.equal(await ev('typeof window.__contentSync'),'undefined','Final edition must not start any spreadsheet synchronizer');
   const expected=JSON.parse(fs.readFileSync(path.join(root,'qa/fixtures/approved-questions.json'),'utf8'));

@@ -34,3 +34,15 @@
 .house-stop.final-stop .stop-core{fill:#fffdf5}
 .house-stop.final-stop.active .stop-core{fill:#f37c9b}
 .finish-marker{pointer-events:none}
+
+/* Keep one complete text node for assistive technology, not letter announcements. */
+.writing-char::before{content:attr(data-character)}
+
+/* A quiet, reachable way to stop the writing and automatic question. */
+.reading-playback{position:fixed;z-index:4;top:calc(28px + env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid #b5cfa5;border-radius:50%;background:var(--paper);color:var(--ink);cursor:pointer;touch-action:manipulation}
+.reading-playback:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
+.reading-playback svg{fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.reading-play-icon{display:none;fill:currentColor;stroke:none}
+.reading-playback[aria-pressed="true"] .reading-pause-icon{display:none}
+.reading-playback[aria-pressed="true"] .reading-play-icon{display:block}
+@media(hover:hover){.reading-playback:hover{background:#ffe3ec}}

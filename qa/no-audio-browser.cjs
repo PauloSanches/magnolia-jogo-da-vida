@@ -34,6 +34,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   let loaded=false;for(let i=0;i<200;i++){try{loaded=await ev('!window.__qaOldDocument&&!!window.__draft');if(loaded)break;}catch{}await sleep(100);}
   assert(loaded,'The fresh document did not finish initializing');
   await ev('document.fonts.ready');
+  await ev('document.getElementById("reading-playback-toggle").getAttribute("aria-pressed")==="false"&&document.getElementById("reading-playback-toggle").click()');
   const silent=async()=>{
    assert.equal(await ev('document.querySelectorAll("audio,video,#sound-toggle,script[src*=music]").length'),0,'Audio player, sound button and music script must be removed');
    const resources=await ev('performance.getEntriesByType("resource").map(r=>r.name).filter(n=>/music\\.js|\\.(mp3|wav|m4a|ogg)(?:[?]|$)/i.test(n))');

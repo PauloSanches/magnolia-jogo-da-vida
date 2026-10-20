@@ -33,6 +33,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   let loaded=false;for(let i=0;i<200;i++){try{loaded=await ev('!window.__qaOldDocument&&!!window.__draft');if(loaded)break;}catch{}await sleep(100);}
   assert(loaded,'The fresh document did not finish initializing');
   await ev('document.fonts.ready');
+  await ev('document.getElementById("reading-playback-toggle").getAttribute("aria-pressed")==="false"&&document.getElementById("reading-playback-toggle").click()');
   const liveFixture=null; // Final content is bundled; never consult the former sheet.
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
   const completeCard=async()=>{if(await ev('document.getElementById("timeline-next").getAttribute("aria-label")==="Ver pergunta"')){await ev('document.getElementById("timeline-next").click()');for(let n=0;n<100&&await ev('__boardState.moving');n++)await sleep(30);assert.equal(await ev('__boardState.moving'),false);}};
