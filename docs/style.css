@@ -25,5 +25,9 @@
 .sound-toggle:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
 @media(hover:hover){.sound-toggle:hover{background:#ffe3ec}}
 
-.bubble.question-card{box-shadow:0 0 0 3px var(--pink)}
+.avatar-motion{transform-origin:0 0}
+.bubble.question-card{box-shadow:0 0 0 3px var(--pink);transform:none;padding:20px}
+.bubble.question-card:before{top:var(--side-tail,24px);left:-10px;width:20px;height:20px;border-left:3px solid var(--pink);border-bottom:3px solid var(--pink);border-radius:0}
+@media(max-width:700px){.bubble.question-card{padding:16px 14px}.bubble.question-card .question-text{font-size:18px;line-height:1.4}}
+.bubble.question-card .bubble-content{overflow-wrap:anywhere}
 .bubble .question-text{font:500 23px/1.35 DynaPuff,sans-serif;color:var(--pink);margin:0}

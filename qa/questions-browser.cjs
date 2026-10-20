@@ -16,7 +16,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
  const errors = [], checks = [];
  try {
   let port;
-  for(let i=0;i<100;i++){try{port=fs.readFileSync(path.join(profile,'DevToolsActivePort'),'utf8').split('\n')[0];break;}catch{await sleep(100);}}
+  for(let i=0;i<100;i++){try{port=fs.readFileSync(path.join(profile,'DevToolsActivePort'),'utf8').split('\n')[0];if(port)break;}catch{}await sleep(100);}
   assert(port, 'Chrome debugging endpoint unavailable');
   const tabs=await(await fetch('http://127.0.0.1:'+port+'/json')).json();
   const tab=tabs.find(t=>t.type==='page');assert(tab);
@@ -49,21 +49,49 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     if(expected[i].pergunta.trim()){
      assert(s.restartHidden,'Final story cannot expose restart before its question');await activate('document.getElementById("timeline-next").click()');s=await state();step++;
      assert.equal(s.active,i,'Showing a question must not move to another house');assert.equal(s.phase,'question');assert.equal(s.text,expected[i].pergunta);assert(s.questionCard&&!s.overflow&&s.bottom&&s.separate&&s.inputs===0,JSON.stringify({width,i,s}));assert.equal(s.progress,Math.round(step/(totalSteps-1)*100));results.push({width,id:expected[i].id,phase:'question'});
+     const geometry=await ev(`(()=>{const a=avatar.getBoundingClientRect(),b=document.querySelector('.bubble').getBoundingClientRect();return {a:a.toJSON(),b:b.toJSON(),beside:b.right<=a.left-8||b.left>=a.right+8,aligned:Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>40,contained:b.left>=8&&b.right<=innerWidth-8&&a.left>=0&&a.right<=innerWidth}})()`);
+     assert(geometry.beside&&geometry.aligned&&geometry.contained,'Question must sit beside its character: '+JSON.stringify({width,i,geometry}));
+     if(i===1)await shot('magnolia-question-side-'+width+'.png');
      if(width===390&&i===1)await shot('magnolia-question-card-mobile.png');
     }
     if(i<expected.length-1){await activate('document.getElementById("timeline-next").click()');step++;}
     else{assert.equal(s.progress,100);assert(s.nextDisabled&&!s.restartHidden);await activate('document.getElementById("timeline-next").click()');assert.equal((await state()).active,i);await shot('magnolia-question-final.png');await activate('document.getElementById("timeline-restart").click()');assert.equal((await state()).active,0);assert.equal((await state()).phase,'story');}
    }
   }
+  // Resize the question in place, including short landscape and breakpoint edges.
+  await ev('__draft.go(0)');await ev('__draft.go(1)');await activate('document.getElementById("timeline-next").click()');
+  for(const [width,height] of [[320,568],[700,700],[701,700],[844,390]]){
+   await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<701});await ev('__draft.update()');
+   const g=await ev(`(()=>{const b=document.querySelector('.bubble').getBoundingClientRect(),a=avatar.getBoundingClientRect(),n=document.querySelector('.timeline-navigation').getBoundingClientRect(),t=getComputedStyle(document.querySelector('.bubble'),'::before');return {beside:b.left>=a.right+8,inside:b.left>=8&&b.right<=innerWidth-8&&a.top>=0&&a.bottom<n.top-12&&b.bottom<n.top-12,tail:parseFloat(t.left)<0&&parseFloat(t.top)>=20}})()`);
+   assert(g.beside&&g.inside&&g.tail,JSON.stringify({width,height,g}));
+  }
+  await call('Emulation.setDeviceMetricsOverride',{width:320,height:568,deviceScaleFactor:1,mobile:true});
+  await ev('memoryContent.querySelector("p").textContent="Pergunta longa para conversar em família. ".repeat(60);__draft.update()');
+  let long=await state();assert(!long.overflow&&long.bottom&&long.separate,'Long questions must remain scrollable and clear of controls');
+  await shot('magnolia-question-side-long.png');
+  await call('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+  await ev('__draft.go(0)');
   await ev('__draft.go(1)');await activate('document.querySelector("[data-go=\\"11\\"]").dispatchEvent(new MouseEvent("click",{bubbles:true}))');assert.equal((await state()).active,1);assert.equal((await state()).phase,'question');await activate('document.querySelector("[data-go=\\"11\\"]").dispatchEvent(new MouseEvent("click",{bubbles:true}))');assert.equal((await state()).active,2,'Board shortcuts cannot skip unseen houses');
   for(const expression of ['avatar.click()','document.querySelector(".stage").click()','document.getElementById("timeline-next").click()']){
    await ev('__draft.go(0)');await ev('__draft.go(1)');await activate(expression);assert.equal((await state()).active,1);assert.equal((await state()).phase,'question');await activate(expression);assert.equal((await state()).active,2);
   }
   for(const k of ['ArrowUp','ArrowRight']){await ev('__draft.go(0)');await ev('__draft.go(1);document.activeElement.blur()');await key(k);await settle();assert.equal((await state()).active,1);assert.equal((await state()).phase,'question');await key(k);await settle();assert.equal((await state()).active,2);}
   await ev('__draft.go(0)');await ev('__draft.go(1);avatar.focus()');await key('Enter');await settle();assert.equal((await state()).active,1);assert.equal((await state()).phase,'question');await key('Enter');await settle();assert.equal((await state()).active,2);await ev('avatar.blur()');
-  await ev('__draft.go(0)');await ev('__draft.go(1)');await activate('document.querySelector(".stage").dispatchEvent(new WheelEvent("wheel",{deltaY:100,bubbles:true,cancelable:true}))');assert.equal((await state()).active,1);assert.equal((await state()).phase,'question');await sleep(950);await activate('document.querySelector(".stage").dispatchEvent(new WheelEvent("wheel",{deltaY:100,bubbles:true,cancelable:true}))');assert.equal((await state()).active,2);
+  await ev('__draft.go(0)');await ev('__draft.go(1)');await activate('document.querySelector(".stage").dispatchEvent(new WheelEvent("wheel",{deltaY:100,bubbles:true,cancelable:true}))');assert.equal((await state()).active,1);assert.equal((await state()).phase,'question');await ev('new Promise(r=>setTimeout(r,1000))');await activate('document.querySelector(".stage").dispatchEvent(new WheelEvent("wheel",{deltaY:100,bubbles:true,cancelable:true}))');assert.equal((await state()).active,2);
   await ev('__draft.go(0)');await ev('__draft.go(1)');await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});await activate('document.getElementById("timeline-next").click();document.getElementById("timeline-next").click()');assert.equal((await state()).active,1);assert.equal((await state()).phase,'question','Rapid input must not skip question rendering');
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await activate('document.getElementById("timeline-prev").click()');assert.equal((await state()).active,1);assert.equal((await state()).phase,'story');
+  // Going back must land directly in the previous question row, without a final snap.
+  await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+  await ev('__draft.go(0)');await ev('__draft.go(2);avatar.decode()');
+  await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
+  await ev('document.getElementById("timeline-prev").click()');
+  for(let i=0;i<100&&!await ev('document.querySelector(".avatar-motion").getAnimations().length');i++)await sleep(30);
+  await ev('document.getAnimations().forEach(a=>{a.pause();a.currentTime=a.effect.getTiming().duration});new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))');
+  const arrival=await ev('avatar.getBoundingClientRect().toJSON()');
+  await ev('document.getAnimations().forEach(a=>a.finish())');await settle();
+  const landed=await ev('avatar.getBoundingClientRect().toJSON()');
+  assert.equal((await state()).phase,'question');
+  assert(Math.abs(arrival.x-landed.x)<1&&Math.abs(arrival.y-landed.y)<1,'Reverse travel must end at question position without snapping: '+JSON.stringify({arrival,landed}));
   assert.equal(errors.length,0);console.log(JSON.stringify({ok:true,houses:expected.length,questions:expected.filter(r=>r.pergunta.trim()).length,cardViewportChecks:results.length,exactDraftText:true,mandatoryQuestions:true,noInputOrSkip:true,keyboard:true,boardShortcutGated:true,rapidInputLocked:true,errors}));
  } finally { if(ws)ws.close(); child.kill('SIGTERM'); }
 })().catch(e=>{console.error(e);process.exitCode=1;});

@@ -16,7 +16,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
  const errors = [], checks = [];
  try {
   let port;
-  for(let i=0;i<100;i++){try{port=fs.readFileSync(path.join(profile,'DevToolsActivePort'),'utf8').split('\n')[0];break;}catch{await sleep(100);}}
+  for(let i=0;i<100;i++){try{port=fs.readFileSync(path.join(profile,'DevToolsActivePort'),'utf8').split('\n')[0];if(port)break;}catch{}await sleep(100);}
   assert(port, 'Chrome debugging endpoint unavailable');
   const tabs=await(await fetch('http://127.0.0.1:'+port+'/json')).json();
   const tab=tabs.find(t=>t.type==='page');assert(tab);
@@ -60,8 +60,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     if(width===390)await shot('magnolia-restart-shrink.png');
     await seek('avatar.getAnimations()',1);assert((await measure()).width<.01);await finishShrink();await seek(travel,.5);const hidden=await measure();assert(hidden.width<.01&&hidden.height<.01&&hidden.moving&&hidden.ghosts===0);assert(hidden.progress>.4&&hidden.progress<.6);
     if(width===390)await shot('magnolia-restart-hidden.png');
-    await ev('void __draft.go(1)');await key('ArrowLeft');await finishTravel();await seek(rise,0);const arrived=await measure();assert(arrived.width<.01&&arrived.progress<.01);assert.equal(await ev('avatar.getAttribute("src")'),firstSrc);
-    await seek(rise,.5);const growing=await measure();assert(growing.width>0&&growing.width<initial.width&&Math.abs(growing.bottom-initial.bottom)<.1);assert.equal(growing.mapY,arrived.mapY,'Map must stay at the start while the character grows');
+    await ev('void __draft.go(1)');await key('ArrowLeft');await finishTravel();await seek(rise,0);const arrived=await measure();assert(arrived.width<.01&&arrived.progress<.01);assert(Math.abs(arrived.bottom-height*.40)<.1,'Grow from the destination story ground, not the question-row ground');assert.equal(await ev('avatar.getAttribute("src")'),firstSrc);
+    await seek(rise,.5);const growing=await measure();assert(growing.width>0&&growing.width<initial.width&&Math.abs(growing.bottom-arrived.bottom)<.1);assert.equal(growing.mapY,arrived.mapY,'Map must stay at the start while the character grows');
     if(width===390)await shot('magnolia-restart-grow.png');
     await ev(`${rise}.forEach(a=>a.finish())`);await wait('!__boardState.moving');assert.equal(await ev('__boardState.active'),0);assert.equal(await ev('document.getAnimations().length'),0);assert.equal((await measure()).width,initial.width);
     checks.push({width,shrunkAtFeet:true,hiddenDuringTravel:true,growsAfterArrival:true});
