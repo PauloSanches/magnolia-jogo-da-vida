@@ -10,7 +10,7 @@ const source=fs.readFileSync(path.join(root,'docs/app.js'),'utf8');
 const data=JSON.parse(source.match(/const DATA=(\[.*?\]),map=/s)[1]);
 
 test('each supplied character is assigned only to its approved stable house ID',()=>{
- assert.deepEqual(artwork.map(row=>row.id),['casa-05','casa-06','casa-07','casa-08','casa-12','casa-netos','casa-11','casa-13']);
+ assert.deepEqual(artwork.map(row=>row.id),['casa-05','casa-06','casa-07','casa-08','casa-12','casa-netos','casa-11','casa-13','casa-03']);
  for(const row of artwork)assert.equal(data.find(d=>d.id===row.id).avatar,row.asset,row.id);
  assert.equal(data.find(d=>d.id==='casa-04').avatar,'assets/magzinha.webp');
  assert.equal(data.find(d=>d.id==='casa-09').avatar,'assets/mag.webp');
@@ -50,4 +50,11 @@ test('final ordered house uses the supplied celebration character',()=>{
  const rows=JSON.parse(fs.readFileSync(path.join(root,'docs/milestones.json'),'utf8'));
  assert.equal(rows.at(-1).id,'casa-13');assert.equal(rows.at(-1).foto,'');
  assert.match(data.find(d=>d.id==='casa-13').avatar,/^assets\/character-casa-13-[a-f0-9]+\.png$/);
+});
+
+test('third ordered house uses supplied family while preserving its side photograph',()=>{
+ const rows=JSON.parse(fs.readFileSync(path.join(root,'docs/milestones.json'),'utf8'));
+ assert.equal(rows[2].id,'casa-03');assert.equal(rows[2].foto,'https://paulosanches.github.io/magnolia-jogo-da-vida/assets/irmaos-placeholder.jpg');
+ assert.match(data.find(d=>d.id==='casa-03').avatar,/^assets\/character-casa-03-[a-f0-9]+\.png$/);
+ assert.equal(data.find(d=>d.id==='casa-02').avatar,'assets/littlemag.webp');
 });

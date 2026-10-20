@@ -86,5 +86,16 @@
     "width": 369,
     "height": 640,
     "background_removal": "Authorized Apple Vision foreground instance mask; full character retained; transparent PNG"
+  },
+  {
+    "id": "casa-03",
+    "requested_filename": "img_55b209a77cc1.jpg",
+    "received_format": "JPEG",
+    "source_sha256": "4ed2a897733184806ca5e8d0412149b171371f2297d0d093e9cd3bea1cd95a3d",
+    "asset": "assets/character-casa-03-9b56bfec5278.png",
+    "asset_sha256": "9b56bfec5278ca53abddb17b19a913eca60e40bf1d9cbfc323c1bb6081b51e7a",
+    "width": 556,
+    "height": 640,
+    "background_removal": "Authorized Apple Vision foreground instance mask; all six people and white clothing retained; transparent PNG"
   }
 ]
