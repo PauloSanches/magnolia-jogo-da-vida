@@ -59,36 +59,18 @@ function applySheetRows(rows){
  renderBoard();memory();layout();content.scrollTop=scrollTop;document.title=DATA[0].title;
 }
 applySheetRows(initialRows);
-function positionQuestion(card,reading,navTop){
- const aw=avatar.offsetWidth,ah=avatar.offsetHeight;
- const padding=parseFloat(getComputedStyle(card).paddingTop)+parseFloat(getComputedStyle(card).paddingBottom);
-  // Keep the scene/photos above a conversation row; only the question sits beside the character.
-  const upper=Math.max(24,(document.querySelector('.sound-toggle')?.getBoundingClientRect().bottom||76)+16);
-  const bottom=navTop-20,room=Math.max(48,bottom-upper),size=Math.min(1,room/ah);
-  const width=aw*size,height=ah*size,gap=20,margin=12;
-  const cardWidth=Math.min(innerWidth>700?410:390,innerWidth-2*margin-width-gap);
-  const groupLeft=(innerWidth-width-gap-cardWidth)/2;
-  const top=Math.max(upper,Math.min(baseline+35,bottom-height));
-  card.style.left=(groupLeft+width+gap)+'px';card.style.width=cardWidth+'px';
-  reading.style.maxHeight=Math.max(24,bottom-top-padding)+'px';
-  const cardHeight=card.getBoundingClientRect().height;
-  const avatarTop=top+Math.max(0,(cardHeight-height)/2),cardTop=top+Math.max(0,(height-cardHeight)/2);
-  card.style.top=cardTop+'px';
-  const transform=`translate(${groupLeft}px,${avatarTop}px) scale(${size})`;
-  card.style.setProperty('--side-tail',Math.max(20,Math.min(cardHeight-38,avatarTop+height*.32-cardTop))+'px');
- return transform;
-}
-function questionDestination(d,index){
- // Measure the real question styles without changing the visible card or its text.
- const card=bubble.cloneNode(false),reading=content.cloneNode(false),text=document.createElement('p');
- card.removeAttribute('id');reading.removeAttribute('id');card.classList.add('question-card');
- card.setAttribute('aria-hidden','true');card.inert=true;card.style.visibility='hidden';
- text.className='question-text';text.textContent=d.question;reading.append(text);card.append(reading);document.body.append(card);
- try{
-  const restartStyle=getComputedStyle(restartButton),restartHeight=parseFloat(restartStyle.height)+parseFloat(restartStyle.marginBottom);
-  const navTop=document.getElementById('timeline-next').getBoundingClientRect().top-(index===DATA.length-1?restartHeight:0);
-  return positionQuestion(card,reading,navTop);
- }finally{card.remove();}
+function positionQuestion(navTop){
+ // The pawn and camera stay on their story coordinates. Only place the balloon.
+ const a=avatar.getBoundingClientRect(),margin=12,gap=16;
+ const spaceLeft=a.left-margin-gap,spaceRight=innerWidth-a.right-margin-gap;
+ const onLeft=spaceLeft>spaceRight,width=Math.min(410,Math.max(spaceLeft,spaceRight));
+ bubble.dataset.side=onLeft?'left':'right';bubble.style.width=width+'px';
+ bubble.style.left=(onLeft?a.left-gap-width:a.right+gap)+'px';
+ const upper=Math.max(24,(document.querySelector('.sound-toggle')?.getBoundingClientRect().bottom||76)+16);
+ const top=Math.max(upper,a.top+24),padding=parseFloat(getComputedStyle(bubble).paddingTop)+parseFloat(getComputedStyle(bubble).paddingBottom);
+ bubble.style.top=top+'px';content.style.maxHeight=Math.max(24,navTop-top-20-padding)+'px';
+ const height=bubble.getBoundingClientRect().height;
+ bubble.style.setProperty('--side-tail',Math.max(20,Math.min(height-38,a.top+a.height*.3-top))+'px');
 }
 function layout(){
  state();scale=Math.min(innerWidth/480,1.65);left=(innerWidth-480*scale)/2;baseline=innerHeight*.40;
@@ -96,9 +78,11 @@ function layout(){
  currentMap=`translateY(${baseline-d.y*scale}px) scale(${scale})`;map.style.transform=currentMap;
  const navTop=document.querySelector('.timeline-navigation').getBoundingClientRect().top;
  const padding=parseFloat(getComputedStyle(bubble).paddingTop)+parseFloat(getComputedStyle(bubble).paddingBottom);
+ currentAvatar=`translate(${left+d.x*scale-aw/2}px,${baseline-ah}px)`;pawn.style.transform=currentAvatar;
  if(questionVisible){
-  currentAvatar=positionQuestion(bubble,content,navTop);
+  positionQuestion(navTop);
  }else{
+  delete bubble.dataset.side;
   bubble.style.removeProperty('left');bubble.style.removeProperty('width');bubble.style.removeProperty('--side-tail');
   currentAvatar=`translate(${left+d.x*scale-aw/2}px,${baseline-ah}px)`;
   const top=baseline+35;bubble.style.top=top+'px';
@@ -144,13 +128,12 @@ function memory(avatarReady=true){
 }
 async function changeCard(show){
  if(isBusy()||show===questionVisible||(show&&!hasQuestion()))return;
- cardMoving=true;const from=progressFill.style.transform,fromAvatar=currentAvatar;const animations=[];state();
+ cardMoving=true;const from=progressFill.style.transform;const animations=[];state();
  try{
   questionVisible=show;memory();layout();
   if(!reduce.matches&&bubble.animate){
    const timing={duration:220,easing:'ease-out',fill:'both'};
    animations.push(bubble.animate([{opacity:0},{opacity:1}],timing));
-   animations.push(pawn.animate([{transform:fromAvatar},{transform:currentAvatar}],timing));
    animations.push(progressFill.animate([{transform:from},{transform:progressFill.style.transform}],timing));
    await Promise.all(animations.map(a=>a.finished.catch(()=>{})));
   }else await new Promise(resolve=>requestAnimationFrame(resolve));
@@ -173,7 +156,7 @@ async function go(n,{restart=false,showQuestion=false}={}){
    animations.push(sink);await sink.finished.catch(()=>{});shrunk=true;
   }
   const aw=avatar.offsetWidth,ah=avatar.offsetHeight;
-  const finalMap=`translateY(${baseline-d.y*scale}px) scale(${scale})`,finalAvatar=showQuestion&&hasQuestion(n)?questionDestination(d,n):`translate(${left+d.x*scale-aw/2}px,${baseline-ah}px)`;
+  const finalMap=`translateY(${baseline-d.y*scale}px) scale(${scale})`,finalAvatar=`translate(${left+d.x*scale-aw/2}px,${baseline-ah}px)`;
   const duration=reduce.matches?0:restarting?Math.min(2800,1200+Math.abs(n-active)*80):changed&&avatarReady?760:620;
   if(duration&&map.animate){
    const travel={duration,easing:restarting?'cubic-bezier(.65,0,.35,1)':'cubic-bezier(.22,1,.36,1)',fill:'both'};
