@@ -12,14 +12,14 @@
   },
   {
     "id": "casa-06",
-    "requested_filename": "img_f81894be4b09.jpg",
+    "requested_filename": "Isometric bride in a white gown.png",
     "received_format": "JPEG",
-    "source_sha256": "65b6a624996565a930e4418ee593cb5c5102d5d9dd9bf9a53d95e280831ae092",
-    "asset": "assets/character-casa-06-fa6251291c86.png",
-    "asset_sha256": "fa6251291c86d919e0c6f40bb9364336df38e5273cfa9ea82567bb11691ed852",
-    "width": 420,
+    "source_sha256": "7d9cdb4fb60b27ec8be1e1603dd3d8ff1be89b561a59cf2f0c0dcdb7f98d2be4",
+    "asset": "assets/character-casa-06-0587f4c90056.png",
+    "asset_sha256": "0587f4c900560a304a06677b98d75b184268cc8af47709f393c10407b27757f1",
+    "width": 385,
     "height": 640,
-    "background_removal": "Authorized Apple Vision foreground instance mask; all three women retained; transparent PNG"
+    "background_removal": "Apple Vision foreground instance mask; all subjects retained; transparent PNG"
   },
   {
     "id": "casa-07",
@@ -34,14 +34,14 @@
   },
   {
     "id": "casa-08",
-    "requested_filename": "Emo blonde girl with a sly smirk.png",
+    "requested_filename": "img_f81894be4b09.jpg",
     "received_format": "JPEG",
-    "source_sha256": "45207cd8509130c0198dd057d2960667d628e63ae9f7f5a6d2e651d71773d949",
-    "asset": "assets/character-casa-08-72daeb755f9f.png",
-    "asset_sha256": "72daeb755f9ff073411105b8477fc642b534ccdc26a7eb6655344a8f03244a7d",
-    "width": 419,
+    "source_sha256": "65b6a624996565a930e4418ee593cb5c5102d5d9dd9bf9a53d95e280831ae092",
+    "asset": "assets/character-casa-08-fa6251291c86.png",
+    "asset_sha256": "fa6251291c86d919e0c6f40bb9364336df38e5273cfa9ea82567bb11691ed852",
+    "width": 420,
     "height": 640,
-    "background_removal": "Apple Vision foreground instance mask; all subjects retained; transparent PNG"
+    "background_removal": "Authorized Apple Vision foreground instance mask; all three women retained; transparent PNG"
   },
   {
     "id": "casa-12",
