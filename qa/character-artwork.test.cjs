@@ -52,9 +52,9 @@ test('final ordered house uses the supplied celebration character',()=>{
  assert.match(data.find(d=>d.id==='casa-13').avatar,/^assets\/character-casa-13-[a-f0-9]+\.png$/);
 });
 
-test('third ordered house uses supplied family while preserving its side photograph',()=>{
+test('third ordered house keeps supplied family without a side photograph',()=>{
  const rows=JSON.parse(fs.readFileSync(path.join(root,'docs/milestones.json'),'utf8'));
- assert.equal(rows[2].id,'casa-03');assert.equal(rows[2].foto,'https://paulosanches.github.io/magnolia-jogo-da-vida/assets/irmaos-placeholder.jpg');
+ assert.equal(rows[2].id,'casa-03');assert.equal(rows[2].foto,'');
  assert.match(data.find(d=>d.id==='casa-03').avatar,/^assets\/character-casa-03-[a-f0-9]+\.png$/);
  assert.equal(data.find(d=>d.id==='casa-02').avatar,'assets/littlemag.webp');
 });
