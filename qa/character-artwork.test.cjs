@@ -58,3 +58,13 @@ test('third ordered house keeps supplied family without a side photograph',()=>{
  assert.match(data.find(d=>d.id==='casa-03').avatar,/^assets\/character-casa-03-[a-f0-9]+\.png$/);
  assert.equal(data.find(d=>d.id==='casa-02').avatar,'assets/littlemag.webp');
 });
+
+test('sixth house uses the newly supplied three-woman photograph as its character',()=>{
+ const rows=JSON.parse(fs.readFileSync(path.join(root,'docs/milestones.json'),'utf8'));
+ const art=artwork.find(row=>row.id==='casa-06');
+ assert.equal(rows[5].id,'casa-06');assert.equal(rows[5].foto,'');
+ assert.equal(rows[5].pergunta,'Qual era meu nome de casada?');
+ assert.equal(art.requested_filename,'img_f81894be4b09.jpg');
+ assert.equal(data.find(d=>d.id==='casa-06').avatar,art.asset);
+ assert.notEqual(art.asset,'assets/character-casa-06-0587f4c90056.png');
+});
