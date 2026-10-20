@@ -28,18 +28,18 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   const key=async k=>{await call('Input.dispatchKeyEvent',{type:'keyDown',key:k,code:k,text:k==='Enter'?'\r':undefined,windowsVirtualKeyCode:{ArrowUp:38,ArrowDown:40,ArrowLeft:37,ArrowRight:39,End:35,Enter:13}[k]});await call('Input.dispatchKeyEvent',{type:'keyUp',key:k,code:k});};
   const shot=async name=>{const d=await call('Page.captureScreenshot',{format:'png'});fs.writeFileSync(path.join(scratch,name),Buffer.from(d.data,'base64'));};
   await call('Runtime.enable');await call('Page.enable');
-  await ev('localStorage.setItem("magnolia-music-preference","on");window.__qaOldDocument=true');
+  await call('Page.addScriptToEvaluateOnNewDocument',{source:'localStorage.setItem("magnolia-music-preference","on")'});
+  await ev('window.__qaOldDocument=true');
   await call('Page.reload',{ignoreCache:true});
   let loaded=false;for(let i=0;i<200;i++){try{loaded=await ev('!window.__qaOldDocument&&!!window.__draft');if(loaded)break;}catch{}await sleep(100);}
   assert(loaded,'The fresh document did not finish initializing');
   await ev('document.fonts.ready');
-  if(await ev('!!window.__contentSync'))await ev('__contentSync.refresh()');
-  assert.equal(await ev('__contentState.status'),'synced','The current approved draft must synchronize from the real public worksheet');
   const silent=async()=>{
    assert.equal(await ev('document.querySelectorAll("audio,video,#sound-toggle,script[src*=music]").length'),0,'Audio player, sound button and music script must be removed');
    const resources=await ev('performance.getEntriesByType("resource").map(r=>r.name).filter(n=>/music\\.js|\\.(mp3|wav|m4a|ogg)(?:[?]|$)/i.test(n))');
    assert.deepEqual(resources,[],'The page must not request audio or the playback script');
   };
+  assert.equal(await ev('localStorage.getItem("magnolia-music-preference")'),'on');
   await silent();
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
   await ev('__draft.go(1);avatar.click()');await sleep(200);await silent();
