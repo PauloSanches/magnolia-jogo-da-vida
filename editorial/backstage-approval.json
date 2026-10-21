@@ -21,5 +21,46 @@
       "approval": "User replied sim to the exact proposed credit and publication question.",
       "source": "User stated they used ChatGPT to create illustrated characters from photos."
     }
-  ]
+  ],
+  "workflow_animation": {
+    "approval": "User replied sim to the full six-step proposal, lateral ChatGPT input, controls and publication.",
+    "steps": [
+      {
+        "title": "Pedido",
+        "text": "Pelo Telegram, o responsável solicita uma alteração e envia os materiais necessários."
+      },
+      {
+        "title": "Revisão",
+        "text": "Textos e mudanças são revisados. A direção e as aprovações permanecem humanas."
+      },
+      {
+        "title": "Implementação",
+        "text": "No MacBook Air M1, o Hermes Agent trabalha nos arquivos com apoio do Codex."
+      },
+      {
+        "title": "Testes",
+        "text": "O resultado é verificado no navegador, em diferentes tamanhos de tela."
+      },
+      {
+        "title": "Publicação",
+        "text": "A alteração é registrada no Git e publicada no GitHub Pages."
+      },
+      {
+        "title": "Conferência pública",
+        "text": "O site publicado é conferido para confirmar que a versão correta está disponível."
+      }
+    ],
+    "art_branch": [
+      "Fotos",
+      "ChatGPT",
+      "Personagens ilustrados"
+    ],
+    "constraints": [
+      "Click to start",
+      "Pause/repeat/select",
+      "No audio",
+      "Static reduced-motion alternative",
+      "Backstage only"
+    ]
+  }
 }

@@ -1,0 +1,14 @@
+{
+  "package": "@lucasmarkes/hairline",
+  "version": "0.5.1",
+  "repository": "https://github.com/lucasmarkes/hairline",
+  "tarball": "https://registry.npmjs.org/@lucasmarkes/hairline/-/hairline-0.5.1.tgz",
+  "integrity": "sha512-zjY3bdMC3As/+enKitZ1X+D1HjpesQiAKzG1sbCFsOrb5xIuJEoepkJTBIO4jmFh6JXOQlGGylhV71nr9ipNpQ==",
+  "file": "docs/backstage/vendor/hairline-0.5.1.js",
+  "sha256": "16fdfec136dc99cf3f65730989364797f0bbb228b7bca60c4d422e0e12ce3b7d",
+  "license": "MIT",
+  "license_file": "docs/backstage/vendor/HAIRLINE-LICENSE.txt",
+  "delivery": "vendored, unchanged ESM distribution; no third-party runtime requests",
+  "reference_commit": "37d2e78dcb333ab30c3338e28ed4a690364ea014",
+  "reference_note": "Repository commit used to inspect documentation and package version; npm tarball integrity and vendored file SHA-256 identify the shipped distribution."
+}

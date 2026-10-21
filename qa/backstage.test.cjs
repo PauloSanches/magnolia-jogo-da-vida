@@ -19,3 +19,13 @@ test('credits ChatGPT for photo-based character creation with approved copy',()=
  const html=fs.readFileSync(path.join(root,'docs/backstage/index.html'),'utf8');
  assert(html.includes('<dt>ChatGPT</dt><dd>Foi utilizado pelo criador do projeto para gerar os personagens ilustrados a partir de fotografias. As imagens resultantes foram depois preparadas e integradas ao tabuleiro com o Hermes Agent.</dd>'));
 });
+
+test('workflow ships the approved script and pinned local Hairline dependency',()=>{
+ const html=fs.readFileSync(path.join(root,'docs/backstage/index.html'),'utf8');
+ const approved=JSON.parse(fs.readFileSync(path.join(root,'editorial/backstage-approval.json'),'utf8')).workflow_animation;
+ for(const step of approved.steps)assert(html.includes('<h3>'+step.title+'</h3><p>'+step.text+'</p>'));
+ assert(html.includes('type="module" src="flow-tour.js?v='));assert(html.includes('class="workflow-static"'));assert(html.includes('class="flow-interactive" hidden'));
+ const dependency=JSON.parse(fs.readFileSync(path.join(root,'editorial/hairline-dependency.json'),'utf8'));
+ assert.equal(require('node:crypto').createHash('sha256').update(fs.readFileSync(path.join(root,dependency.file))).digest('hex'),dependency.sha256);
+ assert(fs.readFileSync(path.join(root,dependency.license_file),'utf8').includes('MIT License'));
+});

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-21T22:36:40.466695+00:00",
+  "generatedAt": "2026-10-21T23:45:16.536596+00:00",
   "title": "Design System: Magnólia Backstage",
   "extensions": {
     "scope": {
@@ -12,9 +12,11 @@
       "notes": "DESIGN.md frontmatter owns primitives. Observed values only; no synthetic tonal ramps or unimplemented components. Snippets use existing markup and variable fallbacks; Figtree is supplied by the local page font."
     },
     "sourceHashes": {
-      "docs/backstage/backstage.css": "0d58b95644fb936e6d76e2d03427f1ac129d2d36fae6898866bdd4635f790cfc",
-      "docs/backstage/index.html": "5ff2dfb1915a3282f689b7104859c6fecc57f918f09991b021dae49101d82545",
-      "docs/style.css": "92716faf28afe22aa0a151208e5f998257fdc312eb193e3b5626c75172c45cd3"
+      "docs/backstage/backstage.css": "ee0c9318ed8cc17eecabfae7eeb8e1b7e4f9ad103706e1e2a385af818baea003",
+      "docs/backstage/index.html": "72534ae74f65af300edbbec46414750c1f191b4b364483f5faf91ad19616f3c2",
+      "docs/style.css": "92716faf28afe22aa0a151208e5f998257fdc312eb193e3b5626c75172c45cd3",
+      "docs/backstage/flow-tour.js": "d8c2c89161f722c1995f223914116816543a5cf74a01d06d9007ccbec30b3e75",
+      "docs/backstage/flow-controller.mjs": "1a3e218fecce161f0dca340ce45e15566459a2e49ff60d83aa3073108deae4d7"
     },
     "typographyMeta": {
       "display": {
@@ -48,6 +50,16 @@
         "name": "reduced-motion",
         "value": "@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}",
         "purpose": "Backstage-only override."
+      },
+      {
+        "name": "tour-progress",
+        "value": "transform .35s ease-out",
+        "purpose": "Vertical progress rule; transition disabled under reduced motion."
+      },
+      {
+        "name": "tour-step-duration",
+        "value": "5000ms",
+        "purpose": "Click-started sequence; pause/select/reset cancel the timer. Stops after six steps, offscreen or hidden. No automatic resume and no audio."
       }
     ],
     "breakpoints": [
@@ -72,6 +84,91 @@
       "outline": "2px solid var(--accent)",
       "outlineOffset": "5px",
       "borderRadius": "2px"
+    },
+    "colorMeta": {
+      "hairline-edge": {
+        "role": "neutral",
+        "displayName": "Hairline edge",
+        "purpose": "Figure-local --hairline-edge; not a replacement page accent."
+      },
+      "hairline-mid": {
+        "role": "neutral",
+        "displayName": "Hairline midtone",
+        "purpose": "Figure-local --hairline-mid."
+      }
+    },
+    "workflowTour": {
+      "sources": [
+        "docs/backstage/flow-tour.js",
+        "docs/backstage/flow-controller.mjs",
+        "editorial/backstage-approval.json"
+      ],
+      "selectors": {
+        "root": ".flow-tour",
+        "interactive": ".flow-interactive",
+        "static": ".workflow-static",
+        "steps": ".flow-steps",
+        "stage": ".flow-stage",
+        "figure": ".flow-figure",
+        "status": ".flow-status",
+        "controls": ".flow-controls",
+        "artBranch": ".flow-art-source"
+      },
+      "layout": {
+        "columns": "minmax(170px,.8fr) minmax(0,1.2fr)",
+        "gap": "40px",
+        "stageMaxWidth": "430px",
+        "figureAspectRatio": "5/4",
+        "captionMinHeight": "158px",
+        "mobile": {
+          "query": "(max-width:600px)",
+          "columns": "minmax(105px,.85fr) minmax(0,1.15fr)",
+          "gap": "16px",
+          "captionMinHeight": "250px",
+          "artDestination": "separate line"
+        }
+      },
+      "hairline": {
+        "version": "0.5.1",
+        "provenance": "editorial/hairline-dependency.json",
+        "factories": [
+          "phone",
+          "loupe",
+          "laptop",
+          "sieve",
+          "branches",
+          "relay"
+        ],
+        "theme": "light",
+        "intensity": 0.25,
+        "playOnCreation": false,
+        "strokeMultiplier": 1.1,
+        "palette": {
+          "--hairline-plate": "{colors.surface}",
+          "--hairline-hi": "{colors.ink}",
+          "--hairline-edge": "{colors.hairline-edge}",
+          "--hairline-mid": "{colors.hairline-mid}",
+          "--hairline-lo": "{colors.line}"
+        }
+      },
+      "accessibility": {
+        "stepState": "aria-current=step",
+        "playState": "aria-pressed",
+        "caption": "aria-live=polite, aria-atomic=true",
+        "figure": "aria-hidden=true",
+        "focus": "2px solid var(--accent), offset 4px",
+        "minimumControlHeight": "44px",
+        "minimumStepHeight": "56px; 64px at <=600px"
+      },
+      "behavior": {
+        "initial": "Paused; no autoplay.",
+        "play": "Iniciar animação → Pausar → Repetir animação after completion.",
+        "reset": "Recomeçar returns to Pedido paused.",
+        "select": "Any of the six steps; cancels playback.",
+        "visibility": "Offscreen or document hidden pauses; explicit activation required to resume.",
+        "fallback": "All six complete approved texts remain in HTML. Failed module loading leaves them visible; reduced motion hides the interactive panel and destroys the figure, including live preference changes.",
+        "artBranch": "Fotos → ChatGPT → Personagens ilustrados → Implementação remains visible outside the interactive panel; accent at step 3 only."
+      }
     }
   },
   "components": [
@@ -110,9 +207,31 @@
     {
       "name": "Delivery workflow",
       "kind": "custom",
-      "description": "Extracted implemented Backstage pattern; desktop default with responsive overrides.",
-      "html": "<div class=\"ds-example\"><ol class=\"ds-workflow\" aria-label=\"Etapas de uma atualização\"><li>Pedido</li><li>Revisão</li><li>Implementação</li><li>Testes</li><li>Publicação</li><li>Conferência pública</li></ol></div>",
-      "css": ".ds-example{font:400 17px/1.7 Figtree,Arial,sans-serif;color:var(--ink,#18212b)}.ds-workflow{list-style:none;counter-reset:step;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:32px 0;padding:0}.ds-workflow li{counter-increment:step;border-top:1px solid var(--line,#d8dee4);padding-top:16px;font-size:15px;font-weight:600;line-height:1.5}.ds-workflow li:before{content:counter(step,decimal-leading-zero);display:block;font-variant-numeric:tabular-nums;font-size:13px;font-weight:500;color:var(--muted,#52606d);margin-bottom:8px}.ds-example a:focus-visible{outline:2px solid var(--accent,#0969da);outline-offset:5px;border-radius:2px}@media(max-width:600px){.ds-workflow{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px}}"
+      "description": "Static preview of the actual six-step selector in Implementação state; production flow-tour.js wires selection to the Hairline stage and polite caption. Replaces the unused legacy .workflow grid.",
+      "html": "<div class=\"ds-tour\"><ol class=\"ds-flow-steps\" aria-label=\"Selecionar etapa\"><li><button type=\"button\" data-passed=\"true\"><span aria-hidden=\"true\">01</span>Pedido</button></li><li><button type=\"button\" data-passed=\"true\"><span aria-hidden=\"true\">02</span>Revisão</button></li><li><button type=\"button\" aria-current=\"step\" data-passed=\"false\"><span aria-hidden=\"true\">03</span>Implementação</button></li><li><button type=\"button\" data-passed=\"false\"><span aria-hidden=\"true\">04</span>Testes</button></li><li><button type=\"button\" data-passed=\"false\"><span aria-hidden=\"true\">05</span>Publicação</button></li><li><button type=\"button\" data-passed=\"false\"><span aria-hidden=\"true\">06</span>Conferência pública</button></li></ol></div>",
+      "css": ".ds-tour{font-family:Figtree,Arial,sans-serif;color:var(--ink,#18212b)}.ds-tour button:focus-visible{outline:2px solid var(--accent,#0969da);outline-offset:4px}.ds-flow-steps{position:relative;list-style:none;margin:0;padding:0;display:grid;grid-template-rows:repeat(6,minmax(56px,auto));gap:8px}.ds-flow-steps:before,.ds-flow-steps:after{content:\"\";position:absolute;top:28px;bottom:28px;left:15px;width:1px;background:var(--line,#d8dee4);pointer-events:none}.ds-flow-steps:after{background:var(--accent,#0969da);transform:scaleY(.4);transform-origin:top;transition:transform .35s ease-out}.ds-flow-steps li{z-index:1;min-width:0}.ds-flow-steps button{border:0;background:transparent;display:flex;gap:12px;align-items:center;min-height:56px;width:100%;text-align:left;padding:8px 0;font:500 15px/1.4 Figtree,Arial,sans-serif;color:var(--muted,#52606d);cursor:pointer}.ds-flow-steps button span{display:flex;align-items:center;justify-content:center;flex:0 0 32px;height:32px;border:1px solid var(--line,#d8dee4);border-radius:50%;background:var(--surface,#ffffff);font-variant-numeric:tabular-nums;font-size:12px}.ds-flow-steps button[aria-current]{color:var(--ink,#18212b);font-weight:650}.ds-flow-steps button[aria-current] span{background:var(--ink,#18212b);color:var(--surface,#ffffff);border-color:var(--ink,#18212b)}.ds-flow-steps button[data-passed=true] span{color:var(--accent,#0969da);border-color:var(--accent,#0969da)}.ds-flow-steps button:hover{color:var(--accent,#0969da)}@media(max-width:600px){.ds-flow-steps{gap:4px;grid-template-rows:repeat(6,minmax(64px,auto))}.ds-flow-steps button{font-size:13px;gap:8px;min-height:64px}.ds-flow-steps button span{flex-basis:24px;height:24px;font-size:11px}.ds-flow-steps:before,.ds-flow-steps:after{left:11px;top:32px;bottom:32px}}@media(prefers-reduced-motion:reduce){.ds-flow-steps:after{transition:none}}"
+    },
+    {
+      "name": "Workflow tour controls",
+      "kind": "button",
+      "refersTo": "tour-control-primary",
+      "description": "Primary playback and secondary reset, static preview; production playback exposes aria-pressed and changes labels.",
+      "html": "<div class=\"ds-tour\"><div class=\"ds-flow-controls\"><button type=\"button\" aria-pressed=\"false\">Iniciar animação</button><button type=\"button\">Recomeçar</button></div></div>",
+      "css": ".ds-tour{font-family:Figtree,Arial,sans-serif;color:var(--ink,#18212b)}.ds-tour button:focus-visible{outline:2px solid var(--accent,#0969da);outline-offset:4px}.ds-flow-controls{display:flex;gap:12px;align-items:center;margin-bottom:28px;flex-wrap:wrap}.ds-flow-controls button{font:600 14px/1.4 Figtree,Arial,sans-serif;border:1px solid var(--line,#d8dee4);border-radius:var(--radius,6px);padding:12px 16px;min-height:44px;color:var(--ink,#18212b);background:var(--surface,#ffffff);cursor:pointer}.ds-flow-controls button:first-child{background:var(--ink,#18212b);border-color:var(--ink,#18212b);color:var(--surface,#ffffff);min-width:158px}.ds-flow-controls button:hover{border-color:var(--accent,#0969da)}.ds-flow-controls button:first-child:hover{background:var(--accent,#0969da)}"
+    },
+    {
+      "name": "Workflow static alternative",
+      "kind": "custom",
+      "description": "Complete approved reading alternative, visible before enhancement and with reduced motion or failed module loading.",
+      "html": "<div class=\"ds-tour\"><ol class=\"ds-workflow-static\" aria-label=\"Etapas de uma atualização\"><li><h3>Pedido</h3><p>Pelo Telegram, o responsável solicita uma alteração e envia os materiais necessários.</p></li><li><h3>Revisão</h3><p>Textos e mudanças são revisados. A direção e as aprovações permanecem humanas.</p></li><li><h3>Implementação</h3><p>No MacBook Air M1, o Hermes Agent trabalha nos arquivos com apoio do Codex.</p></li><li><h3>Testes</h3><p>O resultado é verificado no navegador, em diferentes tamanhos de tela.</p></li><li><h3>Publicação</h3><p>A alteração é registrada no Git e publicada no GitHub Pages.</p></li><li><h3>Conferência pública</h3><p>O site publicado é conferido para confirmar que a versão correta está disponível.</p></li></ol></div>",
+      "css": ".ds-tour{font-family:Figtree,Arial,sans-serif;color:var(--ink,#18212b)}.ds-tour{font-size:17px;line-height:1.7}.ds-workflow-static{padding-left:24px;margin:24px 0}.ds-workflow-static li{padding:12px 0 20px}.ds-workflow-static h3{font-size:18px;margin:0 0 8px}.ds-workflow-static p{color:var(--muted,#52606d);font-size:16px;margin:0;max-width:72ch}@media(max-width:600px){.ds-tour{font-size:16px}}"
+    },
+    {
+      "name": "Illustration input branch",
+      "kind": "custom",
+      "description": "Persistent source attribution; preview shows the Implementação highlight.",
+      "html": "<div class=\"ds-tour\"><div class=\"ds-flow-art-source\" data-active=\"true\"><span>Fotos</span><span aria-hidden=\"true\">→</span><span>ChatGPT</span><span aria-hidden=\"true\">→</span><span>Personagens ilustrados</span><span class=\"ds-flow-art-destination\">Implementação</span></div></div>",
+      "css": ".ds-tour{font-family:Figtree,Arial,sans-serif;color:var(--ink,#18212b)}.ds-flow-art-source{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;border-top:1px solid var(--line,#d8dee4);border-bottom:1px solid var(--line,#d8dee4);padding:20px 0;margin-top:24px;font-size:13px;line-height:1.7;color:var(--muted,#52606d)}.ds-flow-art-source[data-active=true]{color:var(--accent,#0969da);border-color:var(--accent,#0969da)}.ds-flow-art-destination{margin-left:auto;color:var(--ink,#18212b);font-weight:600}.ds-flow-art-destination:before{content:\"→\";margin-right:12px;font-weight:400;color:var(--muted,#52606d)}@media(max-width:600px){.ds-flow-art-destination{margin-left:0;width:100%}}"
     }
   ],
   "narrative": {
