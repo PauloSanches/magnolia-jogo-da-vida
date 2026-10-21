@@ -1,0 +1,12 @@
+{
+  "status": "approved",
+  "approval": "User replied continue after the complete proposed page text and visual direction.",
+  "scope": "New /backstage/ route; no gameplay changes",
+  "title": "Uma homenagem que virou software",
+  "content_source": "docs/backstage/index.html",
+  "constraints": [
+    "Keep approved narrative and actual tools/workflow",
+    "No private conversations, credentials, fabricated metrics or local-model claims",
+    "Preserve existing game and main account site"
+  ]
+}

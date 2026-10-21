@@ -1,0 +1,14 @@
+[
+  {
+    "asset": "backstage/assets/game-mobile.png",
+    "source": "magnolia-story-and-question-390x844.png",
+    "kind": "Real browser screenshot of the public Magnolia game, not generated imagery",
+    "sha256": "08f2a4f0e9b4144ff7a8c77e21a294457e39d8895bd3e3e7afb422fec1678f63"
+  },
+  {
+    "asset": "backstage/assets/game-desktop.png",
+    "source": "magnolia-finale-scenery-1440x1000.png",
+    "kind": "Real browser screenshot of the public Magnolia game, not generated imagery",
+    "sha256": "cf99a289c252ed895a49316a582898e3995e72ed70cbea15a5a1b30bebfff953"
+  }
+]
