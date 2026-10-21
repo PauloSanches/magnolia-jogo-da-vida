@@ -97,5 +97,16 @@
     "width": 556,
     "height": 640,
     "background_removal": "Authorized Apple Vision foreground instance mask; all six people and white clothing retained; transparent PNG"
+  },
+  {
+    "id": "casa-profissao",
+    "requested_filename": "img_9e1a59222a29.jpg",
+    "received_format": "JPEG",
+    "source_sha256": "09ac7e79b3f809e3883091e79132e1a3fc8f512214d82ae3247ce1af659fbf98",
+    "asset": "assets/character-casa-profissao-03c9061ee7af.png",
+    "asset_sha256": "03c9061ee7afe442f31f416af6bdff0725819aa40faf6a66c1fc3be263fc56c0",
+    "width": 365,
+    "height": 640,
+    "background_removal": "Authorized Apple Vision foreground instance mask; full character, white coat and shoes, tablet and handheld headset retained; transparent PNG"
   }
 ]

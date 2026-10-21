@@ -162,7 +162,17 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    assert.equal(await ev('__boardState.active'),2);
    assert.match(await ev('avatar.getAttribute("src")'),/^assets\/character-casa-03-[a-f0-9]+\.png$/);
    await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
-   await ev('__draft.go(0)');const sameSource=await ev('avatar.getAttribute("src")');
+   await ev('__draft.go(0)');
+   const professional=JSON.parse(fs.readFileSync(path.join(root,'editorial/character-artwork.json'),'utf8')).find(row=>row.id==='casa-profissao').asset;
+   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
+   await ev('void __draft.go(10)');
+   for(let n=0;n<30&&!await ev('document.querySelectorAll(".avatar-ghost").length');n++)await sleep(50);
+   assert.equal(await ev('avatar.getAttribute("src")'),professional);assert.equal(await ev('document.querySelectorAll(".avatar-ghost").length'),1,'The eleventh house must turn into its newly supplied character');
+   for(let n=0;n<50&&await ev('__boardState.moving');n++)await sleep(100);
+   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await ev('__draft.go(0)');
+   // Every active house now has unique artwork. Test image reuse by preloading
+   // the target image onto the pawn, without changing production mappings.
+   await ev('avatar.src='+JSON.stringify(professional)+';avatar.decode()');const sameSource=await ev('avatar.getAttribute("src")');
    await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
    await ev('void __draft.go(10)');await sleep(50);
    assert.equal(await ev('avatar.getAttribute("src")'),sameSource);
