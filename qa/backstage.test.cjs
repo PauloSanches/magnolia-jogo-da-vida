@@ -6,3 +6,11 @@ test('backstage is a separate, self-contained case-study route',()=>{
  for(const id of ['jogo','ferramentas','sistema','fluxo','atualizacao','engenharia'])assert(html.includes('id="'+id+'"'));
  for(const src of [...html.matchAll(/(?:src|href)="([^"?#]+)(?:[?#][^"]*)?"/g)].map(m=>m[1]).filter(s=>!s.startsWith('http')&&!s.startsWith('#')))assert(fs.existsSync(path.resolve(path.dirname(page),src)),src);
 });
+
+test('backstage has an engineering layout distinct from the illustrated game',()=>{
+ const html=fs.readFileSync(path.join(root,'docs/backstage/index.html'),'utf8'),css=fs.readFileSync(path.join(root,'docs/backstage/backstage.css'),'utf8');
+ assert(html.includes('class="contents"'),'Provide section navigation for the technical case');
+ assert(!css.includes('DynaPuff'),'Keep playful game display type out of the technical page');
+ assert(css.includes('--surface:#ffffff'),'Use a neutral reading surface');assert(css.includes('position:sticky'),'Keep desktop section navigation available');
+ assert(!css.includes('50% 50%'),'Remove the organic screenshot surround');
+});

@@ -8,5 +8,10 @@
     "Keep approved narrative and actual tools/workflow",
     "No private conversations, credentials, fabricated metrics or local-model claims",
     "Preserve existing game and main account site"
-  ]
+  ],
+  "visual_revision": {
+    "request": "quero um layout/design mais sobrio, tecnico, estilho engenharia software em big techs.",
+    "scope": "Backstage layout and visual system only; approved narrative and game preserved",
+    "status": "requested; rendered result pending user review"
+  }
 }

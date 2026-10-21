@@ -1,182 +1,160 @@
 ---
 name: Magnólia Backstage
-description: Observed design tokens for the existing Backstage page; not a replacement for game styling.
+description: Implemented engineering-editorial design for docs/backstage/ only; game styling is independent.
 colors:
-  ink: "#284f45"
-  pink: "#b72e60"
-  paper: "#fffdf5"
-  ground: "#dff0bd"
-  soft: "#f7e7eb"
-  line: "#c1cec2"
-  selection: "#ffd34f"
-  tools-divider: "#7b9c8f"
-  workflow-divider: "#b72e6050"
+  surface: "#ffffff"
+  surface-subtle: "#f6f8fa"
+  ink: "#18212b"
+  muted: "#52606d"
+  line: "#d8dee4"
+  accent: "#0969da"
+  selection: "#ddedff"
+  structural: "#8c98a5"
 typography:
   display:
-    fontFamily: "DynaPuff,sans-serif"
-
-    fontWeight: 500
-    lineHeight: 1.12
-    letterSpacing: "-.025em"
+    fontFamily: "Figtree,Arial,sans-serif"
+    fontWeight: 650
+    lineHeight: 1.08
+    letterSpacing: "-.035em"
   headline:
-    fontFamily: "DynaPuff,sans-serif"
-
-    fontWeight: 500
-    lineHeight: 1.22
+    fontFamily: "Figtree,Arial,sans-serif"
+    fontSize: "30px"
+    fontWeight: 650
+    lineHeight: 1.25
     letterSpacing: "-.025em"
   body:
     fontFamily: "Figtree,Arial,sans-serif"
-    fontSize: "18px"
-    fontWeight: 400
-    lineHeight: 1.65
-  body-mobile:
-    fontFamily: "Figtree,Arial,sans-serif"
     fontSize: "17px"
     fontWeight: 400
-    lineHeight: 1.65
-  lead:
-    fontFamily: "Figtree,Arial,sans-serif"
-    fontSize: "21px"
-    fontWeight: 400
-    lineHeight: 1.55
-  action:
+    lineHeight: 1.7
+  body-mobile:
     fontFamily: "Figtree,Arial,sans-serif"
     fontSize: "16px"
-    fontWeight: 650
-    lineHeight: 1.65
-  navigation:
+    fontWeight: 400
+    lineHeight: 1.7
+  lead:
+    fontFamily: "Figtree,Arial,sans-serif"
+    fontSize: "20px"
+    fontWeight: 400
+    lineHeight: 1.6
+  action:
     fontFamily: "Figtree,Arial,sans-serif"
     fontSize: "15px"
     fontWeight: 600
-    lineHeight: 1.65
-  caption:
+    lineHeight: 1.7
+  navigation:
     fontFamily: "Figtree,Arial,sans-serif"
     fontSize: "14px"
+    fontWeight: 550
+    lineHeight: 1.7
+  caption:
+    fontFamily: "Figtree,Arial,sans-serif"
+    fontSize: "13px"
     fontWeight: 400
     lineHeight: 1.5
 rounded:
-  action: "50px"
-  phone: "26px"
-  wide-image: "18px"
-  local-node: "14px"
+  surface: "6px"
+  image: "4px"
+  focus: "2px"
 spacing:
-  inline-small: "8px"
-  item: "24px"
-  gutter-mobile: "22px"
-  gutter-medium: "32px"
-  gutter-desktop: "48px"
-  section-mobile: "52px"
-  section-medium: "64px"
-  section-desktop: "80px"
+  space-1: "8px"
+  space-2: "16px"
+  space-3: "24px"
+  space-4: "32px"
+  space-5: "48px"
+  space-6: "64px"
 components:
   button-primary:
     backgroundColor: "{colors.ink}"
-    textColor: "{colors.paper}"
+    textColor: "{colors.surface}"
     typography: "{typography.action}"
-    rounded: "{rounded.action}"
-    padding: "13px 24px"
+    rounded: "{rounded.surface}"
+    padding: "11px 20px"
   button-primary-hover:
-    backgroundColor: "{colors.pink}"
-    textColor: "{colors.paper}"
-  navigation:
-    textColor: "{colors.ink}"
-    typography: "{typography.navigation}"
-  navigation-hover:
-    textColor: "{colors.pink}"
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.surface}"
   text-link:
     textColor: "{colors.ink}"
   text-link-hover:
-    textColor: "{colors.pink}"
+    textColor: "{colors.accent}"
+  navigation:
+    textColor: "{colors.ink}"
+    typography: "{typography.navigation}"
+  contents:
+    textColor: "{colors.muted}"
   local-node:
-    backgroundColor: "{colors.ground}"
+    backgroundColor: "{colors.surface-subtle}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.local-node}"
-    padding: "24px 18px"
-  tools-section:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.paper}"
-  workflow-section:
-    backgroundColor: "{colors.soft}"
-    textColor: "{colors.ink}"
-  phone:
-    backgroundColor: "{colors.paper}"
-    rounded: "{rounded.phone}"
-    width: "240px"
+    rounded: "{rounded.surface}"
+    padding: "16px 12px"
+  evidence:
+    backgroundColor: "{colors.surface-subtle}"
+    rounded: "{rounded.surface}"
+    padding: "24px"
 ---
 
 # Design System: Magnólia Backstage
 
 ## Overview
 
-This document records the existing implementation in `docs/backstage/backstage.css`, with component markup checked against `docs/backstage/index.html`. It documents the approved Backstage surface only. `PRODUCT.md` and `editorial/backstage-design.md` establish preservation of the game's colors, fonts and illustrations and separation of the Backstage route from the game.
+A sober software-engineering article: white surface, graphite hierarchy, slate supporting text and blue interaction states. This replaces the former playful Backstage world, following `editorial/backstage-design.md`. Source of truth: `docs/backstage/backstage.css` and `docs/backstage/index.html`.
 
-The frontmatter is the token reference for Backstage. The game remains governed by unchanged `docs/style.css`: its pink is `#cc3f72`, while Backstage's implemented pink is the `pink` token above (`#b72e60`). The editorial brief describes the inherited game pink; the actual Backstage stylesheet is authoritative for this extraction. Ink, paper, ground, selection color and the local DynaPuff/Figtree families are shared. The inherited cream paper is intentional, not a defect. Backstage's scrolling document and typography do not replace the game's fixed stage, balloons, controls or animation rules.
+Scope is exclusively `docs/backstage/`. The illustrated game retains its own colors, fonts and behavior in `docs/style.css`; the real game captures retain their original appearance. No new branding, components or tonal ramps are inferred.
 
 **Key Characteristics:**
-- Local DynaPuff headings and Figtree body text.
-- Paper page, ink text, pink emphasis and ground/soft section backgrounds.
-- Responsive reading grids, real game screenshots and an HTML architecture diagram.
-
-No new qualitative branding, color ramps or unimplemented components are introduced. The sidecar extends these tokens with observed motion, breakpoints, depth and isolated component examples.
+- Local Figtree throughout, restrained rectangular controls and fine rules.
+- Desktop contents navigation beside a readable article; mobile single-column reading.
+- Genuine screenshot evidence, semantic architecture and ordered delivery workflow.
 
 ## Colors
 
 ### Primary
-- `ink`: body text, primary action background, tools-section background and phone border.
-- `pink`: heading emphasis, link hover, focus outline, play-link underline, diagram arrows and workflow numbers.
+`ink` provides text and primary-action fill. `accent` is reserved for link hover, button hover and keyboard focus; headings remain graphite.
 
-### Neutral and supporting surfaces
-- `paper`: page, phone and skip-link backgrounds; primary action and tools-section text.
-- `ground`: screenshot surround, local architecture node, tools terms and closing section.
-- `soft`: workflow section background.
-- `line`: header, image, architecture and engineering dividers.
-- `tools-divider`: borders above tool descriptions.
-- `workflow-divider`: translucent borders above workflow steps.
-- `selection`: selected text background, paired with ink text.
-
-Color names preserve the source custom-property names where present. Supporting literal colors use descriptive usage keys. No generated tonal scale is implied.
+### Neutral
+`surface` is the page and button text; `surface-subtle` groups evidence, the human-direction note and local execution node. `muted` supports captions and descriptions; `line` separates sections and frames evidence. `structural` records the existing literal used for the scrollbar thumb and local-node border. Selected text uses `selection` with `ink`.
 
 ## Typography
 
-DynaPuff and Figtree are loaded from local TrueType files with `font-display:swap`; their declared weight ranges are 400–700 and 300–900 respectively. Headings use the display/headline tokens with balanced wrapping. Display size is `clamp(44px,5.5vw,80px)` and headline size is `clamp(28px,3vw,42px)`. These exact fluid expressions are preserved in sidecar typography metadata rather than flattened to fixed sizes: the installed DESIGN.md CLI rejects `clamp()` as a frontmatter dimension. Body, lead, action, navigation and caption tokens include inherited body properties where applicable.
+Figtree is self-hosted at `docs/assets/fonts/Figtree.ttf`, variable weight 300–900, with `font-display:swap` and Arial/sans-serif fallbacks. No DynaPuff is loaded by Backstage.
 
-At the mobile breakpoint, body uses `body-mobile`, lead text becomes 19px and navigation text becomes 14px. The brand is DynaPuff at 500 25px/1.15, reduced to 22px on mobile; its subtitle is Figtree at 500 12px/1.6. Reading content is capped at 65ch, tool descriptions and engineering items at 55ch. This is an observed role set, not an invented ratio-based type scale.
+The display size is `clamp(36px,4.6vw,64px)`, capped at 18ch. At widths ≤900px it is 52px; ≤600px uses `clamp(34px,9.4vw,46px)` and 1.12 line-height. Fluid expressions are retained in sidecar metadata, not flattened into fixed frontmatter dimensions. Balanced section headings have a 31ch cap; on mobile they use 26px, 1.25 line-height and -.02em tracking. Lead text becomes 18px on mobile. Paragraphs cap at 72ch; reading wrappers at 74ch. Workflow numerals use tabular figures, not a monospace display face.
 
 ## Layout
 
-The header/footer max-width is 1320px; hero and sections are 1240px; the wide screenshot is 1144px. Default section padding combines `section-desktop` and `gutter-desktop`. The hero uses `1.3fr 1fr`, a 70px gap and `72px 48px 88px` padding; reading sections use `1fr 1.3fr` with an 80px gap. Actions wrap in a flex row. Tools use two columns, component descriptions five, workflow six and engineering items two.
+Header, content and footer cap at 1280px with 40px horizontal padding. The content grid is `184px minmax(0,1fr)` with a 64px gap and 64px top padding. Contents navigation is sticky at 32px, scrollable within `calc(100dvh - 64px)`. Sections use 56px vertical padding. Actions wrap; evidence uses a 1:2.4 grid; tool and responsibility rows use 160px labels with 24px gaps. Workflow uses three columns.
 
-- At `min-width:1500px`, hero gap becomes 110px and its screenshot surround is capped at 390px.
-- At `max-width:1000px`, gutters become 32px, section vertical padding 64px, hero gap 36px and reading gap 40px. Component descriptions and workflow become three columns.
-- At `max-width:700px`, hero, reading, tools, architecture and engineering become single-column. Component descriptions and workflow use two columns. Section padding is `52px 22px`; hero padding is `46px 22px 52px`. The screenshot surround is capped at 360px and the phone width is 215px. Architecture arrows rotate 90 degrees; workflow copy stops using columns. The first header navigation link is hidden, closing actions stack and footer content wraps.
+- ≤1100px: 32px gutters, 156px contents column and 40px gap; architecture becomes vertical, with rotated connectors; evidence padding/gap become 16px.
+- ≤900px: contents hidden, article/header/footer capped at 824px, 48px section and top spacing; evidence ratio becomes 1:2.2.
+- ≤600px: 20px gutters, 40px section and top spacing; only Play remains in header navigation. Evidence stacks, with the mobile capture and caption beside each other. Definition rows stack; workflow uses two columns; footer wraps.
 
-Spacing keys are labels for observed recurring values, not additional CSS custom properties. Breakpoint directions and responsive rules also live in the sidecar.
+Spacing primitives preserve the declared `--space-1` through `--space-6` values; rules currently repeat literal measurements rather than consuming these variables.
 
 ## Elevation & Depth
 
-The phone screenshot has the sole Backstage box shadow: `0 18px 36px #284f4526`. Other separation comes from background changes and borders rather than additional shadows. The phone border is 7px solid ink; general dividers are 1px, and the play underline and workflow step borders are 2px. The sidecar records the shadow without adding a nonstandard frontmatter group.
+No box shadows. One-pixel borders and subtle neutral surfaces supply separation. The local execution node has a stronger neutral border, not a raised card treatment.
 
 ## Shapes
 
-Actions use the action radius, the phone uses the phone radius, wide screenshots use the wide-image radius and the local architecture node uses the local-node radius. The screenshot surround has the distinct compound radius `50% 50% 28px 28px`; it is not a generic card radius. The phone clips its image with `overflow:hidden`. These Backstage shapes do not redefine game balloons or circular game controls.
+Controls, evidence group, note and architecture nodes share the surface radius. Screenshots use the image radius; the phone capture clips overflow. No organic screenshot surround, pill actions or device-mockup shadow remains.
 
 ## Components
 
-- **Primary action:** an anchor with the button-primary tokens, inline-flex alignment, 28px internal gap and 52px minimum height. Hover changes its background to pink. Background and color transitions are `.18s`; there is no authored active-state variant.
-- **Text action:** underlined Figtree link, 16px/600, minimum height 44px, 8px icon gap. Hover changes text to pink.
-- **Navigation:** flex row with 32px gap, un-underlined links and 44px minimum link height. The play link adds a 2px pink bottom border and 20px internal gap. Mobile navigation uses an 18px gap and hides its first link.
-- **Keyboard access:** anchors receive a 3px solid pink `:focus-visible` outline with 6px offset. The fixed skip link is translated above the viewport until focused; its stacking level is 10.
-- **Local architecture node:** ground background, local-node radius and a vertical flex stack. At the medium breakpoint its strong text is 16px and supporting text 13px; mobile uses 19px/15px, centered alignment, full width and 12px padding.
-- **Workflow:** numbered list rendered with CSS counters, pink DynaPuff numbers, translucent pink top borders and responsive six/three/two-column layout. It is not an interactive control.
-- **Evidence images:** fluid images with automatic height; the hero phone has the border/shadow above, while wide screenshots have a line border and rounded corners.
+- **Primary action:** real game anchor, 48px minimum height, 24px internal gap; blue background/border on hover. Transition: background and border-color, .16s ease-out. Mobile: 14px type, 16px horizontal padding/gap.
+- **Text action:** underlined repository anchor, 15px/550, 48px minimum height and 12px gap; mobile 14px and 8px gap.
+- **Header navigation:** 44px minimum link height, 32px gap; Play adds a one-pixel border and 16px horizontal padding. Mobile gap is 16px, type 13px, Play padding 12px.
+- **Contents:** labeled section anchors, 14px/1.4, 44px minimum targets; muted at rest, blue and underlined on hover. No active-section tracking is implemented.
+- **Architecture:** labeled HTML group with four nodes and decorative connectors. Desktop node headings are 15px/1.35; supporting text 13px/1.45. At ≤1100px padding becomes 20px, heading 17px and supporting text 14px.
+- **Workflow:** semantic six-step ordered list, fine top rules, two-digit CSS counters; not interactive.
+- **Evidence:** two genuine lazy-loaded images with intrinsic dimensions, alternative text and captions. Provenance stays in `editorial/backstage-assets.json`.
 
-The page has no input fields or chips. The sidecar examples extract existing components rather than introducing those primitives. Default smooth anchor scrolling becomes automatic under `prefers-reduced-motion:reduce`; all transitions are disabled in that media query. No game animation behavior is inferred from this Backstage rule.
+All anchors have a 2px blue `:focus-visible` outline, 5px offset and focus radius. A fixed skip link appears on focus. Smooth anchor scrolling uses 32px scroll padding; reduced motion switches scrolling to auto and disables transitions. There are no forms, loading/error widgets, chips or authored active/disabled action variants.
 
 ## Do's and Don'ts
 
-- Do preserve the implemented Backstage tokens and local font families.
-- Do retain responsive layouts, visible keyboard focus and the reduced-motion override.
-- Do keep the game stylesheet and its different pink scoped to the game.
-- Don't replace the inherited cream paper or recolor existing illustrations.
-- Don't apply Backstage heading sizes, spacing or component styles to game controls.
-- Don't treat documentation snippets as new website features or generated color ramps as existing tokens.
+- Do preserve the implemented neutral palette, local Figtree and visible keyboard focus.
+- Do keep screenshot evidence and semantic diagrams readable across breakpoints.
+- Do keep Backstage styles isolated from the illustrated game.
+- Don't restore the superseded playful Backstage palette, display font or organic frames.
+- Don't recolor evidence images or change approved narrative to suit the layout.
+- Don't invent token ramps, component states or application behavior absent from the source.

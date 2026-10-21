@@ -17,7 +17,7 @@ Desenvolvimento dirigido pelo Telegram, com Hermes Agent, integração Codex e M
 HTML, CSS, JavaScript e SVG; conteúdo atualmente estático; 12 histórias e 10 perguntas. Sem backend de aplicação para jogar. Não registrar respostas nem restaurar áudio/Sheets. Texto editorial aprovado antes de publicar. Backstage é uma rota separada e não altera o jogo.
 
 ## Brand Commitments
-Preservar as cores, fontes e ilustrações do jogo. O texto integral do case e a proposta de capturas reais e diagrama foram aprovados com o pedido de continuar.
+Preservar as cores, fontes e ilustrações no jogo. Para /backstage/, o usuário substituiu a direção visual inicial por um layout sóbrio e técnico, no estilo de páginas de engenharia de software de big techs. A identidade do case é independente: superfície branca, texto grafite, hierarquia editorial e navegação por seções. O texto integral aprovado, as capturas reais e o diagrama permanecem.
 
 ## Evidence on Hand
 Código, histórico Git, testes executáveis e capturas reais. Não há métricas aprovadas de receita, audiência, custo ou produtividade; não inventá-las. Não publicar conversas privadas, credenciais ou configuração de acesso.

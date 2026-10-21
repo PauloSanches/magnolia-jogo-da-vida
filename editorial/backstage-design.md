@@ -1,11 +1,12 @@
 # Backstage
 
-Texto e proposta visual aprovados no chat por “continue”, após a apresentação integral. Escopo: docs/backstage/, sem alterações ao jogo.
+Scope: docs/backstage/ only. Mode: Read, with calls to play and inspect source.
+The user replaced the inherited playful direction with: “quero um layout/design mais sobrio, tecnico, estilho engenharia software em big techs.” Preserve approved narrative, screenshots and game behavior.
 
 ## Direction contract
-THESIS: Case editorial com evidência visual real e a sequência mensagem → implementação → publicação; evitar uma vitrine genérica de recursos.
-OWN-WORLD: Herda verde #284f45, rosa #cc3f72, papel #fffdf5 e fontes locais DynaPuff/Figtree do jogo.
-STORY: O visitante entende a homenagem, vê o produto, conhece o processo e pode jogar ou explorar o código.
-FIRST VIEWPORT: Título grande à esquerda, captura mobile real à direita, navegação curta e CTA Jogar. O restante alterna imagens amplas e leitura, com um diagrama acessível em HTML.
-FORM: Estrutura editorial aprovada pelo usuário; sem sorteio de conceito porque a proposta visual e a sequência de conteúdo já foram aprovadas. Code-led, sem imagens sintéticas.
+THESIS: A software-engineering case study, organized as a readable technical article rather than a playful game landing page.
+OWN-WORLD: White reading surface, graphite text, slate secondary text, restrained blue interactive states, local Figtree, small rectangular controls and fine neutral rules. No organic surrounds, display DynaPuff or invented terminal output.
+STORY: Understand the product, examine genuine screenshots, follow the architecture and delivery workflow, then open the game or repository.
+FIRST VIEWPORT: Slim navigation; desktop section index beside an article-width headline, summary and two actions. Evidence follows the first explanation, rather than a large phone mockup beside the headline. Mobile leads directly with the article and reflows evidence vertically.
+FORM: User-pinned conventional engineering editorial; code-led. Sticky section navigation and semantic diagrams, smooth anchor scrolling with reduced-motion alternative. No concept roll: the user explicitly selected the familiar technical direction.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.

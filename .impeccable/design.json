@@ -1,105 +1,136 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-21T22:18:31.987991+00:00",
+  "generatedAt": "2026-10-21T22:36:40.466695+00:00",
   "title": "Design System: Magnólia Backstage",
   "extensions": {
     "scope": {
       "surface": "docs/backstage/",
       "tokenSource": "docs/backstage/backstage.css",
       "markupSource": "docs/backstage/index.html",
-      "contextSources": ["PRODUCT.md", "editorial/backstage-design.md"],
       "unchangedGameSource": "docs/style.css",
-      "notes": "Frontmatter in DESIGN.md owns token primitives. Backstage pink differs from the unchanged game pink; shared ink, paper, ground and fonts are preserved. No synthesized tonal ramps, qualitative branding or new primitives. Snippets are isolated documentation examples using existing markup and styles; font families are inherited from the project's locally loaded fonts with source fallbacks. CSS variable fallbacks let examples retain their source colors outside the page."
+      "assetProvenance": "editorial/backstage-assets.json",
+      "notes": "DESIGN.md frontmatter owns primitives. Observed values only; no synthetic tonal ramps or unimplemented components. Snippets use existing markup and variable fallbacks; Figtree is supplied by the local page font."
     },
     "sourceHashes": {
-      "docs/backstage/backstage.css": "be375e2c85329852f08eb681e2239ca2adef346ae63e4d05e50d3f4b5c32ae8e",
+      "docs/backstage/backstage.css": "0d58b95644fb936e6d76e2d03427f1ac129d2d36fae6898866bdd4635f790cfc",
+      "docs/backstage/index.html": "5ff2dfb1915a3282f689b7104859c6fecc57f918f09991b021dae49101d82545",
       "docs/style.css": "92716faf28afe22aa0a151208e5f998257fdc312eb193e3b5626c75172c45cd3"
     },
-    "colorMeta": {
-      "ink": {"role": "primary", "displayName": "Ink"},
-      "pink": {"role": "primary", "displayName": "Backstage pink"},
-      "paper": {"role": "neutral", "displayName": "Inherited paper"},
-      "ground": {"role": "neutral", "displayName": "Inherited ground"},
-      "soft": {"role": "neutral", "displayName": "Workflow surface"},
-      "line": {"role": "neutral", "displayName": "Dividers"}
-    },
     "typographyMeta": {
-      "display": {"displayName": "Display", "purpose": "Backstage h1; exact fluid CSS stored here because the installed frontmatter dimension validator rejects clamp().", "fontSizeCss": "clamp(44px,5.5vw,80px)"},
-      "headline": {"displayName": "Headline", "purpose": "Backstage h2; exact fluid CSS stored here because the installed frontmatter dimension validator rejects clamp().", "fontSizeCss": "clamp(28px,3vw,42px)"}
+      "display": {
+        "fontSizeCss": "clamp(36px,4.6vw,64px)",
+        "responsive": [
+          {
+            "query": "(max-width:900px)",
+            "fontSizeCss": "52px"
+          },
+          {
+            "query": "(max-width:600px)",
+            "fontSizeCss": "clamp(34px,9.4vw,46px)",
+            "lineHeight": 1.12
+          }
+        ]
+      }
     },
-    "shadows": [
-      {"name": "phone", "value": "0 18px 36px #284f4526", "purpose": "Phone screenshot frame; the only box-shadow in Backstage CSS."}
-    ],
+    "shadows": [],
     "motion": [
-      {"name": "button-transition", "value": "background .18s,color .18s", "purpose": "Primary action transition; no explicit easing is authored."},
-      {"name": "anchor-scroll", "value": "smooth", "purpose": "HTML scroll-behavior, with scroll-padding-top:24px."},
-      {"name": "reduced-motion", "value": "@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}", "purpose": "Backstage-only reduced-motion override."}
+      {
+        "name": "button-transition",
+        "value": "background .16s ease-out,border-color .16s ease-out",
+        "purpose": "Primary action hover."
+      },
+      {
+        "name": "anchor-scroll",
+        "value": "smooth",
+        "purpose": "Anchor navigation with scroll-padding-top:32px."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}",
+        "purpose": "Backstage-only override."
+      }
     ],
     "breakpoints": [
-      {"name": "wide-min", "value": "1500px", "query": "(min-width:1500px)"},
-      {"name": "medium-max", "value": "1000px", "query": "(max-width:1000px)"},
-      {"name": "mobile-max", "value": "700px", "query": "(max-width:700px)"}
+      {
+        "name": "compact-desktop",
+        "value": "1100px",
+        "query": "(max-width:1100px)"
+      },
+      {
+        "name": "single-column",
+        "value": "900px",
+        "query": "(max-width:900px)"
+      },
+      {
+        "name": "mobile",
+        "value": "600px",
+        "query": "(max-width:600px)"
+      }
     ],
-    "focus": {"selector": "a:focus-visible", "outline": "3px solid var(--pink)", "outlineOffset": "6px"}
+    "focus": {
+      "selector": "a:focus-visible",
+      "outline": "2px solid var(--accent)",
+      "outlineOffset": "5px",
+      "borderRadius": "2px"
+    }
   },
   "components": [
     {
       "name": "Primary action",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Existing play anchor, including its hover, focus and reduced-motion rules.",
-      "html": "<a class=\"ds-button ds-primary\" href=\"../\">Jogar <span aria-hidden=\"true\">↗</span></a>",
-      "css": ".ds-button{font-family:Figtree,Arial,sans-serif;line-height:1.65;display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:52px;padding:13px 24px;border-radius:50px;text-decoration:none;font-size:16px;font-weight:650;transition:background .18s,color .18s}.ds-primary{background:var(--ink,#284f45);color:var(--paper,#fffdf5)}.ds-primary:hover{background:var(--pink,#b72e60)}.ds-button:focus-visible{outline:3px solid var(--pink,#b72e60);outline-offset:6px}@media(prefers-reduced-motion:reduce){.ds-button{transition:none!important}}"
+      "description": "Extracted implemented Backstage pattern; desktop default with responsive overrides.",
+      "html": "<div class=\"ds-example\"><a class=\"ds-button\" href=\"../\">Jogar <span aria-hidden=\"true\">↗</span></a></div>",
+      "css": ".ds-example{font:400 17px/1.7 Figtree,Arial,sans-serif;color:var(--ink,#18212b)}.ds-button{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;padding:11px 20px;min-height:48px;font-size:15px;font-weight:600;text-decoration:none;border:1px solid var(--ink,#18212b);border-radius:var(--radius,6px);background:var(--ink,#18212b);color:var(--surface,#ffffff);transition:background .16s ease-out,border-color .16s ease-out}.ds-button:hover{background:var(--accent,#0969da);border-color:var(--accent,#0969da);color:var(--surface,#ffffff)}.ds-example a:focus-visible{outline:2px solid var(--accent,#0969da);outline-offset:5px;border-radius:2px}@media(max-width:600px){.ds-button{padding-inline:16px;font-size:14px;gap:16px}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none!important}}"
     },
     {
       "name": "Text action",
       "kind": "custom",
       "refersTo": "text-link",
-      "description": "Repository link with inherited body typography, hover color and keyboard focus.",
-      "html": "<a class=\"ds-text-link\" href=\"https://github.com/PauloSanches/magnolia-jogo-da-vida\">Explorar o código <span aria-hidden=\"true\">↗</span></a>",
-      "css": ".ds-text-link{font-family:Figtree,Arial,sans-serif;line-height:1.65;color:var(--ink,#284f45);text-underline-offset:5px;font-size:16px;font-weight:600;min-height:44px;display:inline-flex;align-items:center;gap:8px}.ds-text-link:hover{color:var(--pink,#b72e60)}.ds-text-link:focus-visible{outline:3px solid var(--pink,#b72e60);outline-offset:6px}"
+      "description": "Extracted implemented Backstage pattern; desktop default with responsive overrides.",
+      "html": "<div class=\"ds-example\"><a class=\"ds-text-link\" href=\"https://github.com/PauloSanches/magnolia-jogo-da-vida\">Explorar o código <span aria-hidden=\"true\">↗</span></a></div>",
+      "css": ".ds-example{font:400 17px/1.7 Figtree,Arial,sans-serif;color:var(--ink,#18212b)}.ds-text-link{display:inline-flex;gap:12px;align-items:center;min-height:48px;font-size:15px;font-weight:550}.ds-example a:focus-visible{outline:2px solid var(--accent,#0969da);outline-offset:5px;border-radius:2px}.ds-text-link{color:inherit;text-underline-offset:4px;text-decoration-thickness:1px}.ds-text-link:hover{color:var(--accent,#0969da)}@media(max-width:600px){.ds-text-link{font-size:14px;gap:8px}}"
     },
     {
       "name": "Header navigation",
       "kind": "nav",
       "refersTo": "navigation",
-      "description": "Existing three-link navigation; first link hidden at the mobile breakpoint.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Navegação do backstage\"><a href=\"#sistema\">Sistema</a><a href=\"#fluxo\">Fluxo</a><a class=\"ds-nav-play\" href=\"../\">Jogar <span aria-hidden=\"true\">↗</span></a></nav>",
-      "css": ".ds-nav{font-family:Figtree,Arial,sans-serif;line-height:1.65;display:flex;align-items:center;gap:32px;color:var(--ink,#284f45)}.ds-nav a{color:inherit;text-underline-offset:5px;font-size:15px;font-weight:600;text-decoration:none;min-height:44px;display:flex;align-items:center}.ds-nav a:hover{color:var(--pink,#b72e60)}.ds-nav a:focus-visible{outline:3px solid var(--pink,#b72e60);outline-offset:6px}.ds-nav-play{gap:20px;border-bottom:2px solid var(--pink,#b72e60)}@media(max-width:700px){.ds-nav{gap:18px}.ds-nav a{font-size:14px}.ds-nav a:first-child{display:none}}"
+      "description": "Extracted implemented Backstage pattern; desktop default with responsive overrides.",
+      "html": "<div class=\"ds-example\"><div class=\"ds-site-header\"><nav aria-label=\"Navegação do backstage\"><a href=\"#sistema\">Sistema</a><a href=\"#fluxo\">Fluxo</a><a class=\"ds-nav-play\" href=\"../\">Jogar <span aria-hidden=\"true\">↗</span></a></nav></div></div>",
+      "css": ".ds-example{font:400 17px/1.7 Figtree,Arial,sans-serif;color:var(--ink,#18212b)}.ds-site-header nav{display:flex;gap:32px;align-items:center}.ds-site-header nav a{font-size:14px;font-weight:550;min-height:44px;display:inline-flex;align-items:center;gap:12px;text-decoration:none}.ds-nav-play{border:1px solid var(--line,#d8dee4);border-radius:var(--radius,6px);padding:0 16px}.ds-example a:focus-visible{outline:2px solid var(--accent,#0969da);outline-offset:5px;border-radius:2px}.ds-site-header a{color:inherit}.ds-site-header a:hover{color:var(--accent,#0969da)}@media(max-width:600px){.ds-site-header nav{gap:16px}.ds-site-header nav a{font-size:13px}.ds-site-header nav a:not(.ds-nav-play){display:none}.ds-nav-play{padding-inline:12px}}"
     },
     {
-      "name": "Local architecture node",
+      "name": "Local execution node",
       "kind": "card",
       "refersTo": "local-node",
-      "description": "Existing noninteractive local execution node with responsive typography and padding.",
-      "html": "<div class=\"ds-architecture-node ds-local\"><strong>Hermes + Codex</strong><span>MacBook Air M1</span><small>Arquivos · imagens · testes</small></div>",
-      "css": ".ds-architecture-node{font:400 18px/1.65 Figtree,Arial,sans-serif;color:var(--ink,#284f45);display:flex;flex-direction:column;gap:5px}.ds-architecture-node strong{font-size:18px}.ds-architecture-node span,.ds-architecture-node small{font-size:14px}.ds-architecture-node.ds-local{background:var(--ground,#dff0bd);padding:24px 18px;border-radius:14px}@media(max-width:1000px){.ds-architecture-node strong{font-size:16px}.ds-architecture-node span,.ds-architecture-node small{font-size:13px}}@media(max-width:700px){.ds-architecture-node{font-size:17px;align-items:center;text-align:center}.ds-architecture-node.ds-local{padding:12px;width:100%}.ds-architecture-node strong{font-size:19px}.ds-architecture-node span,.ds-architecture-node small{font-size:15px}}"
+      "description": "Extracted implemented Backstage pattern; desktop default with responsive overrides.",
+      "html": "<div class=\"ds-example\"><div class=\"ds-architecture-node ds-local\"><strong>Hermes + Codex</strong><span>MacBook Air M1</span><small>Arquivos · imagens · testes</small></div></div>",
+      "css": ".ds-example{font:400 17px/1.7 Figtree,Arial,sans-serif;color:var(--ink,#18212b)}.ds-architecture-node{display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px 12px;border:1px solid var(--line,#d8dee4);border-radius:var(--radius,6px);background:var(--surface,#ffffff);min-width:0}.ds-architecture-node strong{font-size:15px;line-height:1.35}.ds-architecture-node span,.ds-architecture-node small{font-size:13px;line-height:1.45;color:var(--muted,#52606d)}.ds-architecture-node.ds-local{background:var(--surface-subtle,#f6f8fa);border-color:#8c98a5}.ds-example a:focus-visible{outline:2px solid var(--accent,#0969da);outline-offset:5px;border-radius:2px}.ds-architecture-node strong{font-weight:650}@media(max-width:1100px){.ds-architecture-node{padding:20px}.ds-architecture-node strong{font-size:17px}.ds-architecture-node span,.ds-architecture-node small{font-size:14px}}"
     },
     {
-      "name": "Workflow section list",
+      "name": "Delivery workflow",
       "kind": "custom",
-      "refersTo": "workflow-section",
-      "description": "Existing six-step numbered list on the soft section background; not interactive.",
-      "html": "<section class=\"ds-workflow-section\"><ol class=\"ds-workflow\" aria-label=\"Etapas de uma atualização\"><li>Pedido</li><li>Revisão</li><li>Implementação</li><li>Testes</li><li>Publicação</li><li>Conferência pública</li></ol></section>",
-      "css": ".ds-workflow-section{background:var(--soft,#f7e7eb);color:var(--ink,#284f45);font:400 18px/1.65 Figtree,Arial,sans-serif}.ds-workflow{list-style:none;counter-reset:steps;display:grid;grid-template-columns:repeat(6,1fr);padding:0;margin:42px 0;gap:18px}.ds-workflow li{counter-increment:steps;font-size:16px;font-weight:650;border-top:2px solid #b72e6050;padding-top:16px}.ds-workflow li:before{content:counter(steps);display:block;color:var(--pink,#b72e60);font:500 30px DynaPuff,sans-serif;margin-bottom:12px}@media(max-width:1000px){.ds-workflow{grid-template-columns:repeat(3,1fr);row-gap:30px}}@media(max-width:700px){.ds-workflow{grid-template-columns:1fr 1fr;gap:26px}}"
+      "description": "Extracted implemented Backstage pattern; desktop default with responsive overrides.",
+      "html": "<div class=\"ds-example\"><ol class=\"ds-workflow\" aria-label=\"Etapas de uma atualização\"><li>Pedido</li><li>Revisão</li><li>Implementação</li><li>Testes</li><li>Publicação</li><li>Conferência pública</li></ol></div>",
+      "css": ".ds-example{font:400 17px/1.7 Figtree,Arial,sans-serif;color:var(--ink,#18212b)}.ds-workflow{list-style:none;counter-reset:step;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:32px 0;padding:0}.ds-workflow li{counter-increment:step;border-top:1px solid var(--line,#d8dee4);padding-top:16px;font-size:15px;font-weight:600;line-height:1.5}.ds-workflow li:before{content:counter(step,decimal-leading-zero);display:block;font-variant-numeric:tabular-nums;font-size:13px;font-weight:500;color:var(--muted,#52606d);margin-bottom:8px}.ds-example a:focus-visible{outline:2px solid var(--accent,#0969da);outline-offset:5px;border-radius:2px}@media(max-width:600px){.ds-workflow{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px}}"
     }
   ],
   "narrative": {
-    "overview": "This document records the existing implementation in `docs/backstage/backstage.css`, with component markup checked against `docs/backstage/index.html`. It documents the approved Backstage surface only. `PRODUCT.md` and `editorial/backstage-design.md` establish preservation of the game's colors, fonts and illustrations and separation of the Backstage route from the game.\n\nThe frontmatter is the token reference for Backstage. The game remains governed by unchanged `docs/style.css`: its pink is `#cc3f72`, while Backstage's implemented pink is the `pink` token above (`#b72e60`). The editorial brief describes the inherited game pink; the actual Backstage stylesheet is authoritative for this extraction. Ink, paper, ground, selection color and the local DynaPuff/Figtree families are shared. The inherited cream paper is intentional, not a defect. Backstage's scrolling document and typography do not replace the game's fixed stage, balloons, controls or animation rules.",
+    "overview": "A sober software-engineering article: white surface, graphite hierarchy, slate supporting text and blue interaction states. This replaces the former playful Backstage world, following `editorial/backstage-design.md`. Source of truth: `docs/backstage/backstage.css` and `docs/backstage/index.html`.\n\nScope is exclusively `docs/backstage/`. The illustrated game retains its own colors, fonts and behavior in `docs/style.css`; the real game captures retain their original appearance. No new branding, components or tonal ramps are inferred.",
     "keyCharacteristics": [
-      "Local DynaPuff headings and Figtree body text.",
-      "Paper page, ink text, pink emphasis and ground/soft section backgrounds.",
-      "Responsive reading grids, real game screenshots and an HTML architecture diagram."
+      "Local Figtree throughout, restrained rectangular controls and fine rules.",
+      "Desktop contents navigation beside a readable article; mobile single-column reading.",
+      "Genuine screenshot evidence, semantic architecture and ordered delivery workflow."
     ],
     "dos": [
-      "Do preserve the implemented Backstage tokens and local font families.",
-      "Do retain responsive layouts, visible keyboard focus and the reduced-motion override.",
-      "Do keep the game stylesheet and its different pink scoped to the game."
+      "Do preserve the implemented neutral palette, local Figtree and visible keyboard focus.",
+      "Do keep screenshot evidence and semantic diagrams readable across breakpoints.",
+      "Do keep Backstage styles isolated from the illustrated game."
     ],
     "donts": [
-      "Don't replace the inherited cream paper or recolor existing illustrations.",
-      "Don't apply Backstage heading sizes, spacing or component styles to game controls.",
-      "Don't treat documentation snippets as new website features or generated color ramps as existing tokens."
+      "Don't restore the superseded playful Backstage palette, display font or organic frames.",
+      "Don't recolor evidence images or change approved narrative to suit the layout.",
+      "Don't invent token ramps, component states or application behavior absent from the source."
     ]
   }
 }

@@ -37,7 +37,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   let loaded=false;for(let i=0;i<200;i++){try{loaded=await ev('!window.__qaOldDocument&&!!document.querySelector("main#conteudo")');if(loaded)break;}catch{}await sleep(100);}
   assert(loaded,'The fresh document did not finish initializing');
   await ev('document.fonts.ready');const results=[];
-  for(const [width,height] of [[320,667],[390,844],[768,1024],[1440,1000]]){
+  for(const [width,height] of [[320,667],[390,844],[600,900],[768,1024],[900,1000],[901,1000],[1100,1000],[1101,1000],[1280,900],[1440,1000],[1600,1000]]){
    await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<701});await ev('window.scrollTo(0,0);new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))');
    const g=await ev(`(()=>{const images=[...document.images];return {overflow:document.documentElement.scrollWidth>innerWidth,heading:document.querySelector('h1').textContent,h1:document.querySelectorAll('h1').length,anchors:[...document.querySelectorAll('a[href^="#"]')].every(a=>document.getElementById(a.hash.slice(1))),images:images.map(i=>({loaded:i.complete&&i.naturalWidth>0,src:i.getAttribute('src')})),missing:[...document.querySelectorAll('p,h1,h2,dt,dd,a')].filter(e=>e.getBoundingClientRect().width>0).filter(e=>e.getBoundingClientRect().right>innerWidth+1||e.getBoundingClientRect().left<-.5).map(e=>e.textContent),scripts:document.scripts.length}})()`);
    assert(!g.overflow,JSON.stringify({width,g}));assert.equal(g.h1,1);assert(g.anchors);assert.equal(g.scripts,0,'The case study must not start the game or agent');assert.equal(g.missing.length,0,JSON.stringify({width,g}));
