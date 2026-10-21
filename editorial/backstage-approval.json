@@ -13,5 +13,13 @@
     "request": "quero um layout/design mais sobrio, tecnico, estilho engenharia software em big techs.",
     "scope": "Backstage layout and visual system only; approved narrative and game preserved",
     "status": "requested; rendered result pending user review"
-  }
+  },
+  "approved_additions": [
+    {
+      "title": "ChatGPT",
+      "text": "Foi utilizado pelo criador do projeto para gerar os personagens ilustrados a partir de fotografias. As imagens resultantes foram depois preparadas e integradas ao tabuleiro com o Hermes Agent.",
+      "approval": "User replied sim to the exact proposed credit and publication question.",
+      "source": "User stated they used ChatGPT to create illustrated characters from photos."
+    }
+  ]
 }

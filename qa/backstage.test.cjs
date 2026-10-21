@@ -14,3 +14,8 @@ test('backstage has an engineering layout distinct from the illustrated game',()
  assert(css.includes('--surface:#ffffff'),'Use a neutral reading surface');assert(css.includes('position:sticky'),'Keep desktop section navigation available');
  assert(!css.includes('50% 50%'),'Remove the organic screenshot surround');
 });
+
+test('credits ChatGPT for photo-based character creation with approved copy',()=>{
+ const html=fs.readFileSync(path.join(root,'docs/backstage/index.html'),'utf8');
+ assert(html.includes('<dt>ChatGPT</dt><dd>Foi utilizado pelo criador do projeto para gerar os personagens ilustrados a partir de fotografias. As imagens resultantes foram depois preparadas e integradas ao tabuleiro com o Hermes Agent.</dd>'));
+});
