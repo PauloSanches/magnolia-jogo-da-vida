@@ -49,7 +49,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});assert.equal(await ev('getComputedStyle(document.documentElement).scrollBehavior'),'auto');
   await ev('window.scrollTo(0,0);document.activeElement.blur()');await key('Tab');assert.equal(await ev('document.activeElement.className'),'skip-link');
   await ev('document.querySelector("nav a[href$=fluxo]").click()');await sleep(150);assert.equal(await ev('location.hash'),'#fluxo');
-  const destination=await ev('document.querySelector(".button").href');assert(destination.endsWith('/magnolia-jogo-da-vida/')||destination==='http://127.0.0.1:8138/');
+  const destination=await ev('document.querySelector(".button").href');assert(destination.endsWith('/magnolia-jogo-da-vida/')||destination===new URL('../',url).href);
   await ev('document.querySelector(".button").click()');let gameReady=false;for(let n=0;n<100;n++){try{gameReady=await ev('!!window.__draft');if(gameReady)break;}catch{}await sleep(100);}assert(gameReady,'The Play CTA must open the actual game');
   assert.equal(errors.length,0,JSON.stringify(errors));console.log(JSON.stringify({ok:true,backstage:true,results,playLink:true,reducedMotion:true,keyboard:true,errors}));
  } finally {if(ws)ws.close();child.kill('SIGTERM');}

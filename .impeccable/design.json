@@ -59,7 +59,7 @@
       {
         "name": "tour-step-duration",
         "value": "5000ms",
-        "purpose": "Click-started sequence; pause/select/reset cancel the timer. Stops after six steps, offscreen or hidden. No automatic resume and no audio."
+        "purpose": "Autostarts once when first visible; pause/select/reset cancel the timer. Stops after six steps, offscreen or hidden. No automatic resume and no audio."
       }
     ],
     "breakpoints": [
@@ -161,7 +161,7 @@
         "minimumStepHeight": "56px; 64px at <=600px"
       },
       "behavior": {
-        "initial": "Paused; no autoplay.",
+        "initial": "Paused while offscreen; autostarts once on first visible entry unless reduced motion is enabled.",
         "play": "Iniciar animação → Pausar → Repetir animação after completion.",
         "reset": "Recomeçar returns to Pedido paused.",
         "select": "Any of the six steps; cancels playback.",

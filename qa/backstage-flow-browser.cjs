@@ -45,7 +45,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   for(const [width,height] of [[320,667],[390,844],[768,1024],[1440,1000]]){
    await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<701});
    await ev(`document.querySelector('.flow-tour').scrollIntoView({block:'start',behavior:'instant'})`);await sleep(250);
-   assert(!(await get()).playing,'No autoplay');
+   if((await get()).playing)await ev(`document.querySelector('[data-flow-play]').click()`);assert(!(await get()).playing,'Pause before manual-selection checks');
    for(let n=0;n<6;n++){await ev(`document.querySelectorAll('.flow-steps button')[${n}].click()`);const state=await get();assert.equal(state.step,n);assert(state.svg);assert(!state.playing);}
    await ev(`document.querySelectorAll('.flow-steps button')[2].click()`);assert.equal((await get()).branch,'true');
    const geometry=await ev(`(()=>{const root=document.querySelector('.flow-tour'),s=root.querySelector('.flow-steps').getBoundingClientRect(),d=root.querySelector('.flow-stage').getBoundingClientRect();return {overflow:document.documentElement.scrollWidth>innerWidth,overlap:s.right>d.left+1,buttons:[...root.querySelectorAll('button')].every(b=>b.getBoundingClientRect().height>=44)}})()`);assert(!geometry.overflow);assert(!geometry.overlap);assert(geometry.buttons);

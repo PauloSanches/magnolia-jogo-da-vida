@@ -62,5 +62,10 @@
       "Static reduced-motion alternative",
       "Backstage only"
     ]
+  },
+  "autoplay_revision": {
+    "request": "quero que a animacao começe automatico",
+    "scope": "Only the currently published Hairline workflow animation; cancelled board and GIF drafts remain excluded.",
+    "behavior": "Start once on first viewport entry, preserve pause/manual controls and reduced-motion static alternative."
   }
 }
