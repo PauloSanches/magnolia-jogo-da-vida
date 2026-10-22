@@ -2,7 +2,7 @@
   "status": "approved",
   "approval": "User replied continue after the complete proposed page text and visual direction.",
   "scope": "New /backstage/ route; no gameplay changes",
-  "title": "Magnólia: desenvolvimento de uma experiência web interativa",
+  "title": "Jogo da Vida - Magnólia",
   "content_source": "docs/backstage/index.html",
   "constraints": [
     "Keep approved narrative and actual tools/workflow",
@@ -73,7 +73,7 @@
     "approval": "publique",
     "approved_copy": "editorial/backstage-case-approved.md",
     "scope": "Complete approved technical case copy and section structure; preserve existing game, screenshot evidence and autoplay Hairline tour.",
-    "copy_sha256": "e3d0d91ed6400d5254098021f3d3b9d5130e5541a6316e9e9cb9a62f9a11c6fb",
+    "copy_sha256": "8fc60289188fe794085f94c54a566aa280ca8a937ca3234e8b2002cf892f9ef7",
     "metrics": {
       "first_commit": "6d4950af6e5f9630866530e6382bc72cc71f6833",
       "final_commit": "e6764d69d29c26b50729f8b0ca8801ce5e0fd67d",
@@ -89,9 +89,14 @@
     "status": "approved",
     "approval": "sim",
     "scope": "Case copy, caption and share metadata only. Preserve game, visuals, autoplay and frozen metrics.",
-    "title": "Magnólia: desenvolvimento de uma experiência web interativa",
+    "title": "Jogo da Vida - Magnólia",
     "subtitle": "Um tabuleiro digital desenvolvido com Hermes Agent, Codex e direção humana.",
     "image_caption": "Apresentação simultânea do conteúdo e da pergunta, com navegação controlada pelo usuário.",
     "share_description": "Case técnico do projeto Magnólia: produto, requisitos, desenvolvimento com Hermes Agent e Codex, decisões de engenharia, testes e publicação."
+  },
+  "case_title_revision": {
+    "approval": "o case deve ser \"Jogo da Vida - Magnólia\"",
+    "exact_title": "Jogo da Vida - Magnólia",
+    "scope": "Case heading, document title and social title only."
   }
 }

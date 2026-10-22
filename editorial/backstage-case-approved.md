@@ -1,4 +1,4 @@
-# Magnólia: desenvolvimento de uma experiência web interativa
+# Jogo da Vida - Magnólia
 ## Um tabuleiro digital desenvolvido com Hermes Agent, Codex e direção humana.
 
 O projeto Magnólia é uma aplicação web com navegação por etapas, personagens personalizados e apresentação sequencial de conteúdo.
