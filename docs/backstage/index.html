@@ -2,12 +2,12 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Backstage · Jogo da Vida versão Magnólia</title>
-<meta name="description" content="Uma homenagem interativa construída com desenvolvimento assistido por IA.">
+<title>Magnólia: desenvolvimento de uma experiência web interativa · Backstage</title>
+<meta name="description" content="Case técnico do projeto Magnólia: produto, requisitos, desenvolvimento com Hermes Agent e Codex, decisões de engenharia, testes e publicação.">
 <meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="https://paulosanches.github.io/magnolia-jogo-da-vida/backstage/">
-<meta property="og:type" content="article"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Jogo da Vida versão Magnólia · Backstage">
-<meta property="og:description" content="Uma homenagem interativa construída com desenvolvimento assistido por IA.">
+<meta property="og:type" content="article"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Magnólia: desenvolvimento de uma experiência web interativa">
+<meta property="og:description" content="Case técnico do projeto Magnólia: produto, requisitos, desenvolvimento com Hermes Agent e Codex, decisões de engenharia, testes e publicação.">
 <meta property="og:url" content="https://paulosanches.github.io/magnolia-jogo-da-vida/backstage/">
 <meta property="og:image" content="https://paulosanches.github.io/magnolia-jogo-da-vida/backstage/assets/game-desktop.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -18,27 +18,26 @@
 <header class="site-header"><a class="brand" href="../" aria-label="Magnólia: abrir o jogo">Magnólia<span>Backstage</span></a><nav aria-label="Navegação do backstage"><a href="#sistema">Sistema</a><a href="#fluxo">Fluxo</a><a class="nav-play" href="../">Jogar <span aria-hidden="true">↗</span></a></nav></header>
 <main id="conteudo" class="content-layout"><aside class="contents"><div class="contents-title">Nesta página</div><nav aria-label="Seções do estudo de caso"><a href="#titulo">Visão geral</a><a href="#jogo">O produto</a><a href="#desafio">O desafio</a><a href="#jornada">A jornada</a><a href="#fluxo">O processo</a><a href="#sistema">Arquitetura e ferramentas</a><a href="#engenharia">Decisões de engenharia</a><a href="#resultado">Resultado</a><a href="#aprendizados">Aprendizados</a><a href="#impacto">Impacto</a></nav></aside><div class="page-content">
 <section class="hero" aria-labelledby="titulo"><div class="hero-copy">
-<h1 id="titulo" data-case-copy>Jogo da Vida versão Magnólia</h1>
-<p class="case-subtitle" data-case-copy>Uma homenagem interativa construída com desenvolvimento assistido por IA</p>
-<p class="lead" data-case-copy>Uma história de família transformada em um tabuleiro digital, com personagens personalizados e perguntas para conversar em voz alta.</p>
-<p data-case-copy>O projeto combina direção humana, criação de imagens com ChatGPT e desenvolvimento com Hermes Agent e Codex. A experiência foi refinada por sucessivas revisões de conteúdo, navegação e animação até chegar à versão publicada no GitHub Pages.</p>
+<h1 id="titulo" data-case-copy>Magnólia: desenvolvimento de uma experiência web interativa</h1>
+<p class="case-subtitle" data-case-copy>Um tabuleiro digital desenvolvido com Hermes Agent, Codex e direção humana.</p>
+<p class="lead" data-case-copy>O projeto Magnólia é uma aplicação web com navegação por etapas, personagens personalizados e apresentação sequencial de conteúdo.</p>
+<p data-case-copy>O desenvolvimento envolveu definição da experiência, implementação das interações, preparação de recursos visuais, testes e publicação. Este case apresenta os requisitos, as decisões técnicas e a evolução do produto até a versão entregue.</p>
 <p class="case-metrics" data-case-copy><strong>12 casas · 10 perguntas · 54 commits · aproximadamente 66 horas de evolução registrada</strong></p>
 <p class="case-metric-note" data-case-copy><em>O intervalo considera o <a href="https://github.com/PauloSanches/magnolia-jogo-da-vida/commit/6d4950af6e5f9630866530e6382bc72cc71f6833">primeiro commit</a> e o <a href="https://github.com/PauloSanches/magnolia-jogo-da-vida/commit/e6764d69d29c26b50729f8b0ca8801ce5e0fd67d">commit da versão final</a> do jogo e do Backstage, entre 19 e 22 de outubro de 2026. É tempo de calendário, não uma medição de horas de trabalho.</em></p>
 <div class="actions"><a class="button primary" href="../">Experimentar o jogo</a><a class="text-link" href="https://github.com/PauloSanches/magnolia-jogo-da-vida">Explorar o código</a></div>
 </div></section>
 <section class="section reading case-section" id="jogo"><h2 data-case-copy>O produto</h2><div>
-<p data-case-copy>O Jogo da Vida versão Magnólia é uma experiência web comemorativa que organiza momentos de uma trajetória pessoal em um tabuleiro ilustrado.</p>
-<p data-case-copy>Em cada casa, uma personagem acompanha a apresentação de uma história. Depois da leitura, surge uma pergunta para incentivar a participação da família. A história permanece visível durante a conversa, e quem está jogando decide quando avançar.</p>
-<p data-case-copy>A aplicação não recebe respostas, grava áudio nem calcula pontuação. A abertura e o encerramento não têm perguntas; a última casa apresenta uma reflexão e oferece a opção de recomeçar.</p>
-<p data-case-copy>O produto foi pensado para apoiar uma atividade compartilhada, com controles visíveis e uso em celular ou computador.</p>
+<p data-case-copy>A aplicação organiza o conteúdo em um tabuleiro com 12 casas e 10 perguntas. Cada etapa combina uma personagem, um bloco narrativo e controles de navegação.</p>
+<p data-case-copy>O conteúdo aparece com efeito de escrita. Depois de um intervalo, a pergunta é apresentada sem ocultar o texto anterior. O usuário controla quando avançar, voltar, pausar ou reiniciar.</p>
+<p data-case-copy>As respostas acontecem fora da aplicação. O sistema não recebe respostas, grava áudio nem calcula pontuação. A última casa encerra o percurso e disponibiliza o reinício.</p>
+<p data-case-copy>A interface foi desenvolvida para uso em celular e computador, com controles visíveis e suporte à navegação por teclado.</p>
 </div></section>
-<div class="evidence-grid"><figure class="hero-proof"><div class="phone"><img src="assets/game-mobile.png" width="390" height="844" alt="Captura do jogo: a história continua abaixo da personagem enquanto a pergunta aparece ao lado." loading="lazy"></div><figcaption>A história na tela. As lembranças na conversa.</figcaption></figure><figure class="wide-proof"><img src="assets/game-desktop.png" width="1440" height="1000" loading="lazy" alt="Captura real da última casa: ilustração de igreja e escadaria, personagem e reflexão de encerramento."><figcaption>O encerramento do jogo, com cenário e personagem personalizados.</figcaption></figure></div>
+<div class="evidence-grid"><figure class="hero-proof"><div class="phone"><img src="assets/game-mobile.png" width="390" height="844" alt="Captura do jogo: a história continua abaixo da personagem enquanto a pergunta aparece ao lado." loading="lazy"></div><figcaption>Apresentação simultânea do conteúdo e da pergunta, com navegação controlada pelo usuário.</figcaption></figure><figure class="wide-proof"><img src="assets/game-desktop.png" width="1440" height="1000" loading="lazy" alt="Captura real da última casa: ilustração de igreja e escadaria, personagem e reflexão de encerramento."><figcaption>O encerramento do jogo, com cenário e personagem personalizados.</figcaption></figure></div>
 
 <section class="section reading case-section" id="desafio"><h2 data-case-copy>O desafio</h2><div>
-<p data-case-copy>Transformar o conteúdo em uma página era apenas parte do trabalho. A experiência precisava funcionar para pessoas que não conheciam a interface, respeitar o tempo de leitura e preservar o sentido da homenagem durante as alterações.</p>
-<p data-case-copy>Isso trouxe requisitos específicos:</p>
+<p data-case-copy>Converter conteúdo e recursos visuais em uma experiência interativa com navegação previsível, leitura confortável e comportamento consistente entre dispositivos.</p>
+<p data-case-copy>As alterações precisavam preservar os requisitos já aprovados, sem introduzir regressões no conteúdo, no posicionamento dos elementos ou nas transições.</p>
 <ul class="case-list"><li data-case-copy>Deixar evidente como avançar e voltar, sem depender da descoberta de gestos.</li><li data-case-copy>Coordenar histórias, perguntas e animações sem levar o jogador automaticamente para outra casa.</li><li data-case-copy>Manter personagens e balões legíveis em diferentes tamanhos de tela.</li><li data-case-copy>Atualizar textos e imagens sem alterar outras partes já aprovadas.</li><li data-case-copy>Publicar versões que pudessem ser conferidas e relacionadas ao histórico do código.</li></ul>
-<p data-case-copy>A direção editorial também exigiu cuidado. O responsável pelo projeto escolheu o que contar, forneceu os materiais e aprovou a redação antes da publicação.</p>
 </div></section>
 <section class="section reading case-section" id="jornada"><h2 data-case-copy>A jornada de desenvolvimento</h2><div>
 <h3 data-case-copy>Do protótipo à navegação pelo tabuleiro</h3>
@@ -100,9 +99,9 @@
 <p data-case-copy><strong>Publicar não encerrou a validação.</strong> A conferência da versão pública fez parte da entrega, incluindo a confirmação dos arquivos e do comportamento no navegador.</p>
 </div></section>
 <section class="section reading case-section" id="impacto"><h2 data-case-copy>Impacto</h2><div>
-<p data-case-copy>O resultado concreto foi transformar materiais e decisões de uma homenagem familiar em uma experiência web publicada, acessível por um link e acompanhada de um histórico verificável.</p>
-<p data-case-copy>O trabalho também deixou uma base para manutenção: conteúdo aprovado, testes executáveis, documentação e procedimentos reutilizáveis para alterações futuras.</p>
-<p data-case-copy>O impacto sobre a participação da família ainda precisa ser avaliado no uso. Este case registra a entrega técnica e o processo que a tornou possível, sem atribuir ganhos de audiência, satisfação ou produtividade que não foram medidos.</p>
+<p data-case-copy>A entrega resultou em uma aplicação web publicada, com conteúdo versionado, testes executáveis e um processo definido de atualização.</p>
+<p data-case-copy>O projeto também produziu documentação e procedimentos reutilizáveis para orientar a manutenção. Novas alterações podem ser relacionadas a requisitos, verificadas antes da publicação e conferidas no ambiente público.</p>
+<p data-case-copy>O alcance demonstrado por este case é a entrega técnica e sua capacidade de manutenção. Não foram medidos ganhos de audiência, satisfação, receita ou produtividade.</p>
 <div class="actions"><a class="button primary" href="../">Experimentar o jogo</a><a class="text-link" href="https://github.com/PauloSanches/magnolia-jogo-da-vida">Consultar o repositório</a></div>
 </div></section>
 </div></main>

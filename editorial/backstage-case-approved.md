@@ -1,9 +1,9 @@
-# Jogo da Vida versão Magnólia
-## Uma homenagem interativa construída com desenvolvimento assistido por IA
+# Magnólia: desenvolvimento de uma experiência web interativa
+## Um tabuleiro digital desenvolvido com Hermes Agent, Codex e direção humana.
 
-Uma história de família transformada em um tabuleiro digital, com personagens personalizados e perguntas para conversar em voz alta.
+O projeto Magnólia é uma aplicação web com navegação por etapas, personagens personalizados e apresentação sequencial de conteúdo.
 
-O projeto combina direção humana, criação de imagens com ChatGPT e desenvolvimento com Hermes Agent e Codex. A experiência foi refinada por sucessivas revisões de conteúdo, navegação e animação até chegar à versão publicada no GitHub Pages.
+O desenvolvimento envolveu definição da experiência, implementação das interações, preparação de recursos visuais, testes e publicação. Este case apresenta os requisitos, as decisões técnicas e a evolução do produto até a versão entregue.
 
 **12 casas · 10 perguntas · 54 commits · aproximadamente 66 horas de evolução registrada**
 
@@ -13,27 +13,25 @@ O projeto combina direção humana, criação de imagens com ChatGPT e desenvolv
 
 ## O produto
 
-O Jogo da Vida versão Magnólia é uma experiência web comemorativa que organiza momentos de uma trajetória pessoal em um tabuleiro ilustrado.
+A aplicação organiza o conteúdo em um tabuleiro com 12 casas e 10 perguntas. Cada etapa combina uma personagem, um bloco narrativo e controles de navegação.
 
-Em cada casa, uma personagem acompanha a apresentação de uma história. Depois da leitura, surge uma pergunta para incentivar a participação da família. A história permanece visível durante a conversa, e quem está jogando decide quando avançar.
+O conteúdo aparece com efeito de escrita. Depois de um intervalo, a pergunta é apresentada sem ocultar o texto anterior. O usuário controla quando avançar, voltar, pausar ou reiniciar.
 
-A aplicação não recebe respostas, grava áudio nem calcula pontuação. A abertura e o encerramento não têm perguntas; a última casa apresenta uma reflexão e oferece a opção de recomeçar.
+As respostas acontecem fora da aplicação. O sistema não recebe respostas, grava áudio nem calcula pontuação. A última casa encerra o percurso e disponibiliza o reinício.
 
-O produto foi pensado para apoiar uma atividade compartilhada, com controles visíveis e uso em celular ou computador.
+A interface foi desenvolvida para uso em celular e computador, com controles visíveis e suporte à navegação por teclado.
 
 ## O desafio
 
-Transformar o conteúdo em uma página era apenas parte do trabalho. A experiência precisava funcionar para pessoas que não conheciam a interface, respeitar o tempo de leitura e preservar o sentido da homenagem durante as alterações.
+Converter conteúdo e recursos visuais em uma experiência interativa com navegação previsível, leitura confortável e comportamento consistente entre dispositivos.
 
-Isso trouxe requisitos específicos:
+As alterações precisavam preservar os requisitos já aprovados, sem introduzir regressões no conteúdo, no posicionamento dos elementos ou nas transições.
 
 - Deixar evidente como avançar e voltar, sem depender da descoberta de gestos.
 - Coordenar histórias, perguntas e animações sem levar o jogador automaticamente para outra casa.
 - Manter personagens e balões legíveis em diferentes tamanhos de tela.
 - Atualizar textos e imagens sem alterar outras partes já aprovadas.
 - Publicar versões que pudessem ser conferidas e relacionadas ao histórico do código.
-
-A direção editorial também exigiu cuidado. O responsável pelo projeto escolheu o que contar, forneceu os materiais e aprovou a redação antes da publicação.
 
 ## A jornada de desenvolvimento
 
@@ -144,10 +142,10 @@ Esses números documentam a evolução do projeto. Não medem produtividade por 
 
 ## Impacto
 
-O resultado concreto foi transformar materiais e decisões de uma homenagem familiar em uma experiência web publicada, acessível por um link e acompanhada de um histórico verificável.
+A entrega resultou em uma aplicação web publicada, com conteúdo versionado, testes executáveis e um processo definido de atualização.
 
-O trabalho também deixou uma base para manutenção: conteúdo aprovado, testes executáveis, documentação e procedimentos reutilizáveis para alterações futuras.
+O projeto também produziu documentação e procedimentos reutilizáveis para orientar a manutenção. Novas alterações podem ser relacionadas a requisitos, verificadas antes da publicação e conferidas no ambiente público.
 
-O impacto sobre a participação da família ainda precisa ser avaliado no uso. Este case registra a entrega técnica e o processo que a tornou possível, sem atribuir ganhos de audiência, satisfação ou produtividade que não foram medidos.
+O alcance demonstrado por este case é a entrega técnica e sua capacidade de manutenção. Não foram medidos ganhos de audiência, satisfação, receita ou produtividade.
 
 **Ações:** Experimentar o jogo · Consultar o repositório

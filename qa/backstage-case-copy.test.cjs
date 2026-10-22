@@ -16,3 +16,10 @@ test('published case preserves every approved heading, paragraph and list item i
  assert(!html.includes('223.861.635'),'Do not turn mixed-session tokens into project metrics');
  assert(!html.includes('Nota editorial:'),'Do not publish chat-only editorial notes');
 });
+
+test('case narrative and share metadata use professional software-delivery framing',()=>{
+ const html=fs.readFileSync(path.join(root,'docs/backstage/index.html'),'utf8');
+ assert(!/fam[ií]li|homenag|comemorativ|lembran[çc]/i.test(html),'Remove familial and commemorative framing from case copy and captions');
+ assert(html.includes('Magnólia: desenvolvimento de uma experiência web interativa'));
+ assert(html.includes('Case técnico do projeto Magnólia: produto, requisitos, desenvolvimento com Hermes Agent e Codex, decisões de engenharia, testes e publicação.'));
+});
