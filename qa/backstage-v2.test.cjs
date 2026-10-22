@@ -1,0 +1,21 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');const path=require('node:path');
+const root=path.resolve(__dirname,'..');
+test('approved v2 is published as a separate route without draft metadata',()=>{
+ const page=path.join(root,'docs/backstage/v2/index.html');
+ assert(fs.existsSync(page),'The approved v2 route must exist');
+ const html=fs.readFileSync(page,'utf8');
+ assert(html.includes('<title>Jogo da Vida - Magnólia</title>'));
+ assert(html.includes('<link rel="canonical" href="https://paulosanches.github.io/magnolia-jogo-da-vida/backstage/v2/">'));
+ assert(!/noindex|V2 para revisão|A versão publicada permanece inalterada/.test(html));
+ const copy=JSON.parse(fs.readFileSync(path.join(root,'editorial/backstage-v2-copy.json'),'utf8'));
+ const expected=[copy.title,copy.subtitle,...copy.introduction,...copy.sections.flatMap(s=>[s.title,...s.blocks.filter(b=>['p','h3'].includes(b.type)).map(b=>b.text)])];
+ const decode=s=>s.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#x27;/g,"'");
+ const actual=[...html.matchAll(/<(?:h1|h2|h3|p)\b[^>]*data-case-copy[^>]*>([\s\S]*?)<\/(?:h1|h2|h3|p)>/g)].map(m=>decode(m[1]));
+ assert.deepEqual(actual,expected,'Publish approved prose without rewriting it');
+ assert(!/fam[ií]li|homenag|comemorativ/.test(html));
+ assert(!/<script[^>]+(?:app\.js|gtag|sheet-)/i.test(html));
+ const approval=JSON.parse(fs.readFileSync(path.join(root,'editorial/backstage-v2-approval.json'),'utf8'));
+ assert(approval.copy_approved&&approval.publication_authorized);
+});

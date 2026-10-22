@@ -1,0 +1,237 @@
+{
+  "title": "Jogo da Vida - Magnólia",
+  "subtitle": "Estado, interface e entrega verificável em uma aplicação web estática.",
+  "introduction": [
+    "A aplicação apresenta conteúdo em um tabuleiro com 12 casas e 10 perguntas. O usuário decide quando navegar; o sistema coordena a escrita do texto, o intervalo de leitura e a apresentação da pergunta. A dificuldade estava em manter esses comportamentos consistentes quando uma ação interrompia outra.",
+    "Este artigo acompanha as decisões sobre execução no navegador, cancelamento de temporizadores e estabilidade da interface. Também descreve o desenvolvimento assistido por agentes e os controles utilizados para relacionar uma mudança aprovada à versão entregue."
+  ],
+  "sections": [
+    {
+      "id": "contexto",
+      "nav": "Escopo e restrições",
+      "title": "O comportamento como contrato",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Cada casa associa uma personagem a um texto e, quando prevista, a uma pergunta. A pergunta aparece sem remover o conteúdo anterior. As respostas acontecem fora da aplicação: o jogo não recebe respostas, grava áudio nem calcula pontuação."
+        },
+        {
+          "type": "p",
+          "text": "Os requisitos limitaram as transições possíveis. A apresentação automática de uma pergunta não autoriza avançar de casa. Abrir a pergunta pode deslocar o balão, mas não a personagem. Chegar ao final precisa manter as setas no mesmo lugar e oferecer uma ação separada para reiniciar."
+        },
+        {
+          "type": "p",
+          "text": "Essas regras orientaram a implementação e os testes. Uma alteração visual precisava preservar tanto o conteúdo aprovado quanto o comportamento das entradas por toque, mouse e teclado."
+        },
+        {
+          "type": "evidence"
+        }
+      ],
+      "sources": [
+        "qa/browser.cjs",
+        "qa/questions-browser.cjs"
+      ]
+    },
+    {
+      "id": "arquitetura",
+      "nav": "Arquitetura estática",
+      "title": "Remover uma dependência quando ela deixa de servir ao produto",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Durante a edição, uma planilha do Google Sheets serviu como fonte colaborativa. Quando o conteúdo foi aprovado, a integração foi removida. Textos e perguntas passaram a acompanhar a mesma revisão dos arquivos da aplicação."
+        },
+        {
+          "type": "p",
+          "text": "A entrega utiliza HTML, CSS, JavaScript e SVG, hospedados no GitHub Pages. O navegador executa a experiência; não há backend de negócio nem banco de dados para jogar. A retirada da planilha eliminou sua participação no carregamento do conteúdo, mas trouxe um custo: uma alteração editorial agora exige nova publicação."
+        },
+        {
+          "type": "runtime"
+        },
+        {
+          "type": "p",
+          "text": "O conteúdo estático fica em content.js. O app.js conecta as casas, os controles e o layout. O story-playback.js controla a apresentação temporizada. Essa divisão permite testar o relógio da interação sem reproduzir todo o tabuleiro."
+        },
+        {
+          "type": "p",
+          "text": "Hermes Agent e Codex pertencem ao ambiente de desenvolvimento. O jogo publicado não precisa de uma sessão ativa desses agentes nem do computador de desenvolvimento ligado. A animação explicativa deste Backstage também fica separada do controlador de reprodução do jogo."
+        }
+      ],
+      "sources": [
+        "docs/content.js",
+        "docs/story-playback.js",
+        "docs/app.js",
+        "qa/static-content.test.cjs"
+      ]
+    },
+    {
+      "id": "temporizacao",
+      "nav": "Estado e temporizadores",
+      "title": "Uma ação antiga não pode controlar a próxima casa",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Considere a navegação durante a escrita de uma história. Se o temporizador anterior continuar ativo, ele pode revelar caracteres ou abrir uma pergunta depois que o contexto já mudou. A implementação precisa encerrar o trabalho anterior antes de iniciar o conteúdo seguinte."
+        },
+        {
+          "type": "p",
+          "text": "O controlador mantém um trabalho ativo e um temporizador. start() chama cancel() antes de criar outro trabalho. O cancelamento limpa o temporizador, conclui a revelação dos caracteres anteriores e remove a referência ao trabalho. A integração com o tabuleiro chama esse controle nas mudanças de conteúdo."
+        },
+        {
+          "type": "code",
+          "caption": "Trecho de story-playback.js: substituir o trabalho começa pelo cancelamento do anterior.",
+          "text": "function cancel(){stopTimer();reveal();job=null;notify();}\nfunction start(characters,callback=null){\n  cancel();\n  job={characters,index:0,remaining:READING_DELAY_MS,callback};\n  // Continuação: preparar os caracteres e agendar a reprodução.\n}"
+        },
+        {
+          "type": "states"
+        },
+        {
+          "type": "p",
+          "text": "Ao terminar a escrita, o controlador inicia um intervalo de três segundos. A abertura automática da pergunta espera condições de leitura: conteúdo rolável ainda não lido, foco de teclado na região de leitura ou seleção de texto podem reiniciar essa espera. A pausa e a visibilidade da aba também participam do controle; movimento reduzido apresenta o texto completo sem o efeito de escrita."
+        },
+        {
+          "type": "p",
+          "text": "O relógio e as funções de agendamento são injetáveis. Os testes avançam um relógio controlado para verificar escrita, pausa, cancelamento e intervalo de leitura. A inspeção no navegador verifica a integração com foco, rolagem e controles reais."
+        }
+      ],
+      "sources": [
+        "docs/story-playback.js",
+        "docs/app.js",
+        "qa/playback.test.cjs",
+        "qa/playback-browser.cjs"
+      ]
+    },
+    {
+      "id": "interface",
+      "nav": "Estabilidade da interface",
+      "title": "Animar o conteúdo sem deslocar a interação",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "A escrita progressiva muda o conteúdo visível a cada instante. Se o balão acompanhar apenas o trecho já escrito, sua altura pode crescer durante a leitura. A solução reserva o espaço do texto completo e separa essa medição da camada visual que revela os caracteres."
+        },
+        {
+          "type": "p",
+          "text": "A camada visual não substitui a representação acessível. O conteúdo completo permanece disponível para leitores de tela, enquanto os elementos usados para medição e animação ficam fora dessa leitura. O texto é segmentado em grafemas para não dividir caracteres compostos durante a revelação."
+        },
+        {
+          "type": "p",
+          "text": "Quando a pergunta aparece, a história permanece em sua região de leitura. A pergunta ocupa um balão lateral, sem mover a personagem. Em telas curtas, as regiões podem rolar em vez de cobrir a navegação. Os testes conferem a geometria antes e depois da transição, não apenas a presença dos elementos."
+        },
+        {
+          "type": "p",
+          "text": "O encerramento trouxe outro risco: adicionar o botão de reinício na mesma linha poderia deslocar as setas e colocar uma ação diferente sob o segundo toque. O reinício recebeu uma linha própria. A regressão é verificada repetindo o clique nas mesmas coordenadas usadas para chegar à última casa."
+        }
+      ],
+      "sources": [
+        "docs/app.js",
+        "docs/style.css",
+        "qa/story-retained-browser.cjs",
+        "qa/finale-browser.cjs"
+      ]
+    },
+    {
+      "id": "fluxo",
+      "nav": "Agentes e revisão",
+      "title": "Delegar a execução sem delegar a aprovação",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "A concepção começou no Hermes Desktop e continuou pelo Telegram. O Hermes Agent operou sobre arquivos e ferramentas locais no MacBook Air M1, com apoio do Codex integrado ao ambiente. O responsável pelo projeto definiu o conteúdo, enviou materiais e aprovou as mudanças."
+        },
+        {
+          "type": "p",
+          "text": "O escopo de cada alteração precisava declarar o que mudaria e o que permaneceria igual. Trocar a personagem de uma casa, por exemplo, não autorizava reescrever sua história nem modificar a associação das outras imagens. As ilustrações foram produzidas pelo responsável com ChatGPT e depois preparadas e integradas com o Hermes Agent."
+        },
+        {
+          "type": "flow"
+        },
+        {
+          "type": "p",
+          "text": "As skills forneceram procedimentos para investigação de falhas, testes e revisão. A narrative-board-maintenance consolidou regras específicas do projeto, incluindo preservação de conteúdo, associação entre casas e imagens e verificação das transições. Essas instruções apoiam o trabalho; não são um mecanismo técnico que impeça alterações indevidas."
+        },
+        {
+          "type": "p",
+          "text": "O processo combinou aprovação humana, testes automatizados, inspeção visual e revisões delimitadas por subagentes. A geração do código não era o critério de conclusão: a alteração também precisava ser verificada no ambiente publicado."
+        }
+      ],
+      "sources": [
+        "EDITORIAL-WORKFLOW.md",
+        "qa/backstage-case-copy.test.cjs"
+      ]
+    },
+    {
+      "id": "entrega",
+      "nav": "Verificação da entrega",
+      "title": "Conferir o que o navegador recebeu",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Um commit enviado não comprova, sozinho, qual revisão o visitante recebeu. O fluxo de entrega conferiu o commit remoto, o build do GitHub Pages e os arquivos servidos, seguido de verificações no endereço público."
+        },
+        {
+          "type": "p",
+          "text": "A publicação grava um timestamp UTC no HTML e em version.json. Ele identifica o artefato carregado, em vez de mostrar o horário de acesso. Referências a scripts e estilos também usam hashes para distinguir suas revisões. O verificador local confere a correspondência dos timestamps; ele não recalcula os hashes dos recursos. A comparação com os arquivos servidos pelo site público é uma etapa separada."
+        },
+        {
+          "type": "delivery"
+        },
+        {
+          "type": "h3",
+          "text": "Uma falha do teste que parecia falha do produto"
+        },
+        {
+          "type": "p",
+          "text": "Na verificação do autoplay do Backstage, o teste rolava até a animação antes de o navegador terminar a restauração de posição após o reload. A restauração podia retirar o componente da área visível, fazendo a animação pausar corretamente e o teste reportar uma falha."
+        },
+        {
+          "type": "p",
+          "text": "O diagnóstico acompanhou eventos de interseção e posição de rolagem. A correção ficou no teste: esperar o documento completo, as fontes e dois quadros de renderização antes de rolar. O controlador de produção não foi alterado para acomodar uma condição criada pelo teste."
+        },
+        {
+          "type": "h3",
+          "text": "O que o histórico permite medir"
+        },
+        {
+          "type": "p",
+          "text": "O recorte de desenvolvimento entre 19 e 22 de outubro de 2026 reúne 54 commits e aproximadamente 66 horas de calendário. O intervalo começa em 6d4950a e termina em e6764d6; as revisões editoriais posteriores não entram nessa contagem."
+        },
+        {
+          "type": "p",
+          "text": "Esses números descrevem a evolução registrada. Não medem horas de trabalho ativo, economia ou produtividade. O consumo de tokens também não é atribuído ao projeto porque os registros disponíveis agregam outras atividades."
+        }
+      ],
+      "sources": [
+        "scripts/stamp_release.py",
+        "qa/backstage-autoplay-browser.cjs"
+      ]
+    },
+    {
+      "id": "limites",
+      "nav": "Resultados e limites",
+      "title": "O alcance da solução entregue",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "A entrega é uma aplicação estática publicada, com conteúdo versionado, navegação manual, perguntas apresentadas sem perder o texto anterior e testes executáveis. A documentação registra procedimentos para manter esses comportamentos durante novas alterações."
+        },
+        {
+          "type": "p",
+          "text": "A arquitetura atende a esse escopo. Autenticação, armazenamento de respostas ou edição online persistente exigiriam outra avaliação. O projeto também não demonstra capacidade para sistemas críticos, operação em grande escala ou ambientes regulados."
+        },
+        {
+          "type": "p",
+          "text": "Não registrar respostas não significa ausência de telemetria: o jogo contém uma integração com Google Analytics. O carregamento do script foi verificado, mas a recepção de eventos no painel não foi confirmada. Não há resultados de audiência, satisfação ou receita apresentados neste case."
+        },
+        {
+          "type": "p",
+          "text": "O aprendizado reutilizável é a forma de transformar requisitos em verificações: uma ação antiga deve ser cancelada, um controle deve permanecer na mesma posição e uma publicação deve corresponder à revisão esperada. Cada regra pode ser inspecionada no código e exercitada por um teste, sem depender de uma avaliação genérica de qualidade."
+        }
+      ],
+      "sources": [
+        "docs/index.html",
+        "qa/backstage-browser.cjs"
+      ]
+    }
+  ]
+}
