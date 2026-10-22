@@ -40,7 +40,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   const wait=async(expression,label,ms=5000)=>{for(let n=0;n<ms/50;n++){try{if(await ev(expression))return;}catch{}await sleep(50);}throw Error('Timed out: '+label)};
   const ready='!window.__qaOldDocument&&document.querySelector(".flow-tour")?.dataset.ready==="true"';
   const playing='document.querySelector(".flow-tour").dataset.playing==="true"';
-  const reload=async()=>{await ev('window.scrollTo({top:0,behavior:"instant"});window.__qaOldDocument=true');await call('Page.reload',{ignoreCache:true});await wait(ready,'fresh animation module');};
+  const reload=async()=>{await ev('window.scrollTo({top:0,behavior:"instant"});window.__qaOldDocument=true');await call('Page.reload',{ignoreCache:true});await wait(ready,'fresh animation module');await wait("document.readyState==='complete'",'document load');await ev('document.fonts.ready');await ev('new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))');};
   const results=[];
   for(const [width,height] of [[390,844],[1440,1000]]){
    await call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<701});await reload();assert(!(await ev(playing)),'Do not consume animation before it is visible');
