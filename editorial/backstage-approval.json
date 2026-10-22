@@ -2,7 +2,7 @@
   "status": "approved",
   "approval": "User replied continue after the complete proposed page text and visual direction.",
   "scope": "New /backstage/ route; no gameplay changes",
-  "title": "Uma homenagem que virou software",
+  "title": "Jogo da Vida versão Magnólia",
   "content_source": "docs/backstage/index.html",
   "constraints": [
     "Keep approved narrative and actual tools/workflow",
@@ -67,5 +67,22 @@
     "request": "quero que a animacao começe automatico",
     "scope": "Only the currently published Hairline workflow animation; cancelled board and GIF drafts remain excluded.",
     "behavior": "Start once on first viewport entry, preserve pause/manual controls and reduced-motion static alternative."
+  },
+  "technical_case_revision": {
+    "status": "approved",
+    "approval": "publique",
+    "approved_copy": "editorial/backstage-case-approved.md",
+    "scope": "Complete approved technical case copy and section structure; preserve existing game, screenshot evidence and autoplay Hairline tour.",
+    "copy_sha256": "78f2306728d1eed65cc3dde121d5a671d00b348504a2f845a486222a902a61f1",
+    "metrics": {
+      "first_commit": "6d4950af6e5f9630866530e6382bc72cc71f6833",
+      "final_commit": "e6764d69d29c26b50729f8b0ca8801ce5e0fd67d",
+      "commit_count": 54,
+      "elapsed_seconds": 237173,
+      "elapsed_label": "aproximadamente 66 horas de calendário",
+      "frozen_range": true,
+      "excludes_this_editorial_publication": true
+    },
+    "excluded": "Mixed-session token totals and private conversation transcripts."
   }
 }

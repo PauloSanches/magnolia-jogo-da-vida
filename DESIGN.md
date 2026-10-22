@@ -18,6 +18,16 @@ typography:
     fontWeight: 650
     lineHeight: 1.08
     letterSpacing: "-.035em"
+  case-subtitle:
+    fontFamily: "Figtree,Arial,sans-serif"
+    fontSize: "24px"
+    fontWeight: 550
+    lineHeight: 1.4
+  case-subheading:
+    fontFamily: "Figtree,Arial,sans-serif"
+    fontSize: "21px"
+    fontWeight: 650
+    lineHeight: 1.4
   headline:
     fontFamily: "Figtree,Arial,sans-serif"
     fontSize: "30px"
@@ -176,3 +186,11 @@ All anchors have a 2px blue `:focus-visible` outline, 5px offset and focus radiu
 - Don't restore the superseded playful Backstage palette, display font or organic frames.
 - Don't recolor evidence images or change approved narrative to suit the layout.
 - Don't invent token ramps, component states or application behavior absent from the source.
+
+## Approved technical case structure
+
+The approved copy is frozen in `editorial/backstage-case-approved.md`. Product and challenge lead the article, followed by journey, process, architecture/tools, engineering decisions, results, lessons and impact. The desktop contents navigation follows this order. Existing screenshot evidence follows the product section; the unchanged autoplay tour sits within the process section, and the semantic architecture diagram precedes the tool list.
+
+The hero keeps the existing H1 scale and adds a 24px/1.4, weight-550 subtitle (21px mobile), a restrained 15px/1.7 metric sentence (14px mobile), and a 13px/1.6 scope note with links to the frozen commits. Metrics are calendar duration and inclusive commit count, not active time or productivity. The note and figures wrap naturally rather than using metric cards.
+
+Editorial subsections use 21px/1.4, weight-650 headings, 36px top/16px bottom spacing; mobile uses 20px with 28px top spacing. These rules target only `h3[data-case-copy]`, leaving tour titles unchanged. Lists use 24px indentation and 12px inter-item spacing. Inline skill identifiers wrap when needed at narrow widths. Each article section ends in a one-pixel rule except the last. Colors, typography family, image appearance, animation and game styling remain unchanged.

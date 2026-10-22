@@ -13,3 +13,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 ## Approved workflow animation extension
 The user approved the six-step animation script and publication with “sim”. Keep the existing neutral engineering identity. The focal sequence highlights a connected six-step route while a matching Hairline figure illustrates the current explanation. The lateral Fotos → ChatGPT → Personagens ilustrados input belongs to Implementação, not every update. Autostart once when the published animation first enters the viewport, as requested by the user. Keep pause, restart and selection; stop when hidden/offscreen, and never undo a user pause on viewport re-entry. Six steps, five seconds each, no audio. Reduced motion and unavailable JavaScript expose the complete static script. Vendor the pinned MIT Hairline distribution locally; load neither React nor the game runtime. No new raster assets. Typography, palette and game remain scoped as before.
+
+## Approved technical success case
+
+Use `backstage-case-approved.md` as the exact editorial source. Reading order: product, challenge, journey, process, architecture/tools, engineering, result, lessons, impact. Keep the neutral visual system, real evidence and existing autoplay tour. Freeze the duration/count to the commit range in `backstage-approval.json`; do not add later editorial releases to the headline metrics. Token totals are excluded because their scope is not project-exclusive.

@@ -21,3 +21,13 @@
 .flow-art-source{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 0;margin-top:24px;font-size:13px;color:var(--muted)}.flow-art-source[data-active=true]{color:var(--accent);border-color:var(--accent)}.flow-art-destination{margin-left:auto;color:var(--ink);font-weight:600}.flow-art-destination:before{content:'→';margin-right:12px;font-weight:400;color:var(--muted)}
 @media(max-width:600px){.flow-layout{grid-template-columns:minmax(105px,.85fr) minmax(0,1.15fr);gap:16px}.flow-steps{gap:4px;grid-template-rows:repeat(6,minmax(64px,auto))}.flow-steps button{font-size:13px;gap:8px;min-height:64px}.flow-steps button span{flex-basis:24px;height:24px;font-size:11px}.flow-steps:before,.flow-steps:after{left:11px;top:32px;bottom:32px}.flow-title{font-size:18px}.flow-description{font-size:15px;line-height:1.6}.flow-status{min-height:250px}.flow-art-destination{margin-left:0;width:100%}}
 @media(prefers-reduced-motion:reduce){.flow-interactive{display:none!important}.workflow-static{display:block!important}.flow-steps:after{transition:none}}
+
+/* Editorial case structure; the existing visual identity is unchanged. */
+.hero-copy>p.case-subtitle{font-size:24px;line-height:1.4;font-weight:550;color:var(--ink);max-width:42ch;margin-bottom:24px}
+.hero-copy>p.case-metrics{font-size:15px;line-height:1.7;color:var(--ink);font-variant-numeric:tabular-nums;margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
+.hero-copy>p.case-metric-note{font-size:13px;line-height:1.6}.case-metric-note em{font-style:normal}
+.case-section{border-bottom:1px solid var(--line)}.case-section:last-child{border-bottom:0}
+.case-section h3[data-case-copy]{font-size:21px;line-height:1.4;font-weight:650;letter-spacing:-.015em;margin:36px 0 16px;max-width:48ch}.case-section>div>h3[data-case-copy]:first-child{margin-top:0}
+.case-list{padding-left:24px;max-width:72ch;margin:20px 0 24px}.case-list li{padding-left:4px;margin-bottom:12px}
+.case-section code{font-size:.88em;overflow-wrap:anywhere}
+@media(max-width:600px){.hero-copy>p.case-subtitle{font-size:21px}.hero-copy>p.case-metrics{font-size:14px}.hero-copy>p.case-metric-note{font-size:13px}.case-section h3[data-case-copy]{font-size:20px;margin-top:28px}}

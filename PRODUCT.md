@@ -20,7 +20,7 @@ HTML, CSS, JavaScript e SVG; conteúdo atualmente estático; 12 histórias e 10 
 Preservar as cores, fontes e ilustrações no jogo. Para /backstage/, o usuário substituiu a direção visual inicial por um layout sóbrio e técnico, no estilo de páginas de engenharia de software de big techs. A identidade do case é independente: superfície branca, texto grafite, hierarquia editorial e navegação por seções. O texto integral aprovado, as capturas reais e o diagrama permanecem.
 
 ## Evidence on Hand
-Código, histórico Git, testes executáveis e capturas reais. Não há métricas aprovadas de receita, audiência, custo ou produtividade; não inventá-las. Não publicar conversas privadas, credenciais ou configuração de acesso.
+Código, histórico Git, testes executáveis e capturas reais. O case registra 54 commits e aproximadamente 66 horas de calendário no intervalo Git fixado em editorial/backstage-approval.json. Não há métricas aprovadas de receita, audiência, custo ou produtividade; não inventá-las. Não publicar conversas privadas, credenciais ou configuração de acesso.
 
 ## Accessibility & Inclusion
 Layout responsivo, navegação por teclado, texto legível e respeito à redução de movimento.
